@@ -8,7 +8,7 @@ class Conexao extends PDO
 
     public function __construct()
     {
-        $this->nome = 'chackpoint_sa';
+        $this->nome = 'checkpoint_sa';
         $this->usuario = 'root';
         $this->senha = '';
         $this->servidor = 'localhost';
@@ -18,6 +18,8 @@ class Conexao extends PDO
         try {
             parent::__construct($dsn, $this->usuario, $this->senha);
             $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo("SUCESSO!");
+            exit();
         } catch (PDOException $erro) {
             die("ERRO NA CONEXÃO: " . $erro->getMessage());
         }

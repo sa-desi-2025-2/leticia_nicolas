@@ -1,0 +1,49 @@
+body {
+  background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Caixa de login estilizada */
+.login-box {
+  background: rgba(251, 255, 0, 0.24);
+  backdrop-filter: blur(8px);
+  border: 3px solid transparent;
+  border-image: linear-gradient(to right top, #ff0000, #ff7700, #eeff00, #00ff22, #00c0ff, #9900ff) 1;
+  width: 350px;
+}
+
+/* Inputs */
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffb554;
+  box-shadow: 0 0 10px #00ffff60;
+}
+
+/* Logo lateral */
+.logo-lateral {
+  width: 780px;
+  filter: drop-shadow(0 0 20px #fbff00);
+}
+
+/* Ícones */
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  filter: brightness(0) invert(1);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .logo-lateral {
+    width: 250px;
+  }
+  .login-box {
+    width: 90%;
+  }
+}

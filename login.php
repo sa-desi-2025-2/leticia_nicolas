@@ -1,5 +1,4 @@
 <?php
-// Inicia a sessão (caso queira armazenar login futuramente)
 session_start();
 ?>
 
@@ -8,52 +7,57 @@ session_start();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-  <link rel="stylesheet" href="login.css">
+  <title>Login</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="./login.css">
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid vh-100 d-flex flex-column p-0">
+
     <!-- Barra superior -->
-    <header>
-      <div class="logo"></div>
-      <a href="cadastro.html">
-        <button type="button" class="btn">cadastrar</button>
-      </a>
+    <header class="d-flex justify-content-end align-items-center p-3">
+      <a href="cadastro.html" class="btn btn-outline-light rounded-pill px-4">Cadastrar</a>
     </header>
 
-
-    <div class="login-area">
-      <!-- Logo à esquerda -->
-      <div class="logo-lateral">
-        <img src="logo.png
-        " alt="Logo Checkpoint">
+    <!-- Área de login -->
+    <div class="d-flex flex-grow-1 justify-content-center align-items-center flex-wrap gap-5">
+      
+      <!-- Logo lateral -->
+      <div class="text-center">
+        <img src="logo.png" alt="Logo Checkpoint" class="logo-lateral img-fluid">
       </div>
 
-      <!-- Tela de login -->
-      <div class="login-box">
-        <form action="verifica_login.php" method="POST">
-          
-          <label for="nome">
-            <img class="icon" src="https://img.icons8.com/?size=100&id=11730&format=png&color=000000" alt="nome"/>
-            Nome:
-          </label>
-          <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+      <!-- Caixa de login -->
+      <div class="login-box p-4 rounded shadow-lg">
+        <form action="verifica_login.php" method="POST" class="text-white">
+          <div class="mb-3">
+            <label for="nome" class="form-label">
+              <img class="icon" src="https://img.icons8.com/?size=100&id=11730&format=png&color=ffffff" alt="nome"/> Nome:
+            </label>
+            <input type="text" id="nome" name="nome" class="form-control bg-transparent text-white border-light" placeholder="Digite seu nome" required>
+          </div>
 
-          <label for="email">
-            <img class="icon" src="https://img.icons8.com/?size=100&id=Ww1lcGqgduif&format=png&color=000000" alt="email"/>
-            Email:
-          </label>
-          <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+          <div class="mb-3">
+            <label for="email" class="form-label">
+              <img class="icon" src="https://img.icons8.com/?size=100&id=Ww1lcGqgduif&format=png&color=ffffff" alt="email"/> Email:
+            </label>
+            <input type="email" id="email" name="email" class="form-control bg-transparent text-white border-light" placeholder="Digite seu email" required>
+          </div>
 
-          <button type="submit" class="btn-submit">Entrar</button>
+          <button type="submit" class="btn btn-warning w-100 mt-2 fw-bold">Entrar</button>
 
-          <!-- Link Esqueceu a senha -->
-          <div class="forgot-password">
-            <a href="recuperar_senha.php">Esqueceu a senha?</a>
+          <div class="text-center mt-3">
+            <a href="recuperar_senha.php" class="text-info text-decoration-none">Esqueceu a senha?</a>
           </div>
         </form>
       </div>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

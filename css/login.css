@@ -6,11 +6,23 @@ body {
 
 /* Caixa de login estilizada */
 .login-box {
-  background: rgba(251, 255, 0, 0.24);
-  backdrop-filter: blur(8px);
-  border: 3px solid transparent;
-  border-image: linear-gradient(to right top, #ff0000, #ff7700, #eeff00, #00ff22, #00c0ff, #9900ff) 1;
+  position: relative;
+  background-color: #013f37de; /* fundo sólido (preto) */
+  backdrop-filter: none; /* remove o efeito translúcido */
+  border-radius: 40px; /* arredonda o conteúdo */
+  overflow: hidden;
   width: 350px;
+  padding: 30px;
+  z-index: 1;
+
+  /* 🟩 Borda colorida e ativa */
+  border: 3px solid transparent;
+  border-radius: 40px;
+  border-image: linear-gradient(
+    to right top,
+    #ff0000, #ff7700, #eeff00, #00ff22, #00c0ff, #9900ff
+  ) 1;
+  border-image-slice: 1;
 }
 
 /* Inputs */
@@ -22,6 +34,7 @@ body {
   background: rgba(255, 255, 255, 0.15);
   border-color: #ffb554;
   box-shadow: 0 0 10px #00ffff60;
+  border-radius: 20px;
 }
 
 /* Logo lateral */
@@ -45,5 +58,43 @@ body {
   }
   .login-box {
     width: 90%;
+  }
+}
+
+/* Botão reativo gamer */
+.btn-reactive {
+  position: relative;
+  background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff22, #00c0ff, #9900ff);
+  background-size: 400% 400%;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  animation: gradientMove 5s linear infinite, glowPulse 2s ease-in-out infinite;
+}
+
+.btn-reactive:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Animação do gradiente */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Pulso de brilho */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
   }
 }

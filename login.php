@@ -13,7 +13,7 @@ session_start();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- CSS personalizado -->
-  <link rel="stylesheet" href="./login.css">
+  <link rel="stylesheet" href="../leticia_nicolas/css/login.css">
 </head>
 <body>
   <div class="container-fluid vh-100 d-flex flex-column p-0">
@@ -48,7 +48,10 @@ session_start();
             <input type="email" id="email" name="email" class="form-control bg-transparent text-white border-light" placeholder="Digite seu email" required>
           </div>
 
-          <button type="submit" class="btn btn-warning w-100 mt-2 fw-bold">Entrar</button>
+          <button type="submit" class="btn btn-reactive w-100 mt-2 fw-bold">
+  Entrar
+</button>
+
 
           <div class="text-center mt-3">
             <a href="recuperar_senha.php" class="text-info text-decoration-none">Esqueceu a senha?</a>

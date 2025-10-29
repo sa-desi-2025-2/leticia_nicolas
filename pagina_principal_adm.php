@@ -39,7 +39,9 @@
             </div>
             <div class="dropdown" id="dropdownMenu">
                 <a href="#">Perfil</a>
+                <a href="#">Contas</a>
                 <a href="#">Seguidos</a>
+               
                 <a href="#">Sair</a>
             </div>
         </div>

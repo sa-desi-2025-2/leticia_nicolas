@@ -8,13 +8,12 @@
 
 /* Fundo gamer */
 body {
-  background-image: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg');
+  background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg') no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 /* Container principal */
@@ -38,7 +37,6 @@ header {
 .logo {
   width: 140px;
   height: 70px;
-
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left;
@@ -61,38 +59,44 @@ header .btn:hover {
   transform: scale(1.05);
 }
 
-/* Área principal (logo grande à esquerda + formulário à direita) */
+/* Área principal */
 .main-content {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 100px;
   height: 80vh;
-  gap: 100px; /* espaço entre logo e caixa */
 }
 
-/* Logo grande à esquerda */
+/* Logo lateral */
 .logo-side {
-  background-image: url('logo.png');
+  width: 780px;
+  height: 780px;
+  filter: drop-shadow(0 0 20px #fbff00);
+  background-image: url('logo.png'); /* troque pelo logo real */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  width: 890px; ;
-  height: 900px;
-  filter: drop-shadow(0 0 30px #fbff00);
 }
 
-/* Caixa de cadastro */
+/* Caixa de cadastro gamer */
 .login-box {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
-  padding: 40px;
+  position: relative;
+  background-color: #013f37de;
+
+  overflow: hidden;
   width: 350px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  padding: 30px;
+  z-index: 1;
+  border: 3px solid transparent;
+  border-image: linear-gradient(
+    to right top,
+    #ff0000, #ff7700, #eeff00, #00ff22, #00c0ff, #9900ff
+  ) 1;
+  border-image-slice: 1;
 }
 
-/* Labels e inputs */
+/* Labels e Inputs */
 .login-box label {
   display: block;
   font-size: 14px;
@@ -103,12 +107,12 @@ header .btn:hover {
 .login-box input {
   width: 100%;
   padding: 10px;
+  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
-  outline: none;
   margin-bottom: 20px;
+  outline: none;
   transition: 0.3s;
 }
 
@@ -117,27 +121,9 @@ header .btn:hover {
 }
 
 .login-box input:focus {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #291653;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffb554;
   box-shadow: 0 0 10px #00ffff60;
-}
-
-/* Botão de cadastro */
-.btn-submit {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-submit:hover {
-  background: #ffb554;
-  border-color: #00E1C2;
-  transform: scale(1.05);
 }
 
 /* Ícones */
@@ -149,6 +135,41 @@ header .btn:hover {
   filter: brightness(0) invert(1);
 }
 
+/* Botão gamer animado */
+.btn-submit {
+  position: relative;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff22, #00c0ff, #9900ff);
+  background-size: 400% 400%;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  animation: gradientMove 5s linear infinite, glowPulse 2s ease-in-out infinite;
+}
+
+.btn-reactive:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Animações */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
+  50% { box-shadow: 0 0 25px rgba(255, 255, 255, 0.8); }
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
   .main-content {
@@ -157,7 +178,11 @@ header .btn:hover {
   }
 
   .logo-side {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
+  }
+
+  .login-box {
+    width: 90%;
   }
 }

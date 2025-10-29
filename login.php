@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+require_once __DIR__ . '/conexao.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -36,16 +39,16 @@ session_start();
         <form action="verifica_login.php" method="POST" class="text-white">
           <div class="mb-3">
             <label for="nome" class="form-label">
-              <img class="icon" src="https://img.icons8.com/?size=100&id=11730&format=png&color=ffffff" alt="nome"/> Nome:
+              <img class="icon" src="https://img.icons8.com/?size=100&id=11730&format=png&color=ffffff" alt="nome"/> Email:
             </label>
-            <input type="text" id="nome" name="nome" class="form-control bg-transparent text-white border-light" placeholder="Digite seu nome" required>
+            <input type="email" id="email" name="email" class="form-control bg-transparent text-white border-light" placeholder="Digite seu nome" required>
           </div>
 
           <div class="mb-3">
             <label for="email" class="form-label">
-              <img class="icon" src="https://img.icons8.com/?size=100&id=Ww1lcGqgduif&format=png&color=ffffff" alt="email"/> Email:
+              <img class="icon" src="https://img.icons8.com/?size=100&id=Ww1lcGqgduif&format=png&color=ffffff" alt="email"/> Senha:
             </label>
-            <input type="email" id="email" name="email" class="form-control bg-transparent text-white border-light" placeholder="Digite seu email" required>
+            <input type="password" id="senha" name="senha" class="form-control bg-transparent text-white border-light" placeholder="Digite sua senha" required>
           </div>
 
           <button type="submit" class="btn btn-reactive w-100 mt-2 fw-bold">

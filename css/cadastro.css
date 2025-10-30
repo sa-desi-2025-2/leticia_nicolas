@@ -68,16 +68,16 @@ header .btn:hover {
   height: 80vh;
 }
 
-/* Logo lateral */
 .logo-side {
   width: 780px;
   height: 780px;
-  filter: drop-shadow(0 0 20px #fbff00);
-  background-image: url('logo.png'); /* troque pelo logo real */
+  background-image: url('logo.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  filter: drop-shadow(0 0 20px #fbff00);
 }
+
 
 /* Caixa de cadastro gamer */
 .login-box {

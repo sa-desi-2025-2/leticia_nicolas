@@ -51,6 +51,7 @@ require_once __DIR__ . '/conexao.php';
                 <a href="#">Seguidos</a>
                
                 <a href="#">Sair</a>
+                <a href="login.php">Sair</a>
             </div>
         </div>
     </header>

@@ -16,14 +16,14 @@ require_once __DIR__ . '/conexao.php';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- CSS personalizado -->
-  <link rel="stylesheet" href="../leticia_nicolas/css/login.css">
+  <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
   <div class="container-fluid vh-100 d-flex flex-column p-0">
 
     <!-- Barra superior -->
     <header class="d-flex justify-content-end align-items-center p-3">
-      <a href="cadastro.html" class="btn btn-outline-light rounded-pill px-4">Cadastrar</a>
+      <a href="cadastro.php" class="btn btn-outline-light rounded-pill px-4">Cadastrar</a>
     </header>
 
     <!-- Área de login -->
@@ -46,7 +46,7 @@ require_once __DIR__ . '/conexao.php';
 
           <div class="mb-3">
             <label for="email" class="form-label">
-              <img class="icon" src="https://img.icons8.com/?size=100&id=Ww1lcGqgduif&format=png&color=ffffff" alt="email"/> Senha:
+              <img class="icon" src="https://img.icons8.com/?size=100&id=Ww1lcGqgduif&format=png&color=ffffff" alt="senha"/> Senha:
             </label>
             <input type="password" id="senha" name="senha" class="form-control bg-transparent text-white border-light" placeholder="Digite sua senha" required>
           </div>

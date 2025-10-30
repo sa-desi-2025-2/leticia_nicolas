@@ -10,7 +10,9 @@ require_once __DIR__ . '/conexao.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkpoint</title>
-    <link rel="stylesheet" href="../leticia_nicolas/css/pagina_principal.css">
+    <link rel="stylesheet" href="../css/pagina_principal.css">
+ 
+
 </head>
 <body>
 
@@ -41,43 +43,21 @@ require_once __DIR__ . '/conexao.php';
         <!-- ÍCONE DO USUÁRIO -->
         <div class="user-menu">
             <div class="user-icon" id="userButton">
-                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User">
+                <img src="https://img.icons8.com/?size=100&id=65342&format=png&color=000000" alt="User">
             </div>
             <div class="dropdown" id="dropdownMenu">
                 <a href="#">Perfil</a>
+                <a href="#">Contas</a>
                 <a href="#">Seguidos</a>
+               
                 <a href="#">Sair</a>
             </div>
         </div>
     </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="content">
-        <div class="user-card">
-            <div class="user-avatar"></div>
-            <div class="user-info">
-                <p class="user-name">FULANO</p>
-                <a href="#" class="follow-btn">Seguir</a>
-            </div>
-        </div>
-    </main>
 
-    <script>
-        // Mostrar ou esconder o menu do perfil
-        const userButton = document.getElementById('userButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
 
-        userButton.addEventListener('click', () => {
-            dropdownMenu.classList.toggle('show');
-        });
-
-        // Fecha o menu ao clicar fora
-        window.addEventListener('click', (event) => {
-            if (!userButton.contains(event.target)) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
-    </script>
+    <script src="../js/adm.js"></script>
 
 </body>
 </html>

@@ -24,8 +24,8 @@ try {
             VALUES (:nome, :data, :email, :senha, :menor_idade)";
     
 
-    // enquanto pesquisava apareceu $stmt = $conexao->prepare($sql); que serve para terceiros nao injetarem valores no banco?
-    $stmt = $conexao->prepare($sql); //essa linha
+    // enquanto pesquisava apareceu $stmt = $conexao->prepare($sql); que serve para terceiros nao injetarem valores no banco
+    $stmt = $conexao->prepare($sql);
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':data', $data_nascimento);
     $stmt->bindParam(':email', $email);

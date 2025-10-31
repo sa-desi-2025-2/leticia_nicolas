@@ -30,7 +30,7 @@ require_once __DIR__ . '/conexao.php';
     <!-- CABEÇALHO -->
     <header class="header">
         <div class="logo">
-            <img src="../legicia_nicolas/img/logo.png" alt="Checkpoint Logo">
+            <img src="../img/logo.png" alt="Checkpoint Logo">
         </div>
 
         <button class="btn-post">Criar Post</button>
@@ -47,7 +47,7 @@ require_once __DIR__ . '/conexao.php';
             </div>
             <div class="dropdown" id="dropdownMenu">
                 <a href="#">Perfil</a>
-                <a href="contas.php">Contas</a>
+                <a href="pagina_principal_contas.php">Contas</a>
                 <a href="#">Seguidos</a>
                
               

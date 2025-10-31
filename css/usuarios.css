@@ -1,3 +1,11 @@
+/* Reset de estilos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
 /* === FUNDO GERAL GAMER === */
 body {
   margin: 0;
@@ -11,25 +19,8 @@ body {
   height: 100vh;
 }
 
-
-.menu-icons .icon {
-  width: 40px;
-  height: 40px;
-  background-color: #02695c;
-  border-radius: 10px;
-  margin: 20px 0;
-}
-
-.add-icon {
-  margin-top: auto;
-  margin-bottom: 25px;
-  font-size: 30px;
-  color: #fff;
-  cursor: pointer;
-}
-
-/* === CABEÇALHO SUPERIOR === */
-.header {
+/* Cabeçalho */
+header.header {
   margin-left: 80px;
   height: 70px;
   display: flex;
@@ -39,24 +30,32 @@ body {
   background: transparent;
 }
 
-.logo img {
-  height: 90px;
+header .logo {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
-/* === MENU DO USUÁRIO (DIREITA) === */
-.user-menu {
-  position: relative;
+header .logo img {
+  height: 90px; /* Logo principal */
 }
 
-.user-icon img {
-  width: 45px;
-  height: 45px;
+header .user-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+header .user-icon img {
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   background: transparent;
   padding: 5px;
   cursor: pointer;
 }
 
+/* Menu suspenso */
 .dropdown {
   display: none;
   position: absolute;
@@ -87,7 +86,7 @@ body {
   display: flex;
 }
 
-/* === CONTEÚDO PRINCIPAL === */
+/* Conteúdo Principal */
 .content {
   margin-left: 120px;
   margin-top: 40px;
@@ -183,10 +182,41 @@ body {
   box-shadow: 0 0 10px #ff0055;
 }
 
-/* === SCROLL E DETALHES === */
+/* Scroll e detalhes */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
+/* Responsividade */
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+    width: 100%;
+  }
 
- 
+  .user-list {
+    grid-template-columns: 1fr; /* Coloca os cards em uma única coluna em telas menores */
+  }
+
+  header .logo img {
+    height: 20px;
+  }
+
+  header .user-icon img {
+    width: 20px;
+  }
+}
+header .logo img[src*="img.icons8.com"] {
+  filter: brightness(0) invert(1) drop-shadow(0 0 8px #ffffff);
+}
+
+/* Estilo geral apenas para imagens vindas do icons8 */
+header .logo img[src*="img.icons8.com"] {
+  width: 70px;         /* 🔹 tamanho da largura da imagem */
+  height: 60px;        /* 🔹 altura da imagem */
+  object-fit: contain; /* 🔹 garante que a imagem não distorça */
+  margin-left: 140px;   /* 🔹 pequeno espaço entre a logo e o ícone */
+  filter: brightness(0) invert(1); /* 🔹 deixa a imagem branca */
+
+}
+

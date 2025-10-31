@@ -23,7 +23,9 @@ require_once __DIR__ . '/conexao.php';
     <!-- CABEÇALHO -->
     <header class="header">
         <div class="logo">
-            <img src="logo.png" alt="Checkpoint Logo">
+            <img src="../img/logo.png" alt="Checkpoint Logo">
+            <a href="pagina_principal_adm.php"><img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home">
+</a>
         </div>
 
         <div class="user-menu">

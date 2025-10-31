@@ -1,0 +1,127 @@
+/* Fundo gamer */
+body {
+    background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f9a7cb716623994751746-1024-1024.webp');
+    background-size: cover;
+    background-position: center;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Container principal */
+  .container {
+    width: 80%;
+    max-width: 900px;
+    background-color: rgba(255, 240, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+  }
+  
+  /* Barra superior */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo img {
+    width: 100px;
+  }
+  
+  .icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .home-icon {
+    font-size: 28px;
+    color: #fff;
+    background-color: black;
+    border-radius: 10px;
+    padding: 5px;
+  }
+  
+  .user-icon {
+    background-color: #e5d5ff;
+    border-radius: 20px;
+    padding: 5px 10px;
+  }
+  
+  .user-icon i {
+    color: #7a3efb;
+    font-size: 22px;
+  }
+  
+  /* Título */
+  .titulo {
+    text-align: center;
+    background-color: #c6b5ff;
+    display: inline-block;
+    margin: 20px auto;
+    padding: 8px 20px;
+    border-radius: 10px;
+  }
+  
+  /* Lista de usuários */
+  .user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .user-card {
+    background: #fff;
+    border-radius: 5px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid transparent;
+    transition: 0.3s;
+  }
+  
+  .user-card:hover {
+    border: 2px solid #00c3ff;
+    box-shadow: 0 0 10px #00c3ff;
+  }
+  
+  .user-info i {
+    font-size: 32px;
+    color: #a678ff;
+  }
+  
+  /* Botões */
+  .btn-ativar {
+    background-color: #00c3ff;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .btn-desativar {
+    background-color: #d13d5a;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .btn-ativar:hover {
+    background-color: #00ffc8;
+    box-shadow: 0 0 10px #00ffc8;
+  }
+  
+  .btn-desativar:hover {
+    background-color: #ff0055;
+    box-shadow: 0 0 10px #ff0055;
+  }
+  

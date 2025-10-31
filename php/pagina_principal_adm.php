@@ -47,10 +47,10 @@ require_once __DIR__ . '/conexao.php';
             </div>
             <div class="dropdown" id="dropdownMenu">
                 <a href="#">Perfil</a>
-                <a href="#">Contas</a>
+                <a href="contas.php">Contas</a>
                 <a href="#">Seguidos</a>
                
-                <a href="#">Sair</a>
+              
                 <a href="login.php">Sair</a>
             </div>
         </div>

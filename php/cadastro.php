@@ -21,7 +21,6 @@
             <div class="logo-side"></div>
 
             <div class="login-box">
-                <!-- ALTERAÇÃO AQUI: action e method -->
                 <form id="loginForm" action="salvar_usuario.php" method="POST">
                     <label for="nome">
                         <img class="icon" src="https://img.icons8.com/?size=100&id=11730&format=png&color=ffffff" alt="nome"/>

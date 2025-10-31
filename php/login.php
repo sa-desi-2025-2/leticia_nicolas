@@ -39,7 +39,7 @@ require_once __DIR__ . '/conexao.php';
       <div class="login-box p-4 rounded shadow-lg">
       <!--  -->
 
-        <!-- Exibe erro se existir -->
+        <!-- exibe erro se existir -->
         <?php if (!empty($_SESSION['login_error'])): ?>
           <div class="alert alert-danger text-center">
             <?php 

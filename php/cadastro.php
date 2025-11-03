@@ -1,9 +1,13 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário </title>
+    <title>Cadastro de Usuário</title>
     <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 <body>
@@ -11,7 +15,7 @@
         <!-- Barra superior -->
         <header>
             <div class="logo"></div>
-            <a href="login.php">
+            <a href="login_estrutura.php">
                 <button type="button" class="btn">Login</button>
             </a>
         </header>
@@ -21,6 +25,18 @@
             <div class="logo-side"></div>
 
             <div class="login-box">
+
+                <!-- Mensagem de erro -->
+                <?php if(!empty($_SESSION['cadastro_erro'])): ?>
+                    <div class="alert alert-danger text-center">
+                        <?php 
+                            echo $_SESSION['cadastro_erro'];
+                            unset($_SESSION['cadastro_erro']);
+                        ?>
+                    </div>
+                <?php endif; ?>
+                <!-- Fim mensagem de erro -->
+
                 <form id="loginForm" action="salvar_usuario.php" method="POST">
                     <label for="nome">
                         <img class="icon" src="https://img.icons8.com/?size=100&id=11730&format=png&color=ffffff" alt="nome"/>
@@ -32,7 +48,7 @@
                         <img class="icon" src="https://img.icons8.com/?size=100&id=Ww1lcGqgduif&format=png&color=ffffff" alt="email"/>
                         Email:
                     </label>
-                    <input type="text" id="email" name="email" placeholder="Digite seu email" required>
+                    <input type="email" id="email" name="email" placeholder="Digite seu email" required>
                     
                     <label for="idade">
                         <img class="icon" src="https://img.icons8.com/?size=100&id=1663&format=png&color=ffffff" alt="idade"/>

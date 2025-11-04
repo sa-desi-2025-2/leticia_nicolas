@@ -2,67 +2,36 @@
 require_once 'conexao.php';
 
 class Usuario {
-
-    private $nome_usuario;
-    private $email_usuario;
-    private $senha_hash;
+    private $nome;
+    private $email;
+    private $senha;
     private $data_nascimento;
-    private $menor_idade;
-    private $pdo;
 
-    public function __construct()
-    {
-        $this->pdo = new Conexao();
-    }
-
-    public function setNome($nome) {
-        $this->nome_usuario = trim($nome);
-    }
-
-    public function setEmail($email) {
-        $this->email_usuario = trim($email);
-    }
-
-    public function setSenha($senha) {
-        $this->senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-    }
-
-    public function setDataNascimento($data) {
-        $this->data_nascimento = $data;
-        $this->calcularMenorIdade();
-    }
-
-    private function calcularMenorIdade() {
-        $data_nasc = new DateTime($this->data_nascimento);
-        $hoje = new DateTime();
-        $idade = $hoje->diff($data_nasc)->y;
-        $this->menor_idade = ($idade < 18) ? 1 : 0;
-    }
+    public function setNome($nome) { $this->nome = $nome; }
+    public function setEmail($email) { $this->email = $email; }
+    public function setSenha($senha) { $this->senha = password_hash($senha, PASSWORD_DEFAULT); }
+    public function setDataNascimento($data) { $this->data_nascimento = $data; }
 
     public function cadastrar() {
-        if(!$this->validarEmail()) {
-            return false; // email já existe
+        $db = new Conexao();
+
+        $sql = "SELECT * FROM usuarios WHERE email_usuario = ?";
+        $stmt = $db->getCon()->prepare($sql);
+        $stmt->bind_param("s", $this->email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            return false;
         }
 
-        $sql = "INSERT INTO usuarios (nome_usuario, data_nascimento, email_usuario, senha_hash, menor_idade)
-                VALUES (:nome, :data, :email, :senha, :menor_idade)";
+        $sql = "INSERT INTO usuarios (nome_usuario, email_usuario, data_nascimento, senha_hash)
+                VALUES (?, ?, ?, ?)";
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':nome', $this->nome_usuario);
-        $stmt->bindParam(':data', $this->data_nascimento);
-        $stmt->bindParam(':email', $this->email_usuario);
-        $stmt->bindParam(':senha', $this->senha_hash);
-        $stmt->bindParam(':menor_idade', $this->menor_idade);
+        $stmt = $db->getCon()->prepare($sql);
+        $stmt->bind_param("ssss", $this->nome, $this->email, $this->data_nascimento, $this->senha);
 
         return $stmt->execute();
-    }
-
-    private function validarEmail() {
-        $sql = "SELECT id_usuario FROM usuarios WHERE email_usuario = :email LIMIT 1";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':email', $this->email_usuario);
-        $stmt->execute();
-        return $stmt->rowCount() == 0;
     }
 }
 ?>

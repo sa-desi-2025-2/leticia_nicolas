@@ -15,7 +15,7 @@ session_start();
         <!-- Barra superior -->
         <header>
             <div class="logo"></div>
-            <a href="login_estrutura.php">
+            <a href="login.php">
                 <button type="button" class="btn">Login</button>
             </a>
         </header>
@@ -31,7 +31,7 @@ session_start();
                     <div class="alert alert-danger text-center">
                         <?php 
                             echo $_SESSION['cadastro_erro'];
-                            unset($_SESSION['cadastro_erro']);
+                            unset($_SESSION['cadastro_erro']); // limpa a mensagem
                         ?>
                     </div>
                 <?php endif; ?>

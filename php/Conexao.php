@@ -1,25 +1,20 @@
 <?php
-class Conexao extends PDO
-{
-    private $nome;
-    private $usuario;
-    private $senha;
-    private $servidor;
+class Conexao {
+    private $host = "localhost";
+    private $user = "root";
+    private $pass = "";
+    private $db = "checkpoint_sa";
+    private $con;
 
-    public function __construct()
-    {
-        $this->nome = 'checkpoint_sa';
-        $this->usuario = 'root';
-        $this->senha = '';
-        $this->servidor = 'localhost';
-
-        $dsn = "mysql:host={$this->servidor};dbname={$this->nome};charset=utf8";
-
-        try {
-            parent::__construct($dsn, $this->usuario, $this->senha);
-            $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $erro) {
-            die("ERRO NA CONEXÃO: " . $erro->getMessage());
+    public function __construct() {
+        $this->con = new mysqli($this->host, $this->user, $this->pass, $this->db);
+        if ($this->con->connect_error) {
+            die("Erro de conexão: " . $this->con->connect_error);
         }
     }
+
+    public function getCon() {
+        return $this->con;
+    }
 }
+?>

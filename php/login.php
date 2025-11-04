@@ -24,6 +24,7 @@ class Login {
             if (password_verify($this->senha, $usuario['senha_hash'])) {
                 $_SESSION['id_usuario'] = $usuario['id_usuario'];
                 $_SESSION['nome_usuario'] = $usuario['nome_usuario'];
+                $_SESSION['admin'] = $tipo_usuario['tipo_usuario'];
                 return true;
             }
         }

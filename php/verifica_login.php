@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: pagina_principal.php");
         exit();
     } else {
-        $_SESSION['login_error'] = "Email ou senha incorretos!";
+        $_SESSION['login_error'] = "Email ou senha incorretos";
         header("Location: login_estrutura.php");
         exit();
     }

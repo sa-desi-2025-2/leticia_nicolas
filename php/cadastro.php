@@ -15,7 +15,7 @@ session_start();
         <!-- Barra superior -->
         <header>
             <div class="logo"></div>
-            <a href="login.php">
+            <a href="login_estrutura.php">
                 <button type="button" class="btn">Login</button>
             </a>
         </header>
@@ -26,7 +26,7 @@ session_start();
 
             <div class="login-box">
 
-                <!-- Mensagem de erro -->
+       
                 <?php if(!empty($_SESSION['cadastro_erro'])): ?>
                     <div class="alert alert-danger text-center">
                         <?php 

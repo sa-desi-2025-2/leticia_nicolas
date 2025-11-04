@@ -1,19 +1,29 @@
 <?php
 require_once 'conexao.php';
+require_once 'Usuario.php';
 
 class Login {
     private $email;
     private $senha;
 
-    public function setEmail($email) { $this->email = $email; }
-    public function setSenha($senha) { $this->senha = $senha; }
+    public function __construct() {
+
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function setSenha($senha) {
+        $this->senha = $senha;
+    }
 
     public function autenticar() {
-        session_start();
         $db = new Conexao();
+        $conn = $db->getCon();
 
         $sql = "SELECT * FROM usuarios WHERE email_usuario = ?";
-        $stmt = $db->getCon()->prepare($sql);
+        $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $this->email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -24,7 +34,7 @@ class Login {
             if (password_verify($this->senha, $usuario['senha_hash'])) {
                 $_SESSION['id_usuario'] = $usuario['id_usuario'];
                 $_SESSION['nome_usuario'] = $usuario['nome_usuario'];
-                $_SESSION['admin'] = $tipo_usuario['tipo_usuario'];
+                $_SESSION['admin'] = $usuario['tipo_usuario'];
                 return true;
             }
         }

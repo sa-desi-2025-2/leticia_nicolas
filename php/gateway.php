@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/login.php';
-require_once __DIR__ . '/sessao.php';
 
 session_start();
 

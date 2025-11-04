@@ -8,7 +8,6 @@
 
 /* === FUNDO GERAL GAMER === */
 body {
-  margin: 0;
   font-family: 'Poppins', sans-serif;
   background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg') 
       no-repeat center center fixed;
@@ -16,11 +15,11 @@ body {
   color: white;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 /* Cabeçalho */
-header.header {
+.topo {
   margin-left: 80px;
   height: 70px;
   display: flex;
@@ -30,60 +29,29 @@ header.header {
   background: transparent;
 }
 
-header .logo {
+.topo .logo {
   display: flex;
   gap: 20px;
   align-items: center;
 }
 
-header .logo img {
+.topo .logo img {
   height: 90px; /* Logo principal */
 }
 
-header .user-menu {
+.topo .user-menu {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-header .user-icon img {
+.topo .user-icon img {
   width: 65px;
   height: 65px;
   border-radius: 50%;
   background: transparent;
   padding: 5px;
   cursor: pointer;
-}
-
-/* Menu suspenso */
-.dropdown {
-  display: none;
-  position: absolute;
-  top: 60px;
-  right: 0;
-  background: #f0e6ff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  flex-direction: column;
-  min-width: 150px;
-}
-
-.dropdown a {
-  color: #000;
-  text-decoration: none;
-  padding: 10px 20px;
-  display: block;
-  border-bottom: 1px dashed #aaa;
-}
-
-.dropdown a:hover {
-  background: #00bfa5;
-  color: white;
-}
-
-.dropdown.show {
-  display: flex;
 }
 
 /* Conteúdo Principal */
@@ -103,7 +71,7 @@ header .user-icon img {
   background-color: #c6b5ff;
   color: #000;
   display: inline-block;
-  margin: 240 auto 25px auto;
+  margin: 0 auto 25px auto;
   padding: 8px 20px;
   border-radius: 10px;
   font-weight: bold;
@@ -195,28 +163,24 @@ header .user-icon img {
   }
 
   .user-list {
-    grid-template-columns: 1fr; /* Coloca os cards em uma única coluna em telas menores */
+    flex-direction: column;
   }
 
-  header .logo img {
-    height: 20px;
+  .topo .logo img {
+    height: 50px;
   }
 
-  header .user-icon img {
-    width: 20px;
+  .topo .user-icon img {
+    width: 50px;
+    height: 50px;
   }
 }
-header .logo img[src*="img.icons8.com"] {
-  filter: brightness(0) invert(1) drop-shadow(0 0 8px #ffffff);
+
+/* Estilo para ícones da logo (icons8) */
+.topo .logo img[src*="img.icons8.com"] {
+  width: 70px;
+  height: 60px;
+  object-fit: contain;
+  margin-left: 140px;
+  filter: brightness(0) invert(1);
 }
-
-/* Estilo geral apenas para imagens vindas do icons8 */
-header .logo img[src*="img.icons8.com"] {
-  width: 70px;         /* 🔹 tamanho da largura da imagem */
-  height: 60px;        /* 🔹 altura da imagem */
-  object-fit: contain; /* 🔹 garante que a imagem não distorça */
-  margin-left: 140px;   /* 🔹 pequeno espaço entre a logo e o ícone */
-  filter: brightness(0) invert(1); /* 🔹 deixa a imagem branca */
-
-}
-

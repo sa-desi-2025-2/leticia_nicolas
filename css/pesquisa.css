@@ -1,0 +1,112 @@
+.results-wrapper {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 30px auto 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.result-section {
+    flex: 1 1 500px;
+    max-width: 550px;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 0 15px #00fff7;
+    box-sizing: border-box;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-section h2 {
+    color: #00bfa5;
+    border-bottom: 2px solid #00bfa5;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.user-card, .community-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 16px;
+    cursor: default;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000;
+    transition: box-shadow 0.3s ease;
+}
+
+.user-card:hover, .community-card:hover {
+    box-shadow: 0 0 12px #00bfa5;
+}
+
+.no-results {
+    color: #aaa;
+    font-style: italic;
+    font-size: 1.1rem;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    gap: 8px;
+}
+
+.pagina-link {
+    cursor: pointer;
+    background: #00bfa5;
+    color: #000;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.pagina-link:hover {
+    background: #007f6d;
+    color: #fff;
+}
+
+.pagina-link.active {
+    background: #007f6d;
+    color: #fff;
+}
+
+@media (max-width: 1100px) {
+    .result-section {
+        flex: 1 1 80%;
+        max-width: 80%;
+    }
+    .results-wrapper {
+        gap: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    .result-section {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 20px;
+    }
+    .result-section h2 {
+        font-size: 1.5rem;
+    }
+    .user-card, .community-card {
+        font-size: 1rem;
+    }
+}

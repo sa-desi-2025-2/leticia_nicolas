@@ -1,7 +1,6 @@
 <?php
-
+session_start(); // ✅ necessário para carregar a imagem da sessão
 require_once __DIR__ . '/conexao.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -11,8 +10,6 @@ require_once __DIR__ . '/conexao.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkpoint</title>
     <link rel="stylesheet" href="../css/pagina_principal.css">
- 
-
 </head>
 <body>
 
@@ -27,8 +24,8 @@ require_once __DIR__ . '/conexao.php';
         <div class="add-icon">+</div>
     </aside>
 
-    <!-- CABEÇALHO -->
-    <header class="header">
+    <!-- TOPO -->
+    <div class="top-bar">
         <div class="logo">
             <img src="../img/logo.png" alt="Checkpoint Logo">
         </div>
@@ -43,21 +40,18 @@ require_once __DIR__ . '/conexao.php';
         <!-- ÍCONE DO USUÁRIO -->
         <div class="user-menu">
             <div class="user-icon" id="userButton">
-                <img src="https://img.icons8.com/?size=100&id=65342&format=png&color=000000" alt="User">
+                <!-- ✅ Foto do usuário logado -->
+                <img src="<?php echo $_SESSION['foto_perfil'] ?? '../uploads/default.png'; ?>" alt="Usuário">
             </div>
             <div class="dropdown" id="dropdownMenu">
-                <a href="#">Perfil</a>
+                <a href="perfil.php">Perfil</a>
                 <a href="pagina_principal_contas.php">Contas</a>
                 <a href="#">Seguidos</a>
-               
-              
                 <a href="login_estrutura.php">Sair</a>
             </div>
         </div>
-    </header>
+    </div>
 
-   
-    <script src="../js/adm.js"></script>
-
+    <script src="../js/principal.js"></script>
 </body>
 </html>

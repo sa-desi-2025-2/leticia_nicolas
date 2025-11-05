@@ -19,17 +19,17 @@ require_once __DIR__ . '/conexao.php';
 <body>
   <div class="container-fluid vh-100 d-flex flex-column p-0">
 
-    <!-- Barra superior -->
-    <header class="d-flex justify-content-end align-items-center p-3">
-      <a href="cadastro.php" class="btn btn-outline-light rounded-pill px-4">Cadastrar</a>
-    </header>
+    <!-- Botão de cadastro no topo -->
+    <div class="top-bar d-flex justify-content-end align-items-center p-3">
+      <a href="cadastro.php" class="btn btn-reactive rounded-pill px-4">Cadastrar</a>
+    </div>
 
-    <!-- Login -->
-    <div class="d-flex flex-grow-1 justify-content-center align-items-center flex-wrap gap-5">
+    <!-- Conteúdo principal -->
+    <div class="main-content d-flex flex-grow-1 justify-content-center align-items-center flex-wrap gap-5">
 
       <!-- Logo -->
       <div class="text-center">
-        <img src="logo.png" alt="Logo Checkpoint" class="logo-lateral img-fluid">
+        <img src="../img/logo.png" alt="Logo Checkpoint" class="logo-lateral img-fluid">
       </div>
 
       <!-- Caixa do login -->
@@ -66,7 +66,5 @@ require_once __DIR__ . '/conexao.php';
       </div>
     </div>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

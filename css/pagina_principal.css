@@ -1,3 +1,4 @@
+/* === BODY === */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -6,19 +7,19 @@ body {
     color: white;
 }
 
-/* --- SIDEBAR --- */
+/* === SIDEBAR === */
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     width: 70px;
     height: 100vh;
-    bottom: 70vh;
     background-color: #04c5af96;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
+    z-index: 2;
 }
 
 .menu-icons .icon {
@@ -37,8 +38,8 @@ body {
     cursor: pointer;
 }
 
-/* --- HEADER --- */
-.header {
+/* === TOP BAR (substitui header) === */
+.top-bar {
     margin-left: 80px;
     height: 70px;
     background: transparent;
@@ -46,12 +47,15 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    position: relative;
+    z-index: 3;
 }
 
 .logo img {
     height: 90px;
 }
 
+/* Botão Criar Post */
 .btn-post {
     background: white;
     border: none;
@@ -61,6 +65,7 @@ body {
     font-weight: bold;
 }
 
+/* Barra de pesquisa */
 .search-container {
     display: flex;
     align-items: center;
@@ -83,7 +88,7 @@ body {
     font-size: 16px;
 }
 
-/* --- USER MENU --- */
+/* === USER MENU === */
 .user-menu {
     position: relative;
 }
@@ -92,11 +97,10 @@ body {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: transparent;
-    padding: 5px;
     cursor: pointer;
 }
 
+/* Dropdown do usuário */
 .dropdown {
     display: none;
     position: absolute;
@@ -107,6 +111,7 @@ body {
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     flex-direction: column;
+    z-index: 5;
 }
 
 .dropdown a {
@@ -126,12 +131,13 @@ body {
     display: flex;
 }
 
-/* --- CONTEÚDO --- */
+/* === CONTEÚDO PRINCIPAL === */
 .content {
     margin-left: 120px;
     margin-top: 40px;
 }
 
+/* Cartão de usuário */
 .user-card {
     background: rgba(255, 240, 255, 0.9);
     border-radius: 10px;
@@ -169,4 +175,45 @@ body {
 
 .follow-btn:hover {
     text-decoration: underline;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 1024px) {
+    .top-bar {
+        margin-left: 70px;
+        flex-wrap: wrap;
+    }
+
+    .search-container input {
+        width: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+    }
+
+    .menu-icons .icon {
+        width: 30px;
+        height: 30px;
+        margin: 15px 0;
+    }
+
+    .top-bar {
+        margin-left: 60px;
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 10px 15px;
+    }
+
+    .logo img {
+        height: 60px;
+        margin-bottom: 10px;
+    }
+
+    .search-container input {
+        width: 100px;
+    }
 }

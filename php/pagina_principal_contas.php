@@ -1,4 +1,5 @@
 <?php
+session_start(); // ✅ necessário para acessar a imagem da sessão
 require_once __DIR__ . '/usuario.php';
 
 $usuario = new Usuario();
@@ -17,55 +18,56 @@ $usuarios = $usuario->listarUsuarios(); // busca todos os usuários
 </head>
 <body>
 
+<!-- TOPO -->
 <div class="topo">
     <div class="logo">
         <img src="../img/logo.png" alt="Checkpoint Logo">
-        <a href="pagina_principal_adm.php">
-            <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home">
+
+        <!-- 🔙 Voltar à página principal do ADM -->
+        <a href="pagina_principal_adm.php" title="Voltar à página inicial">
+            <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home" class="home-icon">
         </a>
     </div>
 
     <div class="user-menu">
         <div class="user-icon">
-            <img src="https://img.icons8.com/?size=100&id=65342&format=png&color=000000" alt="Usuário">
+            <!-- ✅ Foto do usuário logado (salva na sessão) -->
+            <img src="<?php echo $_SESSION['foto_perfil'] ?? '../uploads/default.png'; ?>" alt="Usuário Logado">
         </div>
     </div>
 </div>
 
+<!-- CONTEÚDO PRINCIPAL -->
 <main class="content">
     <h2 class="titulo">Gerenciamento de Usuários</h2>
 
     <div class="user-list">
-    <?php foreach ($usuarios as $user): ?>
-    <div class="user-card">
-        <div class="user-info">
-            <i class="bi bi-person-circle"></i>
-            <p class="user-name"><?= htmlspecialchars($user['nome_usuario']) ?></p>
-        </div>
+        <?php foreach ($usuarios as $user): ?>
+            <div class="user-card">
+                <div class="user-info">
+                    <!-- ✅ Foto de perfil do usuário -->
+                    <img 
+                        src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
+                        alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>" 
+                        class="foto-usuario"
+                    >
+                    <p class="user-name"><?= htmlspecialchars($user['nome_usuario']) ?></p>
+                </div>
 
-        <!-- Botão de ativar/desativar com ID único -->
-        <button 
-            id="btnUsuario<?= $user['id_usuario'] ?>" 
-            class="<?= $user['ativo'] == 1 ? 'btn-desativar' : 'btn-ativar' ?>" 
-            data-id="<?= $user['id_usuario'] ?>"
-        >
-            <?= $user['ativo'] == 1 ? 'Desativar' : 'Ativar' ?>
-        </button>
-    </div>
-<?php endforeach; ?>
+                <!-- Botão de ativar/desativar -->
+                <button 
+                    id="btnUsuario<?= $user['id_usuario'] ?>" 
+                    class="<?= $user['ativo'] == 1 ? 'btn-desativar' : 'btn-ativar' ?>" 
+                    data-id="<?= $user['id_usuario'] ?>"
+                >
+                    <?= $user['ativo'] == 1 ? 'Desativar' : 'Ativar' ?>
+                </button>
+            </div>
+        <?php endforeach; ?>
     </div>
 </main>
 
 <script src="../js/adm.js"></script>
+<script src="../js/principal.js"></script>
 </body>
 </html>
-
-
-
-<!-- meuBotao =  document.getElementById("myBtn");
-
-if (meuBotao.disable === true){
-	meuBotao.disable = false
-}else{
-	meuBotao.disable = true
-} -->

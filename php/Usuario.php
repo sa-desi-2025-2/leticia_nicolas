@@ -41,7 +41,7 @@ class Usuario {
         }
 
         // Cadastra novo usuário
-        $sql = "INSERT INTO usuarios (nome_usuario, email_usuario, data_nascimento, senha_hash)
+        $sql = "INSERT INTO usuarios (nome_usuario, email_usuario, data_nascimento, senha_usuario)
                 VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssss", $this->nome, $this->email, $this->data_nascimento, $this->senha);
@@ -54,7 +54,7 @@ class Usuario {
         $db = new Conexao();
         $conn = $db->getCon();
 
-        $sql = "SELECT id_usuario, nome_usuario, email_usuario, tipo_usuario, ativo FROM usuarios";
+        $sql = "SELECT id_usuario, nome_usuario, email_usuario, tipo_usuario, ativo, foto_perfil FROM usuarios";
         $result = $conn->query($sql);
 
         $usuarios = [];
@@ -66,7 +66,6 @@ class Usuario {
     }
 
     // ---------- Ativar / Desativar usuário ----------
-    // Na classe Usuario:
     public function alterarStatus($id_usuario, $novoStatus) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -75,12 +74,57 @@ class Usuario {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ii", $novoStatus, $id_usuario);
     
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $stmt->execute();
     }
-    
+
+    // ---------- Buscar usuário por ID ----------
+    public function buscarPorId($id_usuario) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_assoc();
+    }
+
+    // ---------- Atualizar nome e e-mail ----------
+    public function atualizarDados($id_usuario, $nome, $email) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $sql = "UPDATE usuarios SET nome_usuario = ?, email_usuario = ? WHERE id_usuario = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssi", $nome, $email, $id_usuario);
+        return $stmt->execute();
+    }
+
+    // ---------- Atualizar foto de perfil ----------
+    public function atualizarFoto($id_usuario, $caminho) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $sql = "UPDATE usuarios SET foto_perfil = ? WHERE id_usuario = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $caminho, $id_usuario);
+        return $stmt->execute();
+    }
+
+    // ---------- Atualizar senha ----------
+    public function atualizarSenha($id_usuario, $nova_senha) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $hash = password_hash($nova_senha, PASSWORD_DEFAULT);
+
+        $sql = "UPDATE usuarios SET senha_usuario = ? WHERE id_usuario = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $hash, $id_usuario);
+
+        return $stmt->execute();
+    }
 }
 ?>

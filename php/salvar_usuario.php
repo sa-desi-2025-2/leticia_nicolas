@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario->setDataNascimento($_POST['idade']);
 
     if($usuario->cadastrar()){
-        header("Location: login.php");
+        header("Location: login_estrutura.php");
         exit();
     } else {
         $_SESSION['cadastro_erro'] = "email ja cadastradi";

@@ -22,7 +22,7 @@ class Login {
         $db = new Conexao();
         $conn = $db->getCon();
 
-        $sql = "SELECT * FROM usuarios WHERE email_usuario = ?";
+        $sql = "SELECT * FROM usuarios WHERE email_usuario = ? AND ativo = 1";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $this->email);
         $stmt->execute();

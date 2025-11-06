@@ -104,9 +104,6 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </header>
 
 <div class="content">
-    <?php if ($termo === ''): ?>
-        <p style="text-align:center; font-size:1.2rem; color:#ccc;">Digite um termo para pesquisar usuários ou comunidades.</p>
-    <?php else: ?>
         <div class="results-wrapper">
             <!-- Usuários -->
             <div class="result-section">
@@ -138,7 +135,6 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 <?php endif; ?>
             </div>
         </div>
-    <?php endif; ?>
 </div>
 
 <script src="../js/principal.js"></script>

@@ -8,12 +8,10 @@ $conn = $conexao->getCon();
 
 $pesquisa = new Pesquisa($conn);
 
-// Captura termo da busca (GET) e páginas específicas para usuários e comunidades
 $termo = trim($_GET['q'] ?? '');
 $paginaUsuarios = max(1, intval($_GET['page_usuario'] ?? 1));
 $paginaComunidades = max(1, intval($_GET['page_comunidade'] ?? 1));
 
-// Define itens por página (pode personalizar)
 $itensPorPagina = 5;
 $pesquisa->setItensPorPagina($itensPorPagina);
 
@@ -30,18 +28,16 @@ if ($termo !== '') {
     $totalComunidades = $pesquisa->totalComunidades();
 }
 
-// Função helper para criar links de paginação
 function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagina, $termo) {
     $totalPaginas = ceil($totalItens / $itensPorPagina);
     $links = '';
 
     if ($totalPaginas <= 1){
-        return $links; // sem paginação se só 1 página
+        return $links;
     }
 
     for ($i = 1; $i <= $totalPaginas; $i++) {
         $active = ($i == $paginaAtual) ? ' active' : '';
-        // Mantém o termo e pagina da outra pesquisa fixa na URL
         $queryParams = [
             'q' => urlencode($termo),
             $paramPagina => $i
@@ -58,7 +54,6 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     return $links;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -73,36 +68,39 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <!-- Sidebar -->
 <aside class="sidebar">
     <div class="menu-icons">
-        <div class="icon"></div><div class="icon"></div><div class="icon"></div><div class="icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
     </div>
     <div class="add-icon" title="Adicionar">+</div>
 </aside>
 
-<!-- Header -->
-<header class="header">
-    <div class="logo"><img src="../img/logo.png" alt="Checkpoint Logo" /></div>
+<!-- Top bar substituindo o header -->
+<div class="top-bar">
+    <div class="logo">
+        <img src="../img/logo.png" alt="Checkpoint Logo" />
+    </div>
 
-    <button class="btn-post" onclick="alert('Função Criar Post em construção')">Criar Post</button>
+   
 
     <div class="search-container">
         <form method="GET" action="pesquisa.php" style="display:flex; align-items:center;">
-            <input type="text" name="q" placeholder="Hinted search text" autocomplete="off" value="<?= htmlspecialchars($termo) ?>" />
+            <input 
+                type="text" 
+                name="q" 
+                placeholder="Digite um termo para pesquisar..." 
+                autocomplete="off" 
+                value="<?= htmlspecialchars($termo) ?>" 
+            />
             <button type="submit" class="search-btn" title="Pesquisar">🔍</button>
         </form>
     </div>
 
-    <div class="user-menu">
-        <div class="user-icon" id="userButton">
-            <img src="https://img.icons8.com/?size=100&id=65342&format=png&color=000000" alt="User" />
-        </div>
-        <div class="dropdown" id="dropdownMenu">
-            <a href="#">Perfil</a>
-            <a href="#">Seguidos</a>
-            <a href="login_estrutura.php">Sair</a>
-        </div>
-    </div>
-</header>
+   
+</div>
 
+<!-- Conteúdo principal -->
 <div class="content">
         <div class="results-wrapper">
             <!-- Usuários -->

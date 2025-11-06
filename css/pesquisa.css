@@ -1,53 +1,58 @@
+/* === ÁREA DE RESULTADOS === */
 .results-wrapper {
     display: flex;
-    gap: 40px;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 40px;
     max-width: 1200px;
-    margin: 30px auto 0 auto;
+    margin: 40px auto;
     padding: 0 15px;
     box-sizing: border-box;
-    flex-wrap: wrap;
 }
 
 .result-section {
     flex: 1 1 500px;
     max-width: 550px;
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 12px;
     padding: 25px 30px;
     box-shadow: 0 0 15px #00fff7;
     box-sizing: border-box;
-    min-height: 200px;
     display: flex;
     flex-direction: column;
+    min-height: 200px;
 }
 
 .result-section h2 {
     color: #00bfa5;
     border-bottom: 2px solid #00bfa5;
-    padding-bottom: 12px;
+    padding-bottom: 10px;
     margin-bottom: 20px;
     font-size: 1.8rem;
-    font-weight: 700;
     text-align: center;
 }
 
-.user-card, .community-card {
+/* === CARTÕES DE RESULTADO === */
+.user-card,
+.community-card {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     padding: 15px 20px;
     margin-bottom: 16px;
-    cursor: default;
     font-size: 1.2rem;
     font-weight: 600;
     color: #000;
-    transition: box-shadow 0.3s ease;
+    cursor: default;
+    transition: all 0.3s ease;
 }
 
-.user-card:hover, .community-card:hover {
+.user-card:hover,
+.community-card:hover {
     box-shadow: 0 0 12px #00bfa5;
+    transform: translateY(-2px);
 }
 
+/* === TEXTO QUANDO NÃO TEM RESULTADO === */
 .no-results {
     color: #aaa;
     font-style: italic;
@@ -59,6 +64,7 @@
     justify-content: center;
 }
 
+/* === PAGINAÇÃO === */
 .pagination {
     display: flex;
     justify-content: center;
@@ -74,7 +80,7 @@
     border-radius: 6px;
     font-weight: bold;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .pagina-link:hover {
@@ -87,26 +93,85 @@
     color: #fff;
 }
 
+/* === BARRA DE PESQUISA (AJUSTADA) === */
+.top-bar .search-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    flex: 1;
+    max-width: 400px;
+    margin: 0 15px;
+}
+
+.top-bar .search-container input {
+    border: none;
+    outline: none;
+    padding: 8px 12px;
+    width: 100%;
+    font-size: 15px;
+}
+
+.top-bar .search-btn {
+    background: none;
+    border: none;
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* === AJUSTE GERAL DA TOP-BAR === */
+.top-bar {
+    margin-left: 80px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    background: transparent;
+    position: relative;
+    z-index: 3;
+}
+
+/* === RESPONSIVIDADE === */
 @media (max-width: 1100px) {
+    .results-wrapper {
+        gap: 25px;
+    }
+
     .result-section {
         flex: 1 1 80%;
         max-width: 80%;
     }
-    .results-wrapper {
-        gap: 25px;
-    }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 10px 15px;
+    }
+
+    .top-bar .search-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
     .result-section {
         flex: 1 1 100%;
         max-width: 100%;
         padding: 20px;
     }
+
     .result-section h2 {
         font-size: 1.5rem;
     }
-    .user-card, .community-card {
+
+    .user-card,
+    .community-card {
         font-size: 1rem;
     }
 }

@@ -31,7 +31,7 @@ $usuarios = $usuario->listarUsuarios(); // busca todos os usuários
 
     <div class="user-menu">
         <div class="user-icon">
-            <!-- ✅ Foto do usuário logado (salva na sessão) -->
+           
             <img src="<?php echo $_SESSION['foto_perfil'] ?? '../uploads/default.png'; ?>" alt="Usuário Logado">
         </div>
     </div>

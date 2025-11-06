@@ -40,11 +40,12 @@ require_once __DIR__ . '/conexao.php';
         <!-- ÍCONE DO USUÁRIO -->
         <div class="user-menu">
             <div class="user-icon" id="userButton">
-                <!-- ✅ Foto do usuário logado -->
+                <!--Foto do usuário logado -->
                 <img src="<?php echo $_SESSION['foto_perfil'] ?? '../uploads/default.png'; ?>" alt="Usuário">
             </div>
             <div class="dropdown" id="dropdownMenu">
                 <a href="perfil.php">Perfil</a>
+                <a href="perfil.php">Categorias</a>
                 <a href="pagina_principal_contas.php">Contas</a>
                 <a href="#">Seguidos</a>
                 <a href="login_estrutura.php">Sair</a>

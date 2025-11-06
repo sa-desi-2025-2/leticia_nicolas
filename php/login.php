@@ -1,6 +1,7 @@
 <?php
 require_once 'conexao.php';
 require_once 'Usuario.php';
+require_once 'gateway.php';
 
 class Login {
     private $email;

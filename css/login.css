@@ -4,7 +4,7 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-/* Barra superior (onde ficava o header) */
+/* Barra superior */
 .top-bar {
   position: relative;
   z-index: 2;
@@ -40,7 +40,7 @@ body {
   border-radius: 20px;
 }
 
-/* Logo */
+/* Logo lateral */
 .logo-lateral {
   width: 780px;
   filter: drop-shadow(0 0 20px #fbff00);
@@ -64,7 +64,7 @@ body {
   }
 }
 
-/* Botão reativo gamer (usado para "Entrar" e "Cadastrar") */
+/* Botão gamer reativo (usado no Entrar) */
 .btn-reactive {
   position: relative;
   width: 100%;
@@ -89,6 +89,23 @@ body {
   box-shadow: 0 0 25px 8px rgba(255, 0, 0, 0.5);
 }
 
+/* --- Botão "Cadastrar" no topo (menor) --- */
+.top-bar .btn-reactive {
+  width: auto;
+  padding: 6px 18px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff22, #00c0ff, #9900ff);
+  background-size: 400% 400%;
+  color: #000 !important;
+  animation: gradientMove 5s linear infinite, glowPulse 2s ease-in-out infinite;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.top-bar .btn-reactive:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px 6px rgba(255, 180, 0, 0.6);
+}
 
 /* Animações */
 @keyframes gradientMove {

@@ -10,12 +10,14 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 
 $conexao = new Conexao();
+$con = $conexao->getCon(); // obtém a conexão mysqli
 $id_usuario = $_SESSION['id_usuario'];
 
-$stmt = $conexao->prepare("SELECT tipo_usuario FROM usuarios WHERE id_usuario = :id LIMIT 1");
-$stmt->bindParam(':id', $id_usuario);
+$stmt = $con->prepare("SELECT tipo_usuario FROM usuarios WHERE id_usuario = ? LIMIT 1");
+$stmt->bind_param("i", $id_usuario);
 $stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
 
 if ($user && $user['tipo_usuario'] == 1) {
     header("Location: pagina_principal_adm.php");
@@ -24,4 +26,7 @@ if ($user && $user['tipo_usuario'] == 1) {
     header("Location: pagina_principal.php");
     exit();
 }
+
+$stmt->close();
+$con->close();
 ?>

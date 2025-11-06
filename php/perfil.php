@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/usuario.php';
 
+
 $usuario = new Usuario();
 
 // Garante que o usuário está logado
@@ -35,7 +36,7 @@ $email = $dados['email_usuario'] ?? '';
     <div class="topo">
         <div class="logo">
             <img src="../img/logo.png" alt="Checkpoint Logo">
-            <a href="pagina_principal_adm.php">
+            <a href="pagina_principal.php">
                 <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home">
             </a>
         </div>

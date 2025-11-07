@@ -115,7 +115,6 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                     <div class="pagination">
                         <?= criarLinkPagina($paginaUsuarios, $totalUsuarios, $itensPorPagina, 'page_usuario', $termo); ?>
                     </div>
-                <?php endif; ?>
             </div>
 
             <!-- Comunidades -->

@@ -103,7 +103,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <!-- Conteúdo principal -->
 <div class="content">
     <?php if ($termo === ''): ?>
-        <p style="text-align:center; font-size:1.2rem; color:#ccc;">Digite um termo para pesquisar usuários ou comunidades.</p>
+        <p style="text-align:center; font-size:1.2rem; color:#ccc;"> Digite um termo para pesquisar usuários ou comunidades.</p>
     <?php else: ?>
         <div class="results-wrapper">
             <!-- Usuários -->

@@ -8,11 +8,10 @@ class Login {
 
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) {
-            session_start(); // garante que a sessão esteja ativa
+            session_start();
         }
     }
 
-    // ---------- SETTERS ----------
     public function setEmail($email) {
         $this->email = $email;
     }
@@ -21,45 +20,46 @@ class Login {
         $this->senha = $senha;
     }
 
-    // ---------- AUTENTICAÇÃO ----------
     public function autenticar() {
         $db = new Conexao();
         $conn = $db->getCon();
 
-        // Busca usuário ativo pelo e-mail
-        $sql = "SELECT * FROM usuarios WHERE email_usuario = ? AND ativo = 1";
+        $sql = "SELECT * FROM usuarios WHERE email_usuario = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $this->email);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Verifica se encontrou o usuário
         if ($result->num_rows === 1) {
             $usuario = $result->fetch_assoc();
 
-            // Verifica a senha
-            if (password_verify($this->senha, $usuario['senha_hash'])) {
+            // Conta desativada
+            if ($usuario['ativo'] == 0) {
+                $_SESSION['login_error'] = "Conta desativada";
+                return false;
+            }
 
-                // ✅ Cria sessão com dados do usuário
+            //Verifica senha
+            if (password_verify($this->senha, $usuario['senha_hash'])) {
                 $_SESSION['id_usuario']   = $usuario['id_usuario'];
                 $_SESSION['nome_usuario'] = $usuario['nome_usuario'];
-                $_SESSION['admin']        = $usuario['tipo_usuario']; // 'admin' ou 'usuario'
-                $_SESSION['foto_perfil']  = !empty($usuario['foto_perfil'])
-                    ? $usuario['foto_perfil']
-                    : '../uploads/default.png';
+                $_SESSION['admin']        = $usuario['tipo_usuario'];
+                $_SESSION['foto_perfil']  = !empty($usuario['foto_perfil']) ? $usuario['foto_perfil'] : '../uploads/default.png';
 
-                // ✅ Redireciona conforme o tipo de usuário
                 if ($usuario['tipo_usuario'] === 'admin') {
-                    header("Location: pagina_principal_adm.php"); // página do administrador
+                    header("Location: pagina_principal_adm.php");
                 } else {
-                    header("Location: pagina_principal.php"); // página comum
+                    header("Location: pagina_principal.php");
                 }
-                exit; // encerra execução após redirecionamento
+                exit;
+            } else {
+                $_SESSION['login_error'] = "Senha incorreta";
+                return false;
             }
+        } else {
+            $_SESSION['login_error'] = "Email não encontrado";
+            return false;
         }
-
-        // ❌ Se falhar
-        return false;
     }
 }
 ?>

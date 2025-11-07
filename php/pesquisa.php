@@ -102,37 +102,39 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 
 <!-- Conteúdo principal -->
 <div class="content">
-        <div class="results-wrapper">
-            <!-- Usuários -->
-            <div class="result-section">
-                <h2>Usuários encontrados (<?= $totalUsuarios ?>)</h2>
-                <?php if (count($usuarios) === 0): ?>
-                    <p class="no-results">Nenhum usuário encontrado.</p>
-                <?php else: ?>
-                    <?php foreach ($usuarios as $user): ?>
-                        <div class="user-card"><?= htmlspecialchars($user['nome_usuario']) ?></div>
-                    <?php endforeach; ?>
-                    <div class="pagination">
-                        <?= criarLinkPagina($paginaUsuarios, $totalUsuarios, $itensPorPagina, 'page_usuario', $termo); ?>
-                    </div>
-            </div>
-
-            <!-- Comunidades -->
-            <div class="result-section">
-                <h2>Comunidades encontradas (<?= $totalComunidades ?>)</h2>
-                <?php if (count($comunidades) === 0): ?>
-                    <p class="no-results">Nenhuma comunidade encontrada.</p>
-                <?php else: ?>
-                    <?php foreach ($comunidades as $com): ?>
-                        <div class="community-card"><?= htmlspecialchars($com['nome_comunidade']) ?></div>
-                    <?php endforeach; ?>
-                    <div class="pagination">
-                        <?= criarLinkPagina($paginaComunidades, $totalComunidades, $itensPorPagina, 'page_comunidade', $termo); ?>
-                    </div>
-                <?php endif; ?>
-            </div>
+    <div class="results-wrapper">
+        <!-- Usuários -->
+        <div class="result-section">
+            <h2>Usuários encontrados (<?= $totalUsuarios ?>)</h2>
+            <?php if (count($usuarios) === 0): ?>
+                <p class="no-results">Nenhum usuário encontrado.</p>
+            <?php else: ?>
+                <?php foreach ($usuarios as $user): ?>
+                    <div class="user-card"><?= htmlspecialchars($user['nome_usuario']) ?></div>
+                <?php endforeach; ?>
+                <div class="pagination">
+                    <?= criarLinkPagina($paginaUsuarios, $totalUsuarios, $itensPorPagina, 'page_usuario', $termo); ?>
+                </div>
+            <?php endif; ?>
         </div>
+
+        <!-- Comunidades -->
+        <div class="result-section">
+            <h2>Comunidades encontradas (<?= $totalComunidades ?>)</h2>
+            <?php if (count($comunidades) === 0): ?>
+                <p class="no-results">Nenhuma comunidade encontrada.</p>
+            <?php else: ?>
+                <?php foreach ($comunidades as $com): ?>
+                    <div class="community-card"><?= htmlspecialchars($com['nome_comunidade']) ?></div>
+                <?php endforeach; ?>
+                <div class="pagination">
+                    <?= criarLinkPagina($paginaComunidades, $totalComunidades, $itensPorPagina, 'page_comunidade', $termo); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
+
 
 <script src="../js/principal.js"></script>
 </body>

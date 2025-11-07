@@ -9,9 +9,9 @@ class Pesquisa {
         $this->conn = $conn;
     }
 
-    // ========================
-    // 🔍 BUSCA DE USUÁRIOS
-    // ========================
+
+    //  BUSCA DE USUÁRIOS
+ 
     public function buscarUsuarios($termo, $pagina = 1) {
         $offset = ($pagina - 1) * $this->itensPorPagina;
         $termo_esc = $this->conn->real_escape_string($termo);
@@ -38,9 +38,8 @@ class Pesquisa {
         return intval($data['total']);
     }
 
-    // ========================
-    // 👥 BUSCA DE COMUNIDADES
-    // ========================
+    //  BUSCA DE COMUNIDADES
+
     public function buscarComunidades($termo, $pagina = 1) {
         $offset = ($pagina - 1) * $this->itensPorPagina;
         $termo_esc = $this->conn->real_escape_string($termo);
@@ -67,9 +66,9 @@ class Pesquisa {
         return intval($data['total']);
     }
 
-    // ========================
-    // ⚙️ CONFIGURAÇÃO DE PAGINAÇÃO
-    // ========================
+
+    //  CONFIGURAÇÃO DE PAGINAÇÃO
+  
     public function setItensPorPagina($num) {
         $this->itensPorPagina = (int)$num;
     }
@@ -78,9 +77,9 @@ class Pesquisa {
         return $this->itensPorPagina;
     }
 
-    // ========================
-    // 🧩 BUSCA DE SEGUIDOS (quem o usuário logado segue)
-    // ========================
+
+    //BUSCA DE SEGUIDOS (quem o usuário logado segue)
+    
     public function buscarSeguidos($idUsuario, $termo = '', $pagina = 1) {
         $offset = ($pagina - 1) * $this->itensPorPagina;
         $termoLike = '%' . $termo . '%';
@@ -120,9 +119,8 @@ class Pesquisa {
         return $result['total'] ?? 0;
     }
 
-    // ========================
-    // 🧩 BUSCA DE SEGUIDORES (quem segue o usuário logado)
-    // ========================
+    // BUSCA DE SEGUIDORES (quem segue o usuário logado)
+
     public function buscarSeguidores($idUsuario, $termo = '', $pagina = 1) {
         $offset = ($pagina - 1) * $this->itensPorPagina;
         $termoLike = '%' . $termo . '%';

@@ -97,7 +97,7 @@
 .top-bar .search-container {
     display: flex;
     align-items: center;
-    background: white;
+    background: rgb(252, 252, 252);
     border-radius: 20px;
     overflow: hidden;
     flex: 1;
@@ -109,7 +109,7 @@
     border: none;
     outline: none;
     padding: 8px 12px;
-    width: 100%;
+    width: 10%;
     font-size: 15px;
 }
 
@@ -174,4 +174,85 @@
     .community-card {
         font-size: 1rem;
     }
+}
+
+.results-wrapper {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+}
+
+.result-section {
+    background: rgba(0, 0, 0, 0.331);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.user-card, .community-card {
+    background: rgb(255, 255, 255);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin: 0.5rem 0;
+}
+
+.user-card, .community-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin: 6px 0;
+    color: #000000;
+}
+
+.follow-btn {
+    background: #f9f9f9;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.follow-btn:hover {
+    background: #4dffff;
+}
+
+.follow-btn.ativo {
+    background: #00b050;
+    color: rgb(0, 0, 0);
+}
+
+.follow-btn {
+    background: linear-gradient(90deg, #00ffe1, #009dff);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #000;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95rem;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.follow-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #4dffff, #00bfff);
+}
+
+.follow-btn.ativo {
+    background: linear-gradient(90deg, #00c853, #00e676);
+    color: #000;
+    box-shadow: 0 0 6px #00ff80;
+}
+
+.follow-btn.ativo:hover {
+    background: linear-gradient(90deg, #00b050, #00ff88);
+    transform: scale(1.05);
 }

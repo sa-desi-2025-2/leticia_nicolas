@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/conexao.php';
-require_once __DIR__ . '/pesquisa_funcao.php'; // 🔍 lógica da pesquisa
+require_once __DIR__ . '/pesquisa_funcao.php';
 
 $termo = $_GET['q'] ?? '';
 $paginaUsuarios = intval($_GET['page_usuario'] ?? 1);

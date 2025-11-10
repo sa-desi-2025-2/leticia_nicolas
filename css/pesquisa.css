@@ -93,33 +93,49 @@
     color: #fff;
 }
 
-/* === BARRA DE PESQUISA (AJUSTADA) === */
-.top-bar .search-container {
+/* === BARRA DE PESQUISA CORRIGIDA === */
+.search-form {
     display: flex;
     align-items: center;
-    background: rgb(252, 252, 252);
-    border-radius: 20px;
-    overflow: hidden;
-    flex: 1;
-    max-width: 400px;
-    margin: 0 15px;
+    background: #fff;
+    border-radius: 25px;
+    border: 2px solid #00bfa5;
+    transition: 0.3s;
+    overflow: hidden; /* remove bordas brancas sobrando */
 }
 
-.top-bar .search-container input {
+.search-form:hover {
+    box-shadow: 0 0 8px #00fff7;
+}
+
+.search-form input {
+    flex: 1;
     border: none;
     outline: none;
-    padding: 8px 12px;
-    width: 10%;
+    padding: 10px 14px;
     font-size: 15px;
+    color: #000;
+    background: transparent;
 }
 
-.top-bar .search-btn {
-    background: none;
-    border: none;
-    padding: 8px 10px;
-    cursor: pointer;
-    font-size: 18px;
+.search-form input::placeholder {
+    color: #888;
 }
+
+/* 🔍 Botão corrigido */
+.search-form .search-btn {
+    background: #ffffff; /* mesma cor da borda */
+    border: none;
+    cursor: pointer;
+    padding: 10px 14px;
+    font-size: 18px;
+    color: white; /* cor do ícone */
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /* === AJUSTE GERAL DA TOP-BAR === */
 .top-bar {
@@ -255,4 +271,20 @@
 .follow-btn.ativo:hover {
     background: linear-gradient(90deg, #00b050, #00ff88);
     transform: scale(1.05);
+}
+
+.load-more-btn {
+    margin: 10px auto 0;
+    display: block;
+    padding: 8px 20px;
+    background: linear-gradient(90deg, #4dffff, #00bfff);
+    color: #000000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.load-more-btn:hover {
+    background: #ffffff;
 }

@@ -256,3 +256,58 @@
     background: linear-gradient(90deg, #00b050, #00ff88);
     transform: scale(1.05);
 }
+
+.user-list, .community-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-card, .community-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.follow-btn {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.follow-btn.seguindo {
+    background-color: #1900ff;
+    color: #000000;
+}
+
+.follow-btn:not(.seguindo) {
+    background-color: #ff0000;
+    color: #000000;
+}
+
+.follow-btn:hover:not(.seguindo) {
+    background-color: #ff0000;
+}
+
+.load-more-btn {
+    margin: 10px auto 0;
+    display: block;
+    padding: 8px 20px;
+    background: linear-gradient(90deg, #4dffff, #00bfff);
+    color: #000000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.load-more-btn:hover {
+    background: #ffffff;
+}

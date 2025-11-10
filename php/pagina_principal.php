@@ -2,6 +2,11 @@
 session_start();
 require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/pesquisa_funcao.php';
+require_once __DIR__ . '/Seguidor.php';
+
+// 🔹 Instancia a classe de seguidores
+$seguidor = new Seguidor();
+$idLogado = $_SESSION['id_usuario'] ?? 0;
 
 $termo = $_GET['q'] ?? '';
 $paginaUsuarios = intval($_GET['page_usuario'] ?? 1);
@@ -21,6 +26,7 @@ if (!empty($termo)) {
     <title>Checkpoint</title>
     <link rel="stylesheet" href="../css/pagina_principal.css">
     <link rel="stylesheet" href="../css/pesquisa.css">
+   
 </head>
 <body>
 
@@ -74,47 +80,67 @@ if (!empty($termo)) {
     <?php if (!empty($termo)): ?>
         <div class="content">
             <div class="results-wrapper">
-                <!-- Usuários -->
-                <div class="result-section">
-                    <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?>)</h2>
-                    <?php if (count($resultado['usuarios']) === 0): ?>
-                        <p class="no-results">Nenhum usuário encontrado.</p>
-                    <?php else: ?>
-                        <?php foreach ($resultado['usuarios'] as $user): ?>
-                            <div class="user-card">
-                                <span><?= htmlspecialchars($user['nome_usuario']) ?></span>
-                                <button 
-                                    class="follow-btn" 
-                                    data-id="<?= $user['id_usuario'] ?>" 
-                                    data-tipo="usuario"
-                                >
-                                    Seguir
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
 
-                <!-- Comunidades -->
-                <div class="result-section">
-                    <h2>Comunidades encontradas (<?= $resultado['totalComunidades'] ?>)</h2>
-                    <?php if (count($resultado['comunidades']) === 0): ?>
-                        <p class="no-results">Nenhuma comunidade encontrada.</p>
-                    <?php else: ?>
-                        <?php foreach ($resultado['comunidades'] as $com): ?>
-                            <div class="community-card">
-                                <span><?= htmlspecialchars($com['nome_comunidade']) ?></span>
-                                <button 
-                                    class="follow-btn" 
-                                    data-id="<?= $com['id_comunidade'] ?>" 
-                                    data-tipo="comunidade"
-                                >
-                                    Seguir
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+     <!-- Usuários -->
+<div class="result-section">
+    <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?>)</h2>
+    <div class="user-list">
+        <?php if (count($resultado['usuarios']) === 0): ?>
+            <p class="no-results">Nenhum usuário encontrado.</p>
+        <?php else: ?>
+            <?php foreach ($resultado['usuarios'] as $index => $user): ?>
+                <?php 
+                    $jaSegue = $seguidor->verificaSeguindo($idLogado, $user['id_usuario']); 
+                    $textoBotao = $jaSegue ? "Seguindo" : "Seguir";
+                    $classeExtra = $jaSegue ? "seguindo" : "";
+                ?>
+                <div class="user-card" style="<?= $index >= 5 ? 'display:none;' : '' ?>">
+                    <span><?= htmlspecialchars($user['nome_usuario']) ?></span>
+                    <button 
+                        class="follow-btn <?= $classeExtra ?>" 
+                        data-id="<?= $user['id_usuario'] ?>" 
+                        data-tipo="usuario"
+                    >
+                        <?= $textoBotao ?>
+                    </button>
                 </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+
+    <?php if(count($resultado['usuarios']) > 5): ?>
+        <button class="load-more-btn" data-target="user-list">Ver mais usuários</button>
+    <?php endif; ?>
+</div>
+
+<!-- Comunidades -->
+<div class="result-section">
+    <h2>Comunidades encontradas (<?= $resultado['totalComunidades'] ?>)</h2>
+    <div class="community-list">
+        <?php if (count($resultado['comunidades']) === 0): ?>
+            <p class="no-results">Nenhuma comunidade encontrada.</p>
+        <?php else: ?>
+            <?php foreach ($resultado['comunidades'] as $index => $com): ?>
+                <div class="community-card" style="<?= $index >= 5 ? 'display:none;' : '' ?>">
+                    <span><?= htmlspecialchars($com['nome_comunidade']) ?></span>
+                    <button 
+                        class="follow-btn" 
+                        data-id="<?= $com['id_comunidade'] ?>" 
+                        data-tipo="comunidade"
+                    >
+                        Seguir
+                    </button>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+
+    <?php if(count($resultado['comunidades']) > 5): ?>
+        <button class="load-more-btn" data-target="community-list">Ver mais comunidades</button>
+    <?php endif; ?>
+</div>
+
+
             </div>
         </div>
     <?php endif; ?>
@@ -122,5 +148,6 @@ if (!empty($termo)) {
     <!-- Scripts -->
     <script src="../js/principal.js"></script>
     <script src="../js/seguir.js"></script>
+
 </body>
 </html>

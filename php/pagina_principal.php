@@ -51,7 +51,7 @@ if (!empty($termo)) {
 
         <!-- 🔍 PESQUISA FUNCIONAL -->
         <div class="search-container">
-            <form method="GET" action="">
+            <form method="GET" action="" class="search-form">
                 <input 
                     type="text" 
                     name="q" 

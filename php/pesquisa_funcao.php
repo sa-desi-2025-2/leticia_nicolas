@@ -2,12 +2,11 @@
 require_once 'Pesquisa_Classe.php';
 require_once 'conexao.php';
 
-function executarPesquisa($termo, $paginaUsuarios = 1, $paginaComunidades = 1, $itensPorPagina = 5) {
+function executarPesquisa($termo, $paginaUsuarios = 1, $paginaComunidades = 1) {
     $conexao = new Conexao();
     $conn = $conexao->getCon();
 
     $pesquisa = new Pesquisa($conn);
-    $pesquisa->setItensPorPagina($itensPorPagina);
 
     $usuarios = [];
     $comunidades = [];

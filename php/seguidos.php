@@ -1,6 +1,11 @@
 <?php
 session_start();
+
+require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/Seguidor.php';
+
+$seguidor = new Seguidor();
+$seguidos = $seguidor->listarSeguidos($_SESSION['id_usuario']);
 
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: login.php");

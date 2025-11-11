@@ -1,7 +1,22 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/pesquisa_funcao.php';
+require_once __DIR__ . '/Seguidor.php'; // ✅ ADICIONADO
+
+// Se o usuário não for admin, redireciona para a página comum
+if ($_SESSION['tipo_usuario'] !== 'admin') {
+    header("Location: pagina_principal.php");
+    exit();
+}
+
+// ✅ Instancia o seguidor e pega o ID do logado
+$seguidor = new Seguidor();
+$idLogado = $_SESSION['id_usuario'] ?? 0;
 
 $termo = $_GET['q'] ?? '';
 $paginaUsuarios = intval($_GET['page_usuario'] ?? 1);
@@ -75,6 +90,7 @@ if (!empty($termo)) {
     <?php if (!empty($termo)): ?>
         <div class="content">
             <div class="results-wrapper">
+
                 <!-- Usuários -->
                 <div class="result-section">
                     <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?>)</h2>
@@ -82,14 +98,20 @@ if (!empty($termo)) {
                         <p class="no-results">Nenhum usuário encontrado.</p>
                     <?php else: ?>
                         <?php foreach ($resultado['usuarios'] as $user): ?>
+                            <?php 
+                                // ✅ Verifica se o admin já segue o usuário
+                                $jaSegue = $seguidor->verificaSeguindo($idLogado, $user['id_usuario']); 
+                                $textoBotao = $jaSegue ? "Seguindo" : "Seguir";
+                                $classeExtra = $jaSegue ? "seguindo" : "";
+                            ?>
                             <div class="user-card">
                                 <span><?= htmlspecialchars($user['nome_usuario']) ?></span>
                                 <button 
-                                    class="follow-btn" 
+                                    class="follow-btn <?= $classeExtra ?>" 
                                     data-id="<?= $user['id_usuario'] ?>" 
                                     data-tipo="usuario"
                                 >
-                                    Seguir
+                                    <?= $textoBotao ?>
                                 </button>
                             </div>
                         <?php endforeach; ?>
@@ -116,6 +138,7 @@ if (!empty($termo)) {
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
+
             </div>
         </div>
     <?php endif; ?>

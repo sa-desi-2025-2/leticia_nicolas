@@ -1,8 +1,16 @@
 <?php
 session_start();
+
+require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/pesquisa_funcao.php';
 require_once __DIR__ . '/Seguidor.php';
+
+// Se o usuário for admin, redireciona para a página de admin
+if ($_SESSION['tipo_usuario'] === 'admin') {
+    header("Location: pagina_principal_adm.php");
+    exit();
+}
 
 // 🔹 Instancia a classe de seguidores
 $seguidor = new Seguidor();

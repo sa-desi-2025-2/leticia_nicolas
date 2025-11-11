@@ -217,4 +217,101 @@ body {
         width: 100px;
     }
 }
+  /* === MENU DO USUÁRIO LATERAL === */
+        .user-menu {
+            position: relative;
+        }
 
+        .user-icon img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .user-icon img:hover {
+            transform: scale(1.1);
+        }
+
+        .dropdown-side {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 260px;
+            height: 100vh;
+            background: rgba(255, 0, 0, 0.95);
+            backdrop-filter: blur(6px);
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.4);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+            transition: right 0.4s ease;
+            z-index: 999;
+        }
+
+        .dropdown-side.show {
+            right: 0;
+        }
+
+        .dropdown-side .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dropdown-side .profile-section img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #00bfa5;
+            margin-bottom: 10px;
+            box-shadow: 0 0 12px #00bfa5;
+        }
+
+        .dropdown-side .profile-section h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            text-align: left;
+        }
+
+        .menu-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 25px;
+            font-size: 16px;
+            display: block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s;
+        }
+
+        .menu-links a:hover {
+            background: #00bfa5;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 998;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
+        }

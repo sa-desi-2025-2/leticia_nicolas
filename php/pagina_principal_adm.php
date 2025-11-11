@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/pesquisa_funcao.php';
-require_once __DIR__ . '/Seguidor.php'; // ✅ ADICIONADO
+require_once __DIR__ . '/Seguidor.php';
 
 // Se o usuário não for admin, redireciona para a página comum
 if ($_SESSION['tipo_usuario'] !== 'admin') {
@@ -14,7 +14,7 @@ if ($_SESSION['tipo_usuario'] !== 'admin') {
     exit();
 }
 
-// ✅ Instancia o seguidor e pega o ID do logado
+// Instancia o seguidor e pega o ID do logado
 $seguidor = new Seguidor();
 $idLogado = $_SESSION['id_usuario'] ?? 0;
 
@@ -34,8 +34,13 @@ if (!empty($termo)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkpoint - Administração</title>
+    
+    <!-- CSS principal -->
     <link rel="stylesheet" href="../css/pagina_principal.css">
     <link rel="stylesheet" href="../css/pesquisa.css">
+    
+    <!-- CSS dropdown separado -->
+    <link rel="stylesheet" href="../css/dropdown.css">
 </head>
 <body>
 
@@ -71,17 +76,37 @@ if (!empty($termo)) {
             </form>
         </div>
 
-        <!-- ✅ MENU DO USUÁRIO -->
+        <!-- ✅ MENU DO USUÁRIO MELHORADO -->
         <div class="user-menu">
+            <!-- Foto fora do menu -->
             <div class="user-icon" id="userButton">
                 <img src="<?php echo $_SESSION['foto_perfil'] ?? '../uploads/default.png'; ?>" alt="Usuário">
             </div>
-            <div class="dropdown" id="dropdownMenu">
-                <a href="perfil.php">Perfil</a>
-                <a href="">Categorias</a>
-                <a href="pagina_principal_contas.php">Contas</a> <!-- Link adicional do ADM -->
-                <a href="seguidos.php">Seguidos</a>
-                <a href="login_estrutura.php">Sair</a>
+
+            <!-- Dropdown lateral -->
+            <div class="dropdown-side" id="dropdownMenu">
+                <div class="profile-section">
+                    <img src="<?php echo $_SESSION['foto_perfil'] ?? '../uploads/default.png'; ?>" alt="Usuário">
+                    <h3><?= htmlspecialchars($_SESSION['nome_usuario'] ?? 'Usuário') ?></h3>
+                </div>
+                <nav class="menu-links">
+                    <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=114064&format=png&color=000000" alt="perfil"class="menu-icon"> Perfil </a>
+                    <a href="#">    <img src="https://img.icons8.com/?size=100&id=Y4iiHf14d1s-&format=png&color=000000" 
+         alt="categorias" 
+         class="menu-icon">Categorias</a>
+                    <a href="pagina_principal_contas.php">
+    <img src="https://img.icons8.com/?size=100&id=5C8hsbjJbPLz&format=png&color=000000" 
+         alt="Contas" 
+         class="menu-icon">
+    Contas
+</a>
+                    <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=779&format=png&color=000000" 
+         alt="seguidos" 
+         class="menu-icon"> Seguidos</a>
+                    <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=22112&format=png&color=000000" 
+         alt="sair" 
+         class="menu-icon"> Sair</a>
+                </nav>
             </div>
         </div>
     </div>
@@ -99,7 +124,6 @@ if (!empty($termo)) {
                     <?php else: ?>
                         <?php foreach ($resultado['usuarios'] as $user): ?>
                             <?php 
-                                // ✅ Verifica se o admin já segue o usuário
                                 $jaSegue = $seguidor->verificaSeguindo($idLogado, $user['id_usuario']); 
                                 $textoBotao = $jaSegue ? "Seguindo" : "Seguir";
                                 $classeExtra = $jaSegue ? "seguindo" : "";
@@ -143,8 +167,11 @@ if (!empty($termo)) {
         </div>
     <?php endif; ?>
 
-    <!-- Scripts -->
+  
+
+    <!-- JS -->
     <script src="../js/principal.js"></script>
     <script src="../js/seguir.js"></script>
+   
 </body>
 </html>

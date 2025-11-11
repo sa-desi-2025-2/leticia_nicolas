@@ -36,9 +36,15 @@ $email = $dados['email_usuario'] ?? '';
     <div class="topo">
         <div class="logo">
             <img src="../img/logo.png" alt="Checkpoint Logo">
-             <a href="pagina_principal.php">                                                  <!--  ARRUMAR -->
+            <?php
+            $homeLink = ($_SESSION['tipo_usuario'] === 'admin') 
+                ? 'pagina_principal_adm.php' 
+                : 'pagina_principal.php';
+            ?>
+            <a href="<?= $homeLink ?>">
                 <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home">
             </a>
+
         </div>
 
         <div class="user-menu">

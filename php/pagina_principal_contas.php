@@ -1,6 +1,17 @@
 <?php
-session_start(); // ✅ necessário para acessar a imagem da sessão
+session_start();
+
+require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/usuario.php';
+
+// Bloqueia quem não for admin
+if ($_SESSION['tipo_usuario'] !== 'admin') {
+    header("Location: pagina_principal.php");
+    exit();
+}
+
+$usuario = new Usuario();
+$usuarios = $usuario->listarUsuarios();
 
 $usuario = new Usuario();
 $usuarios = $usuario->listarUsuarios(); // busca todos os usuários

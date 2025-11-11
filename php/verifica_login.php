@@ -2,26 +2,32 @@
 session_start();
 require_once 'Login.php';
 
+// Verifica se veio via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = new Login();
-    $login->setEmail(trim($_POST['email']));
-    $login->setSenha(trim($_POST['senha']));
 
-    // tenta autenticar o usuario
-    if ($login->autenticar()) {
-        //se o login.php redirecionar o usuario o codigo abaixo não roda
+    // Remove espaços e define email/senha
+    $login->setEmail(trim($_POST['email'] ?? ''));
+    $login->setSenha(trim($_POST['senha'] ?? ''));
+
+    // Tenta autenticar
+    $autenticado = $login->autenticar();
+
+    // Se o login for bem-sucedido, o próprio login.php já redireciona
+    if ($autenticado) {
         exit;
     } else {
-        // se falhou email ou senha errados ou conta desativada
+        // Exibe erro (já setado dentro de Login.php)
         if (empty($_SESSION['login_error'])) {
-            $_SESSION['login_error'] = "E-mail ou senha incorretos";
+            $_SESSION['login_error'] = "E-mail ou senha incorretos.";
         }
 
-        header("Location: login_estrutura.php"); 
+        header("Location: login_estrutura.php");
         exit;
     }
-} else {
-    header("Location: login_estrutura.php");
-    exit;
 }
+
+// Se não for POST, redireciona de volta para o login
+header("Location: login_estrutura.php");
+exit;
 ?>

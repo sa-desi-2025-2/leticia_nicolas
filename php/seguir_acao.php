@@ -1,6 +1,11 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/Seguidor.php';
+
+header('Content-Type: application/json');
 
 if (!isset($_SESSION['id_usuario'])) {
     echo json_encode(['status' => 'erro', 'mensagem' => 'Usuário não logado']);
@@ -18,6 +23,4 @@ if ($idSeguido <= 0) {
 $seguidor = new Seguidor();
 $resposta = $seguidor->seguir($idSeguidor, $idSeguido);
 
-header('Content-Type: application/json');
 echo json_encode($resposta);
-?>

@@ -235,4 +235,252 @@
       height: 120px;
     }
   }
-  
+  /* ===== RESET E BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Fundo gamer */
+body {
+  background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg')
+    no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== TOPO ===== */
+.topo {
+  margin-left: 80px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: transparent;
+}
+
+.topo .logo {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.topo .logo img {
+  height: 90px;
+}
+
+.topo .user-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.topo .user-icon img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: transparent;
+  padding: 5px;
+  cursor: pointer;
+}
+
+/* ===== PERFIL ===== */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.perfil-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.perfil-box {
+  background: rgba(255, 240, 255, 0.95);
+  border-radius: 12px;
+  padding: 40px;
+  width: 85%;
+  max-width: 950px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  gap: 40px;
+}
+
+/* ===== CAMPOS ===== */
+.linha-campos {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.campo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.campo label {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+.campo input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid #aaa;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.campo input:focus {
+  border-color: #a678ff;
+  box-shadow: 0 0 6px #a678ff;
+}
+
+/* ===== BOTÕES ===== */
+.btn-alterar,
+.perfil-info button,
+.perfil-foto button {
+  background-color: #a678ff;
+  border: none;
+  color: white;
+  padding: 8px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.btn-alterar:hover,
+.perfil-info button:hover,
+.perfil-foto button:hover {
+  background-color: #00c3ff;
+  box-shadow: 0 0 10px #00c3ff;
+}
+
+/* ===== PERFIL INFO ===== */
+.perfil-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #000;
+}
+
+/* ===== ALTERAR SENHA ===== */
+.alterar-senha {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #000;
+  margin-top: 15px;
+}
+
+.alterar-senha label {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: -5px;
+}
+
+.alterar-senha input {
+  width: 90%;
+  padding: 8px 10px;
+  border: 1.5px solid #aaa;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.alterar-senha input:focus {
+  border-color: #a678ff;
+  box-shadow: 0 0 6px #a678ff;
+}
+
+/* ===== FOTO PERFIL ===== */
+.perfil-foto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 0.5;
+  gap: 10px;
+  color: #000;
+}
+
+.perfil-foto img,
+.foto-perfil {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid #a07eff;
+  background: white;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+input[type="file"] {
+  margin: 10px 0;
+}
+
+/* ===== LOGO ICON ===== */
+.topo .logo img[src*="img.icons8.com"] {
+  width: 70px;
+  height: 60px;
+  object-fit: contain;
+  margin-left: 140px;
+  filter: brightness(0) invert(1);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .perfil-box {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .linha-campos {
+    flex-direction: column;
+  }
+
+  .perfil-info input,
+  .alterar-senha input {
+    width: 100%;
+  }
+
+  .perfil-foto img {
+    width: 120px;
+    height: 120px;
+  }
+}
+/* Esconde todas as abas inicialmente */
+.tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Mostra apenas a aba ativa */
+.tab-content.active {
+  display: block;
+  opacity: 1;
+}

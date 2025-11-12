@@ -30,28 +30,22 @@ class Usuario {
         $db = new Conexao();
         $conn = $db->getCon();
 
-        // Verifica se o e-mail já está em uso
         $sql = "SELECT id_usuario FROM usuarios WHERE email_usuario = ?";
         $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            die("Erro na preparação da consulta: " . $conn->error);
-        }
+        if (!$stmt) die("Erro na preparação da consulta: " . $conn->error);
 
         $stmt->bind_param("s", $this->email);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result && $result->num_rows > 0) {
-            return false; // Já existe usuário com esse e-mail
+            return false;
         }
 
-        // Insere novo usuário
         $sql = "INSERT INTO usuarios (nome_usuario, email_usuario, data_nascimento, senha_hash)
                 VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            die("Erro na preparação do INSERT: " . $conn->error);
-        }
+        if (!$stmt) die("Erro na preparação do INSERT: " . $conn->error);
 
         $stmt->bind_param("ssss", $this->nome, $this->email, $this->data_nascimento, $this->senha);
         return $stmt->execute();
@@ -62,47 +56,40 @@ class Usuario {
         $db = new Conexao();
         $conn = $db->getCon();
 
-        $sql = "SELECT id_usuario, nome_usuario, email_usuario, tipo_usuario, ativo, foto_perfil 
+        $sql = "SELECT id_usuario, nome_usuario, email_usuario, tipo_usuario, ativo, foto_perfil, foto_banner, bio 
                 FROM usuarios";
         $result = $conn->query($sql);
 
-        if (!$result) {
-            die("Erro ao buscar usuários: " . $conn->error);
-        }
+        if (!$result) die("Erro ao buscar usuários: " . $conn->error);
 
         $usuarios = [];
         while ($row = $result->fetch_assoc()) {
             $usuarios[] = $row;
         }
-
         return $usuarios;
     }
 
-    // ---------- Ativar / Desativar usuário ----------
+    // ---------- Ativar / Desativar ----------
     public function alterarStatus($id_usuario, $novoStatus) {
         $db = new Conexao();
         $conn = $db->getCon();
-    
+
         $sql = "UPDATE usuarios SET ativo = ? WHERE id_usuario = ?";
         $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            die("Erro na preparação do UPDATE: " . $conn->error);
-        }
+        if (!$stmt) die("Erro na preparação do UPDATE: " . $conn->error);
 
         $stmt->bind_param("ii", $novoStatus, $id_usuario);
         return $stmt->execute();
     }
 
-    // ---------- Buscar usuário por ID ----------
+    // ---------- Buscar por ID ----------
     public function buscarPorId($id_usuario) {
         $db = new Conexao();
         $conn = $db->getCon();
 
         $sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
         $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            die("Erro na preparação da busca: " . $conn->error);
-        }
+        if (!$stmt) die("Erro na preparação da busca: " . $conn->error);
 
         $stmt->bind_param("i", $id_usuario);
         $stmt->execute();
@@ -111,16 +98,14 @@ class Usuario {
         return $result ? $result->fetch_assoc() : null;
     }
 
-    // ---------- Atualizar nome e e-mail ----------
+    // ---------- Atualizar dados básicos ----------
     public function atualizarDados($id_usuario, $nome, $email) {
         $db = new Conexao();
         $conn = $db->getCon();
 
         $sql = "UPDATE usuarios SET nome_usuario = ?, email_usuario = ? WHERE id_usuario = ?";
         $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            die("Erro na preparação do UPDATE: " . $conn->error);
-        }
+        if (!$stmt) die("Erro na preparação do UPDATE: " . $conn->error);
 
         $stmt->bind_param("ssi", $nome, $email, $id_usuario);
         return $stmt->execute();
@@ -133,9 +118,7 @@ class Usuario {
 
         $sql = "UPDATE usuarios SET foto_perfil = ? WHERE id_usuario = ?";
         $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            die("Erro na preparação do UPDATE: " . $conn->error);
-        }
+        if (!$stmt) die("Erro na preparação do UPDATE: " . $conn->error);
 
         $stmt->bind_param("si", $caminho, $id_usuario);
         return $stmt->execute();
@@ -150,11 +133,41 @@ class Usuario {
 
         $sql = "UPDATE usuarios SET senha_hash = ? WHERE id_usuario = ?";
         $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            die("Erro na preparação do UPDATE: " . $conn->error);
-        }
+        if (!$stmt) die("Erro na preparação do UPDATE: " . $conn->error);
 
         $stmt->bind_param("si", $hash, $id_usuario);
+        return $stmt->execute();
+    }
+
+    // ---------- NOVO MÉTODO: Atualizar perfil completo ----------
+    public function atualizarPerfil($id, $nome, $email, $bio, $fotoPerfil = null, $fotoBanner = null) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $sql = "UPDATE usuarios SET nome_usuario = ?, email_usuario = ?, bio = ?";
+        $params = [$nome, $email, $bio];
+        $tipos = "sss";
+
+        if ($fotoPerfil) {
+            $sql .= ", foto_perfil = ?";
+            $params[] = $fotoPerfil;
+            $tipos .= "s";
+        }
+
+        if ($fotoBanner) {
+            $sql .= ", foto_banner = ?";
+            $params[] = $fotoBanner;
+            $tipos .= "s";
+        }
+
+        $sql .= " WHERE id_usuario = ?";
+        $params[] = $id;
+        $tipos .= "i";
+
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) die("Erro na preparação do UPDATE: " . $conn->error);
+
+        $stmt->bind_param($tipos, ...$params);
         return $stmt->execute();
     }
 }

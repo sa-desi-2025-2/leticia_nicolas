@@ -67,5 +67,6 @@ class Seguidor {
         $result = $stmt->get_result();
         return $result->num_rows > 0;
     }
+    
 }
 ?>

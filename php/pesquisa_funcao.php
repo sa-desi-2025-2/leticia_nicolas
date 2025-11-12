@@ -7,6 +7,7 @@ function executarPesquisa($termo, $paginaUsuarios = 1, $paginaComunidades = 1) {
     $conn = $conexao->getCon();
 
     $pesquisa = new Pesquisa($conn);
+    $pesquisa->setItensPorPagina(10);
 
     $usuarios = [];
     $comunidades = [];
@@ -15,10 +16,10 @@ function executarPesquisa($termo, $paginaUsuarios = 1, $paginaComunidades = 1) {
 
     if (trim($termo) !== '') {
         $usuarios = $pesquisa->buscarUsuarios($termo, $paginaUsuarios);
-        $totalUsuarios = $pesquisa->totalUsuarios();
+        $totalUsuarios = $pesquisa->totalUsuarios($termo);
 
         $comunidades = $pesquisa->buscarComunidades($termo, $paginaComunidades);
-        $totalComunidades = $pesquisa->totalComunidades();
+        $totalComunidades = $pesquisa->totalComunidades($termo);
     }
 
     return [

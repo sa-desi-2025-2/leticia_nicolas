@@ -26,12 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const items = lista.children;
             let mostrados = 0;
 
-            // conta quantos estão visíveis
+            // Conta quantos estão visíveis
             for (let i = 0; i < items.length; i++) {
                 if (items[i].style.display !== "none") mostrados++;
             }
 
-            // mostra próximos 5
+            // Mostra próximos 5
             let mostradosAgora = 0;
             for (let i = mostrados; i < items.length; i++) {
                 if (mostradosAgora >= 5) break;
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 mostradosAgora++;
             }
 
-            // se todos já estiverem visíveis, remove o botão
+            // Se todos já estiverem visíveis, remove o botão
             let todosVisiveis = true;
             for (let i = 0; i < items.length; i++) {
                 if (items[i].style.display === "none") todosVisiveis = false;

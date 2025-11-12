@@ -1,0 +1,22 @@
+/* === SIDEBAR COM COMUNIDADES === */
+.sidebar .menu-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.sidebar .community-icon img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #ffffff80;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s;
+}
+
+.sidebar .community-icon img:hover {
+    transform: scale(1.1);
+    border-color: #00ffd0;
+}

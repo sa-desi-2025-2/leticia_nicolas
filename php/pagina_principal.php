@@ -6,7 +6,7 @@ require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/pesquisa_funcao.php';
 require_once __DIR__ . '/Seguidor.php';
 
-// Se o usuário for admin, redireciona
+// Redireciona se for admin
 if ($_SESSION['tipo_usuario'] === 'admin') {
     header("Location: pagina_principal_adm.php");
     exit();
@@ -15,6 +15,28 @@ if ($_SESSION['tipo_usuario'] === 'admin') {
 $seguidor = new Seguidor();
 $idLogado = $_SESSION['id_usuario'] ?? 0;
 
+$conexao = new Conexao();
+$conn = $conexao->getCon();
+
+// === BUSCA COMUNIDADES DO USUÁRIO ===
+$comunidadesUsuario = [];
+$stmtComunidades = $conn->prepare("
+    SELECT c.id_comunidade, c.nome_comunidade, c.imagem_comunidade
+    FROM usuarios_comunidades uc
+    JOIN comunidades c ON uc.id_comunidade = c.id_comunidade
+    WHERE uc.id_usuario = ?
+");
+$stmtComunidades->bind_param("i", $idLogado);
+$stmtComunidades->execute();
+$resultComunidades = $stmtComunidades->get_result();
+
+while ($row = $resultComunidades->fetch_assoc()) {
+    $comunidadesUsuario[] = $row;
+}
+
+$stmtComunidades->close();
+
+// === PESQUISA ===
 $termo = $_GET['q'] ?? '';
 $paginaUsuarios = intval($_GET['page_usuario'] ?? 1);
 $paginaComunidades = intval($_GET['page_comunidade'] ?? 1);
@@ -24,7 +46,8 @@ if (!empty($termo)) {
     $resultado = executarPesquisa($termo, $paginaUsuarios, $paginaComunidades);
 }
 
-function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagina, $termo) {
+function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagina, $termo)
+{
     $totalPaginas = ceil($totalItens / $itensPorPagina);
     if ($paginaAtual < $totalPaginas) {
         $proximaPagina = $paginaAtual + 1;
@@ -46,16 +69,29 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     <link rel="stylesheet" href="../css/pagina_principal.css">
     <link rel="stylesheet" href="../css/pesquisa.css">
     <link rel="stylesheet" href="../css/dropdown.css">
+    <link rel="stylesheet" href="../css/sidebar_comunidades.css"> <!-- NOVO CSS -->
 </head>
 <body>
 
+<!-- === SIDEBAR COM COMUNIDADES === -->
 <aside class="sidebar">
     <div class="menu-icons">
-        <div class="icon"></div><div class="icon"></div><div class="icon"></div><div class="icon"></div>
+        <?php if (count($comunidadesUsuario) > 0): ?>
+            <?php foreach ($comunidadesUsuario as $com): ?>
+                <a href="comunidade.php?id=<?= $com['id_comunidade'] ?>" class="community-icon">
+                    <img src="<?= !empty($com['imagem_comunidade']) ? '../uploads/' . htmlspecialchars($com['imagem_comunidade']) : '../img/default_comunidade.png' ?>" 
+                         alt="<?= htmlspecialchars($com['nome_comunidade']) ?>">
+                </a>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <!-- Ícones padrão -->
+            <div class="icon"></div><div class="icon"></div><div class="icon"></div><div class="icon"></div>
+        <?php endif; ?>
     </div>
     <div class="add-icon">+</div>
 </aside>
 
+<!-- === TOPO === -->
 <div class="top-bar">
     <div class="logo"><img src="../img/logo.png" alt="Checkpoint Logo"></div>
     <button class="btn-post">Criar Post</button>
@@ -86,6 +122,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     </div>
 </div>
 
+<!-- === RESULTADOS DE PESQUISA === -->
 <?php if (!empty($termo)): ?>
 <div class="content">
     <div class="results-wrapper">

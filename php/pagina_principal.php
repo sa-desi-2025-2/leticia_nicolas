@@ -6,7 +6,6 @@ require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/pesquisa_funcao.php';
 require_once __DIR__ . '/Seguidor.php';
 
-// Redireciona se for admin
 if ($_SESSION['tipo_usuario'] === 'admin') {
     header("Location: pagina_principal_adm.php");
     exit();
@@ -18,7 +17,7 @@ $idLogado = $_SESSION['id_usuario'] ?? 0;
 $conexao = new Conexao();
 $conn = $conexao->getCon();
 
-// === BUSCA COMUNIDADES DO USUÁRIO ===
+// === COMUNIDADES DO USUÁRIO ===
 $comunidadesUsuario = [];
 $stmtComunidades = $conn->prepare("
     SELECT c.id_comunidade, c.nome_comunidade, c.imagem_comunidade
@@ -33,8 +32,36 @@ $resultComunidades = $stmtComunidades->get_result();
 while ($row = $resultComunidades->fetch_assoc()) {
     $comunidadesUsuario[] = $row;
 }
-
 $stmtComunidades->close();
+
+// === CATEGORIAS ===
+$stmtCheck = $conn->prepare("SELECT COUNT(*) AS total FROM usuarios_categorias WHERE id_usuario = ?");
+$stmtCheck->bind_param("i", $idLogado);
+$stmtCheck->execute();
+$resultCheck = $stmtCheck->get_result()->fetch_assoc();
+$temCategorias = ($resultCheck['total'] > 0);
+$stmtCheck->close();
+
+// Todas as categorias
+$categorias = [];
+$stmtCategorias = $conn->prepare("SELECT id_categoria, nome_categoria FROM categorias");
+$stmtCategorias->execute();
+$resultCategorias = $stmtCategorias->get_result();
+while ($cat = $resultCategorias->fetch_assoc()) {
+    $categorias[] = $cat;
+}
+$stmtCategorias->close();
+
+// Categorias já salvas pelo usuário
+$categoriasSelecionadas = [];
+$stmtUserCats = $conn->prepare("SELECT id_categoria FROM usuarios_categorias WHERE id_usuario = ?");
+$stmtUserCats->bind_param("i", $idLogado);
+$stmtUserCats->execute();
+$resUserCats = $stmtUserCats->get_result();
+while ($row = $resUserCats->fetch_assoc()) {
+    $categoriasSelecionadas[] = $row['id_categoria'];
+}
+$stmtUserCats->close();
 
 // === PESQUISA ===
 $termo = $_GET['q'] ?? '';
@@ -69,23 +96,19 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     <link rel="stylesheet" href="../css/pagina_principal.css">
     <link rel="stylesheet" href="../css/pesquisa.css">
     <link rel="stylesheet" href="../css/dropdown.css">
-    <link rel="stylesheet" href="../css/sidebar_comunidades.css"> <!-- NOVO CSS -->
+    <link rel="stylesheet" href="../css/sidebar_comunidades.css">
 </head>
 <body>
 
-<!-- === SIDEBAR COM COMUNIDADES === -->
+<!-- === SIDEBAR === -->
 <aside class="sidebar">
     <div class="menu-icons">
         <?php if (count($comunidadesUsuario) > 0): ?>
             <?php foreach ($comunidadesUsuario as $com): ?>
                 <a href="comunidade.php?id=<?= $com['id_comunidade'] ?>" class="community-icon">
-                    <img src="<?= !empty($com['imagem_comunidade']) ? '../uploads/' . htmlspecialchars($com['imagem_comunidade']) : '../img/default_comunidade.png' ?>" 
-                         alt="<?= htmlspecialchars($com['nome_comunidade']) ?>">
+                    <img src="<?= !empty($com['imagem_comunidade']) ? '../uploads/' . htmlspecialchars($com['imagem_comunidade']) : '../img/default_comunidade.png' ?>" alt="<?= htmlspecialchars($com['nome_comunidade']) ?>">
                 </a>
             <?php endforeach; ?>
-        <?php else: ?>
-            <!-- Ícones padrão -->
-            <div class="icon"></div><div class="icon"></div><div class="icon"></div><div class="icon"></div>
         <?php endif; ?>
     </div>
     <div class="add-icon">+</div>
@@ -114,7 +137,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             </div>
             <nav class="menu-links">
                 <a href="perfil.php">Perfil</a>
-                <a href="#">Categorias</a>
+                <a href="#" id="abrirCategorias">Categorias</a>
                 <a href="seguidos.php">Seguidos</a>
                 <a href="login_estrutura.php">Sair</a>
             </nav>
@@ -122,11 +145,10 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     </div>
 </div>
 
-<!-- === RESULTADOS DE PESQUISA === -->
+<!-- === RESULTADOS === -->
 <?php if (!empty($termo)): ?>
 <div class="content">
     <div class="results-wrapper">
-
         <!-- Usuários -->
         <div class="result-section">
             <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?>)</h2>
@@ -141,40 +163,81 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                     ?>
                     <div class="user-card">
                         <span><?= htmlspecialchars($user['nome_usuario']) ?></span>
-                        <button class="follow-btn <?= $classeExtra ?>" data-id="<?= $user['id_usuario'] ?>" data-tipo="usuario">
-                            <?= $textoBotao ?>
-                        </button>
+                        <button class="follow-btn <?= $classeExtra ?>" data-id="<?= $user['id_usuario'] ?>" data-tipo="usuario"><?= $textoBotao ?></button>
                     </div>
                 <?php endforeach; ?>
-                <div class="pagination">
-                    <?= criarLinkPagina($paginaUsuarios, $resultado['totalUsuarios'], 10, 'page_usuario', $termo); ?>
-                </div>
+                <div class="pagination"><?= criarLinkPagina($paginaUsuarios, $resultado['totalUsuarios'], 10, 'page_usuario', $termo); ?></div>
             <?php endif; ?>
         </div>
-
-        <!-- Comunidades -->
-        <div class="result-section">
-            <h2>Comunidades encontradas (<?= $resultado['totalComunidades'] ?>)</h2>
-            <?php if (count($resultado['comunidades']) === 0): ?>
-                <p class="no-results">Nenhuma comunidade encontrada.</p>
-            <?php else: ?>
-                <?php foreach ($resultado['comunidades'] as $com): ?>
-                    <div class="community-card">
-                        <span><?= htmlspecialchars($com['nome_comunidade']) ?></span>
-                        <button class="follow-btn" data-id="<?= $com['id_comunidade'] ?>" data-tipo="comunidade">Seguir</button>
-                    </div>
-                <?php endforeach; ?>
-                <div class="pagination">
-                    <?= criarLinkPagina($paginaComunidades, $resultado['totalComunidades'], 10, 'page_comunidade', $termo); ?>
-                </div>
-            <?php endif; ?>
-        </div>
-
     </div>
 </div>
 <?php endif; ?>
 
+<!-- === MODAL CATEGORIAS === -->
+<div class="modal-overlay" id="modalCategorias" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
+    <div class="modal-categorias">
+        <h2>Escolha suas categorias favoritas</h2>
+        <div class="lista-categorias">
+            <?php foreach ($categorias as $cat): ?>
+                <label>
+                    <input type="checkbox" class="checkbox-categoria" value="<?= $cat['id_categoria'] ?>"
+                        <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
+                    <?= htmlspecialchars($cat['nome_categoria']) ?>
+                </label><br>
+            <?php endforeach; ?>
+        </div>
+        <div class="modal-botoes">
+            <button id="salvarCategorias">Salvar</button>
+            <button id="fecharModal">Fechar</button>
+        </div>
+    </div>
+</div>
+
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("modalCategorias");
+    const btnFechar = document.getElementById("fecharModal");
+    const btnSalvar = document.getElementById("salvarCategorias");
+    const btnAbrirCategorias = document.getElementById("abrirCategorias");
+
+    // Abre modal (forçado ao iniciar, se não tiver categorias)
+    <?php if (!$temCategorias): ?> modal.style.display = "flex"; <?php endif; ?>
+
+    // Abre manualmente via menu
+    btnAbrirCategorias.addEventListener("click", (e) => {
+        e.preventDefault();
+        modal.style.display = "flex";
+    });
+
+    btnFechar.addEventListener("click", () => modal.style.display = "none");
+
+    btnSalvar.addEventListener("click", () => {
+        const selecionadas = Array.from(document.querySelectorAll(".checkbox-categoria:checked")).map(c => c.value);
+        if (selecionadas.length === 0) {
+            alert("Selecione pelo menos uma categoria.");
+            return;
+        }
+
+        fetch("salvar_categorias.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "categorias[]=" + selecionadas.join("&categorias[]=")
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.sucesso) {
+                alert("Categorias salvas com sucesso!");
+                modal.style.display = "none";
+                location.reload();
+            } else {
+                alert(data.mensagem || "Erro ao salvar categorias.");
+            }
+        })
+        .catch(() => alert("Erro de comunicação com o servidor."));
+    });
+});
+</script>
 </body>
 </html>

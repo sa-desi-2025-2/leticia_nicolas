@@ -1,6 +1,7 @@
-<?php
+<?php 
 session_start();
 require_once __DIR__ . '/conexao.php';
+header('Content-Type: application/json; charset=utf-8');
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION['id_usuario'])) {
@@ -8,41 +9,50 @@ if (!isset($_SESSION['id_usuario'])) {
     exit();
 }
 
-$idUsuario = $_SESSION['id_usuario'];
+$idUsuario = intval($_SESSION['id_usuario']);
 
-// Verifica se vieram categorias selecionadas
+// Verifica se vieram categorias selecionadas (obrigatório ter pelo menos 1)
 if (empty($_POST['categorias']) || !is_array($_POST['categorias'])) {
     echo json_encode(['sucesso' => false, 'mensagem' => 'Nenhuma categoria selecionada.']);
     exit();
 }
 
-$categorias = $_POST['categorias'];
+$categorias = array_map('intval', $_POST['categorias']);
+if (count($categorias) === 0) {
+    echo json_encode(['sucesso' => false, 'mensagem' => 'Selecione pelo menos uma categoria.']);
+    exit();
+}
 
 try {
     $conexao = new Conexao();
     $conn = $conexao->getCon();
 
-    // Prepara a inserção (impede duplicação)
-    $stmtInsert = $conn->prepare("
-        INSERT INTO usuarios_categorias (id_usuario, id_categoria)
-        SELECT ?, ? FROM DUAL
-        WHERE NOT EXISTS (
-            SELECT 1 FROM usuarios_categorias WHERE id_usuario = ? AND id_categoria = ?
-        )
-    ");
+    // Usar transação para segurança
+    $conn->begin_transaction();
 
+    // Remover as antigas preferências do usuário
+    $stmtDel = $conn->prepare("DELETE FROM usuarios_categorias WHERE id_usuario = ?");
+    $stmtDel->bind_param("i", $idUsuario);
+    $stmtDel->execute();
+    $stmtDel->close();
+
+    // Preparar inserção
+    $stmtIns = $conn->prepare("INSERT INTO usuarios_categorias (id_usuario, id_categoria) VALUES (?, ?)");
     foreach ($categorias as $idCategoria) {
-        $idCategoria = intval($idCategoria);
-        $stmtInsert->bind_param("iiii", $idUsuario, $idCategoria, $idUsuario, $idCategoria);
-        $stmtInsert->execute();
+        $stmtIns->bind_param("ii", $idUsuario, $idCategoria);
+        $stmtIns->execute();
     }
+    $stmtIns->close();
 
-    $stmtInsert->close();
+    $conn->commit();
     $conn->close();
 
     echo json_encode(['sucesso' => true]);
     exit();
 } catch (Exception $e) {
+    if (isset($conn) && $conn->errno) {
+        $conn->rollback();
+    }
     echo json_encode(['sucesso' => false, 'mensagem' => 'Erro ao salvar categorias: ' . $e->getMessage()]);
     exit();
 }

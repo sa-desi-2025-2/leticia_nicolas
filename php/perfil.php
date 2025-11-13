@@ -12,18 +12,22 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $id = $_SESSION['id_usuario'];
 
-// Busca dados
+// Busca dados do usuário
 $dados = $usuario->buscarPorId($id);
 
+// Pega dados do banco ou usa padrão
 $fotoPerfil = $dados['foto_perfil'] ?? '../uploads/default.png';
-$fotoBanner = $dados['foto_banner'] ?? '../uploads/default_banner.png';
-$bio = $dados['bio'] ?? '';
-$nome = $dados['nome_usuario'] ?? '';
-$email = $dados['email_usuario'] ?? '';
+$fotoBanner = $dados['imagem_banner'] ?? '../uploads/default_banner.png';
+$bio        = $dados['bio'] ?? '';
+$nome       = $dados['nome_usuario'] ?? '';
+$email      = $dados['email_usuario'] ?? '';
 
 $homeLink = ($_SESSION['tipo_usuario'] === 'admin')
     ? 'pagina_principal_adm.php'
     : 'pagina_principal.php';
+
+// Controla qual aba abrir após atualização
+$abaAtiva = $_GET['aba'] ?? 'configuracoes';
 ?>
 
 <!DOCTYPE html>
@@ -70,16 +74,13 @@ $homeLink = ($_SESSION['tipo_usuario'] === 'admin')
     <!-- MENU LATERAL -->
     <aside class="sidebar">
         <div class="menu-icons">
-            <a href="#" class="icon tab-link active" data-tab="configuracoes">
+            <a href="#" class="icon tab-link <?= ($abaAtiva === 'configuracoes') ? 'active' : ''; ?>" data-tab="configuracoes">
                 <i class="bi bi-gear"></i>
-                <span></span>
             </a>
-            <a href="#" class="icon tab-link" data-tab="conta">
+            <a href="#" class="icon tab-link <?= ($abaAtiva === 'conta') ? 'active' : ''; ?>" data-tab="conta">
                 <i class="bi bi-person-circle"></i>
-                <span></span>
             </a>
         </div>
-    
     </aside>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -87,7 +88,7 @@ $homeLink = ($_SESSION['tipo_usuario'] === 'admin')
         <div class="perfil-container">
 
             <!-- ABA CONFIGURAÇÕES -->
-            <div id="configuracoes" class="tab-content active">
+            <div id="configuracoes" class="tab-content <?= ($abaAtiva === 'configuracoes') ? 'active' : ''; ?>">
                 <div class="perfil-box">
                     <div class="perfil-info">
                         <form action="atualizar_perfil.php" method="POST">
@@ -123,36 +124,36 @@ $homeLink = ($_SESSION['tipo_usuario'] === 'admin')
                 </div>
             </div>
 
-            <!-- ABA CONTA (NOVO BLOCO INSERIDO) -->
-            <div id="conta" class="tab-content">
+            <!-- ABA CONTA -->
+            <div id="conta" class="tab-content <?= ($abaAtiva === 'conta') ? 'active' : ''; ?>">
                 <div class="conta-section">
 
-                    <div class="banner-wrapper">
-                        <img id="previewBanner" src="<?php echo htmlspecialchars($fotoBanner); ?>" alt="Banner do usuário">
-                        <label for="foto_banner" class="banner-upload">Alterar Banner</label>
-                        <input type="file" name="foto_banner" id="foto_banner" accept="image/*" style="display: none;">
-                    </div>
+                    <form action="atualizar_conta.php?aba=conta" method="POST" enctype="multipart/form-data" class="form-conta">
+                        <input type="hidden" name="id_usuario" value="<?php echo $id; ?>">
 
-                    <div class="foto-perfil-wrapper">
-                        <img id="previewPerfil" src="<?php echo htmlspecialchars($fotoPerfil); ?>" alt="Foto de Perfil">
-                    </div>
-                    <label for="foto_perfil" class="foto-upload">Alterar Foto de Perfil</label>
-                    <input type="file" name="foto_perfil" id="foto_perfil" accept="image/*" style="display: none;">
+                        <div class="banner-wrapper">
+                            <img id="previewBanner" src="<?php echo htmlspecialchars($fotoBanner); ?>" alt="Banner do usuário">
+                            <label for="foto_banner" class="banner-upload">Alterar Banner</label>
+                            <input type="file" name="foto_banner" id="foto_banner" accept="image/*" style="display: none;">
+                        </div>
 
-                    <div class="conta-info">
-                        <h3>Editar Perfil</h3>
+                        <div class="foto-perfil-wrapper">
+                            <img id="previewPerfil" src="<?php echo htmlspecialchars($fotoPerfil); ?>" alt="Foto de Perfil">
+                        </div>
+                        <label for="foto_perfil" class="foto-upload">Alterar Foto de Perfil</label>
+                        <input type="file" name="foto_perfil" id="foto_perfil" accept="image/*" style="display: none;">
 
-                        <form action="atualizar_conta.php" method="POST" enctype="multipart/form-data" class="form-conta">
-    <input type="hidden" name="id_usuario" value="<?php echo $id; ?>">
+                        <div class="conta-info">
+                            <h3>Editar Perfil</h3>
 
-    <div class="campo-bio">
-        <label for="bio">Sobre (Bio):</label>
-        <textarea id="bio" name="bio" placeholder="Conte um pouco sobre você..."><?php echo htmlspecialchars($bio); ?></textarea>
-    </div>
+                            <div class="campo-bio">
+                                <label for="bio">Sobre (Bio):</label>
+                                <textarea id="bio" name="bio" placeholder="Conte um pouco sobre você..."><?php echo htmlspecialchars($bio); ?></textarea>
+                            </div>
 
-    <button type="submit" class="btn-salvar">Salvar Alterações</button>
-</form>
-                    </div>
+                            <button type="submit" class="btn-salvar">Salvar Alterações</button>
+                        </div>
+                    </form>
 
                 </div>
             </div>

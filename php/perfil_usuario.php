@@ -56,7 +56,7 @@ $classeExtra = $jaSegue ? "seguindo" : "";
     <title><?= htmlspecialchars($usuario['nome_usuario']) ?> - Perfil</title>
     <link rel="stylesheet" href="../css/pagina_principal.css">
     <link rel="stylesheet" href="../css/dropdown.css">
-    <link rel="stylesheet" href="../css/perfil_usuario.css">
+   
 </head>
 <body>
 
@@ -82,6 +82,7 @@ $classeExtra = $jaSegue ? "seguindo" : "";
             </div>
             <nav class="menu-links">
                 <a href="perfil.php">Perfil</a>
+                <a href="#">Categorias</a>
                 <a href="seguidos.php">Seguidos</a>
                 <a href="login_estrutura.php">Sair</a>
             </nav>

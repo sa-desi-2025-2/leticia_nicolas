@@ -10,14 +10,20 @@ if (!isset($_SESSION['id_usuario'])) {
 $id = $_SESSION['id_usuario'];
 $usuario = new Usuario();
 
-// Pasta de uploads
+// Diretório de uploads
 $diretorio = "../uploads/";
 if (!is_dir($diretorio)) mkdir($diretorio, 0755, true);
 
-// Função para upload de imagem
+// Função de upload de imagem
 function uploadImagem($arquivo, $prefixo, $id, $diretorio) {
     if (isset($arquivo) && $arquivo['error'] === 0) {
-        $ext = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
+        $ext = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
+        $extPermitidas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+        if (!in_array($ext, $extPermitidas)) {
+            return null;
+        }
+
         $nomeArquivo = $prefixo . "_" . $id . "_" . time() . "." . $ext;
         $caminhoCompleto = $diretorio . $nomeArquivo;
 
@@ -28,31 +34,35 @@ function uploadImagem($arquivo, $prefixo, $id, $diretorio) {
     return null;
 }
 
-// Uploads
+// Uploads (os nomes devem bater com os "name" dos inputs HTML)
 $fotoPerfil = uploadImagem($_FILES['foto_perfil'] ?? null, 'perfil', $id, $diretorio);
-$fotoBanner = uploadImagem($_FILES['imagem_banner'] ?? null, 'banner', $id, $diretorio);
+$fotoBanner = uploadImagem($_FILES['foto_banner'] ?? null, 'banner', $id, $diretorio);
 
-
-// Bio do formulário
+// Bio
 $bio = $_POST['bio'] ?? '';
 
-// Busca dados atuais para nome e email
+// Busca dados atuais (para manter nome e email)
 $dados = $usuario->buscarPorId($id);
 if (!$dados) {
     die("Usuário não encontrado.");
 }
+
 $nome = $dados['nome_usuario'];
 $email = $dados['email_usuario'];
 
-// Atualiza perfil completo (nome e email mantidos)
+// Atualiza perfil completo (foto_perfil + imagem_banner + bio)
 $sucesso = $usuario->atualizarPerfil($id, $nome, $email, $bio, $fotoPerfil, $fotoBanner);
 
 if ($sucesso) {
-    // Atualiza sessão com nova foto de perfil
-    if ($fotoPerfil) $_SESSION['foto_perfil'] = $fotoPerfil;
+    // Atualiza sessão com nova foto, se houver
+    if ($fotoPerfil) {
+        $_SESSION['foto_perfil'] = $fotoPerfil;
+    }
 
-    header("Location: perfil.php?sucesso=1");
+    // Retorna para aba de conta
+    header("Location: perfil.php?aba=conta&sucesso=1");
     exit;
 } else {
     die("Erro ao atualizar perfil.");
 }
+?>

@@ -1,0 +1,59 @@
+/* Sidebar minimalista */
+.sidebar {
+    width: 80px;
+    background:  #0092c3da;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.menu-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background: #03ffe6;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.icon:hover, .icon.active {
+    background:#00bf33;
+    transform: scale(1.1);
+}
+
+.add-icon {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.add-icon:hover {
+    color: #3bff0a;
+}
+
+/* Ajusta o conteúdo principal para não ficar sob a sidebar */
+.main-conteudo {
+    margin-left: 100px;
+    padding: 40px;
+}

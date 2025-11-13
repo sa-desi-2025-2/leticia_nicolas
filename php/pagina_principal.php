@@ -33,8 +33,40 @@ $resultComunidades = $stmtComunidades->get_result();
 while ($row = $resultComunidades->fetch_assoc()) {
     $comunidadesUsuario[] = $row;
 }
-
 $stmtComunidades->close();
+
+// === VERIFICA SE USUÁRIO JÁ TEM CATEGORIAS E BUSCA LISTA ===
+$temCategorias = false;
+$categorias = [];
+$categoriasSelecionadas = [];
+
+if ($idLogado > 0) {
+    $stmtCheck = $conn->prepare("SELECT COUNT(*) AS total FROM usuarios_categorias WHERE id_usuario = ?");
+    $stmtCheck->bind_param("i", $idLogado);
+    $stmtCheck->execute();
+    $resultCheck = $stmtCheck->get_result()->fetch_assoc();
+    $temCategorias = ($resultCheck['total'] > 0);
+    $stmtCheck->close();
+
+    // busca todas as categorias
+    $stmtCategorias = $conn->prepare("SELECT id_categoria, nome_categoria FROM categorias ORDER BY nome_categoria ASC");
+    $stmtCategorias->execute();
+    $resCats = $stmtCategorias->get_result();
+    while ($c = $resCats->fetch_assoc()) {
+        $categorias[] = $c;
+    }
+    $stmtCategorias->close();
+
+    // busca categorias do usuario
+    $stmtUserCats = $conn->prepare("SELECT id_categoria FROM usuarios_categorias WHERE id_usuario = ?");
+    $stmtUserCats->bind_param("i", $idLogado);
+    $stmtUserCats->execute();
+    $resUserCats = $stmtUserCats->get_result();
+    while ($r = $resUserCats->fetch_assoc()) {
+        $categoriasSelecionadas[] = $r['id_categoria'];
+    }
+    $stmtUserCats->close();
+}
 
 // === PESQUISA ===
 $termo = $_GET['q'] ?? '';
@@ -54,7 +86,8 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
         $queryParams = $_GET;
         $queryParams[$paramPagina] = $proximaPagina;
         $url = 'pagina_principal.php?' . http_build_query($queryParams);
-        return '<a class="load-more-btn" href="' . htmlspecialchars($url) . '">Ver mais</a>';
+        // retornamos um link (servidor-side pagination) e adicionamos data-target para referência
+        return '<a class="load-more-btn" data-target="' . htmlspecialchars($paramPagina) . '" href="' . htmlspecialchars($url) . '">Ver mais</a>';
     }
     return '';
 }
@@ -69,7 +102,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     <link rel="stylesheet" href="../css/pagina_principal.css">
     <link rel="stylesheet" href="../css/pesquisa.css">
     <link rel="stylesheet" href="../css/dropdown.css">
-    <link rel="stylesheet" href="../css/sidebar_comunidades.css"> <!-- NOVO CSS -->
+    <link rel="stylesheet" href="../css/sidebar_comunidades.css">
 </head>
 <body>
 
@@ -114,7 +147,8 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             </div>
             <nav class="menu-links">
                 <a href="perfil.php">Perfil</a>
-                <a href="#">Categorias</a>
+                <!-- adicionamos id para abrir o modal de forma robusta -->
+                <a href="#" id="abrirCategorias">Categorias</a>
                 <a href="seguidos.php">Seguidos</a>
                 <a href="login_estrutura.php">Sair</a>
             </nav>
@@ -128,7 +162,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     <div class="results-wrapper">
 
         <!-- Usuários -->
-        <div class="result-section">
+        <div class="result-section user-list">
             <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?>)</h2>
             <?php if (count($resultado['usuarios']) === 0): ?>
                 <p class="no-results">Nenhum usuário encontrado.</p>
@@ -153,7 +187,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
         </div>
 
         <!-- Comunidades -->
-        <div class="result-section">
+        <div class="result-section community-list">
             <h2>Comunidades encontradas (<?= $resultado['totalComunidades'] ?>)</h2>
             <?php if (count($resultado['comunidades']) === 0): ?>
                 <p class="no-results">Nenhuma comunidade encontrada.</p>
@@ -174,7 +208,46 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 <?php endif; ?>
 
+<!-- === MODAL DE CATEGORIAS (INCLUÍDO) === -->
+<?php if ($idLogado > 0): ?>
+<div id="modalCategorias" class="modal-overlay" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
+    <div class="modal-categorias" role="dialog" aria-modal="true" aria-labelledby="modalCategoriasTitulo">
+        <h2 id="modalCategoriasTitulo">Escolha suas categorias favoritas</h2>
+
+        <form id="formCategorias">
+            <div class="lista-categorias">
+                <?php foreach ($categorias as $cat): ?>
+                    <label class="categoria-item">
+                        <input type="checkbox" name="categorias[]" class="checkbox-categoria" value="<?= $cat['id_categoria'] ?>"
+                            <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
+                        <?= htmlspecialchars($cat['nome_categoria']) ?>
+                    </label><br>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="modal-botoes">
+                <button type="button" id="salvarCategorias">Salvar</button>
+                <button type="button" id="fecharModal">Fechar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endif; ?>
+
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
+
+<!-- Segurança extra: se modal estiver aberto na primeira carga, bloqueia scroll -->
+<script>
+(function() {
+    const modal = document.getElementById('modalCategorias');
+    if (!modal) return;
+    // se o modal deve aparecer na carga (display:flex), desabilita rolagem
+    if (getComputedStyle(modal).display !== 'none') {
+        document.body.style.overflow = 'hidden';
+    }
+})();
+</script>
+
 </body>
 </html>

@@ -17,7 +17,6 @@ class Usuario {
     }
 
     public function setSenha($senha) { 
-        // Criptografa a senha de forma segura
         $this->senha = password_hash($senha, PASSWORD_DEFAULT); 
     }
 
@@ -56,7 +55,7 @@ class Usuario {
         $db = new Conexao();
         $conn = $db->getCon();
 
-        $sql = "SELECT id_usuario, nome_usuario, email_usuario, tipo_usuario, ativo, foto_perfil, foto_banner, bio 
+        $sql = "SELECT id_usuario, nome_usuario, email_usuario, tipo_usuario, ativo, foto_perfil, imagem_banner, bio 
                 FROM usuarios";
         $result = $conn->query($sql);
 
@@ -124,6 +123,32 @@ class Usuario {
         return $stmt->execute();
     }
 
+    // ---------- Atualizar banner ----------
+    public function atualizarBanner($id_usuario, $caminho) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $sql = "UPDATE usuarios SET imagem_banner = ? WHERE id_usuario = ?";
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) die("Erro na preparação do UPDATE: " . $conn->error);
+
+        $stmt->bind_param("si", $caminho, $id_usuario);
+        return $stmt->execute();
+    }
+
+    // ---------- Atualizar bio ----------
+    public function atualizarBio($id_usuario, $bio) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $sql = "UPDATE usuarios SET bio = ? WHERE id_usuario = ?";
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) die("Erro na preparação do UPDATE: " . $conn->error);
+
+        $stmt->bind_param("si", $bio, $id_usuario);
+        return $stmt->execute();
+    }
+
     // ---------- Atualizar senha ----------
     public function atualizarSenha($id_usuario, $nova_senha) {
         $db = new Conexao();
@@ -139,7 +164,7 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- NOVO MÉTODO: Atualizar perfil completo ----------
+    // ---------- Atualizar perfil completo ----------
     public function atualizarPerfil($id, $nome, $email, $bio, $fotoPerfil = null, $fotoBanner = null) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -155,7 +180,7 @@ class Usuario {
         }
 
         if ($fotoBanner) {
-            $sql .= ", foto_banner = ?";
+            $sql .= ", imagem_banner = ?";
             $params[] = $fotoBanner;
             $tipos .= "s";
         }
@@ -169,6 +194,22 @@ class Usuario {
 
         $stmt->bind_param($tipos, ...$params);
         return $stmt->execute();
+    }
+
+    // ---------- Função de upload de imagens ----------
+    public static function uploadImagem($arquivo, $prefixo, $id, $diretorio = "../uploads/") {
+        if (!is_dir($diretorio)) mkdir($diretorio, 0755, true);
+
+        if (isset($arquivo) && $arquivo['error'] === 0) {
+            $ext = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
+            $nomeArquivo = $prefixo . "_" . $id . "_" . time() . "." . $ext;
+            $caminhoCompleto = $diretorio . $nomeArquivo;
+
+            if (move_uploaded_file($arquivo['tmp_name'], $caminhoCompleto)) {
+                return $caminhoCompleto;
+            }
+        }
+        return null;
     }
 }
 ?>

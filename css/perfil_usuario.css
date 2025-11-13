@@ -1,0 +1,69 @@
+.perfil-container {
+    margin-left: 100px;
+    margin-top: 40px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.banner {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    position: relative;
+}
+
+.perfil-info {
+    text-align: center;
+    margin-top: -60px;
+}
+
+.foto-perfil {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #00bfa5;
+    object-fit: cover;
+    background-color: #fff;
+}
+
+.perfil-info h2 {
+    margin: 15px 0 5px;
+    font-size: 22px;
+    color: #fff;
+}
+
+.contadores {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.bio {
+    font-style: italic;
+    color: #ccc;
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+.follow-btn {
+    background: #00bfa5;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.follow-btn:hover {
+    background: #00e1c2;
+}
+
+.follow-btn.seguindo {
+    background: #0069AC;
+}

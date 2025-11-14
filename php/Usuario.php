@@ -211,5 +211,53 @@ class Usuario {
         }
         return null;
     }
+
+    // ---------- Listar seguidores ----------
+    public function listarSeguidores($idUsuario) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $sql = "SELECT u.id_usuario, u.nome_usuario, u.foto_perfil
+                FROM seguidores s
+                JOIN usuarios u ON s.id_seguidor = u.id_usuario
+                WHERE s.id_seguindo = ?";
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) die("Erro na preparação da consulta: " . $conn->error);
+
+        $stmt->bind_param("i", $idUsuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $seguidores = [];
+        while ($row = $result->fetch_assoc()) {
+            $seguidores[] = $row;
+        }
+
+        return $seguidores;
+    }
+
+    // ---------- Listar quem segue ----------
+    public function listarSeguidos($idUsuario) {
+        $db = new Conexao();
+        $conn = $db->getCon();
+
+        $sql = "SELECT u.id_usuario, u.nome_usuario, u.foto_perfil
+                FROM seguidores s
+                JOIN usuarios u ON s.id_seguindo = u.id_usuario
+                WHERE s.id_seguidor = ?";
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) die("Erro na preparação da consulta: " . $conn->error);
+
+        $stmt->bind_param("i", $idUsuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $seguidos = [];
+        while ($row = $result->fetch_assoc()) {
+            $seguidos[] = $row;
+        }
+
+        return $seguidos;
+    }
 }
 ?>

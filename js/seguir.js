@@ -27,13 +27,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const dados = await resposta.json();
 
         if (dados.status === "ok") {
+          // Se passou a seguir
           if (dados.seguindo) {
-            botao.textContent =
-              tipo === "comunidade" ? "Participando" : "Seguindo";
-            botao.classList.add("seguindo");
-          } else {
-            botao.textContent = tipo === "comunidade" ? "Entrar" : "Seguir";
-            botao.classList.remove("seguindo");
+            botao.textContent = "Deixar de seguir";
+            botao.classList.remove("follow-btn");
+            botao.classList.add("unfollow-btn");
+          } 
+          // Se deixou de seguir
+          else {
+            botao.textContent = "Seguir";
+            botao.classList.remove("unfollow-btn");
+            botao.classList.add("follow-btn");
           }
         } else {
           alert(dados.mensagem || "Erro ao processar a ação.");

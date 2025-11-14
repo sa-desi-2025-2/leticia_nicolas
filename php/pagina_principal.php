@@ -48,7 +48,7 @@ if ($idLogado > 0) {
     $temCategorias = ($resultCheck['total'] > 0);
     $stmtCheck->close();
 
-    // busca todas as categorias
+    // Busca todas as categorias
     $stmtCategorias = $conn->prepare("SELECT id_categoria, nome_categoria FROM categorias ORDER BY nome_categoria ASC");
     $stmtCategorias->execute();
     $resCats = $stmtCategorias->get_result();
@@ -57,7 +57,7 @@ if ($idLogado > 0) {
     }
     $stmtCategorias->close();
 
-    // busca categorias do usuario
+    // Busca categorias do usuário
     $stmtUserCats = $conn->prepare("SELECT id_categoria FROM usuarios_categorias WHERE id_usuario = ?");
     $stmtUserCats->bind_param("i", $idLogado);
     $stmtUserCats->execute();
@@ -78,6 +78,7 @@ if (!empty($termo)) {
     $resultado = executarPesquisa($termo, $paginaUsuarios, $paginaComunidades);
 }
 
+// === PAGINAÇÃO ===
 function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagina, $termo)
 {
     $totalPaginas = ceil($totalItens / $itensPorPagina);
@@ -86,8 +87,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
         $queryParams = $_GET;
         $queryParams[$paramPagina] = $proximaPagina;
         $url = 'pagina_principal.php?' . http_build_query($queryParams);
-        // retornamos um link (servidor-side pagination) e adicionamos data-target para referência
-        return '<a class="load-more-btn" data-target="' . htmlspecialchars($paramPagina) . '" href="' . htmlspecialchars($url) . '">Ver mais</a>';
+        return '<a class="load-more-btn" href="' . htmlspecialchars($url) . '">Ver mais</a>';
     }
     return '';
 }
@@ -117,7 +117,6 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 </a>
             <?php endforeach; ?>
         <?php else: ?>
-            <!-- Ícones padrão -->
             <div class="icon"></div><div class="icon"></div><div class="icon"></div><div class="icon"></div>
         <?php endif; ?>
     </div>
@@ -147,7 +146,6 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             </div>
             <nav class="menu-links">
                 <a href="perfil.php">Perfil</a>
-                <!-- adicionamos id para abrir o modal de forma robusta -->
                 <a href="#" id="abrirCategorias">Categorias</a>
                 <a href="seguidos.php">Seguidos</a>
                 <a href="login_estrutura.php">Sair</a>
@@ -160,9 +158,8 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <?php if (!empty($termo)): ?>
 <div class="content">
     <div class="results-wrapper">
-
         <!-- Usuários -->
-        <div class="result-section user-list">
+        <div class="result-section">
             <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?>)</h2>
             <?php if (count($resultado['usuarios']) === 0): ?>
                 <p class="no-results">Nenhum usuário encontrado.</p>
@@ -174,8 +171,17 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                         $classeExtra = $jaSegue ? "seguindo" : "";
                     ?>
                     <div class="user-card">
-                        <span><?= htmlspecialchars($user['nome_usuario']) ?></span>
-                        <button class="follow-btn <?= $classeExtra ?>" data-id="<?= $user['id_usuario'] ?>" data-tipo="usuario">
+                        <div class="user-info">
+                            <img class="foto-mini" 
+                                src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
+                                alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
+                            <a class="nome-link" href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>">
+                                <?= htmlspecialchars($user['nome_usuario']) ?>
+                            </a>
+                        </div>
+                        <button class="follow-btn <?= $classeExtra ?>" 
+                                data-id="<?= $user['id_usuario'] ?>" 
+                                data-tipo="usuario">
                             <?= $textoBotao ?>
                         </button>
                     </div>
@@ -187,7 +193,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
         </div>
 
         <!-- Comunidades -->
-        <div class="result-section community-list">
+        <div class="result-section">
             <h2>Comunidades encontradas (<?= $resultado['totalComunidades'] ?>)</h2>
             <?php if (count($resultado['comunidades']) === 0): ?>
                 <p class="no-results">Nenhuma comunidade encontrada.</p>
@@ -203,28 +209,26 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 </div>
             <?php endif; ?>
         </div>
-
     </div>
 </div>
 <?php endif; ?>
 
-<!-- === MODAL DE CATEGORIAS (INCLUÍDO) === -->
+<!-- === MODAL DE CATEGORIAS === -->
 <?php if ($idLogado > 0): ?>
 <div id="modalCategorias" class="modal-overlay" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
-    <div class="modal-categorias" role="dialog" aria-modal="true" aria-labelledby="modalCategoriasTitulo">
-        <h2 id="modalCategoriasTitulo">Escolha suas categorias favoritas</h2>
-
+    <div class="modal-categorias" role="dialog" aria-modal="true">
+        <h2>Escolha suas categorias favoritas</h2>
         <form id="formCategorias">
             <div class="lista-categorias">
                 <?php foreach ($categorias as $cat): ?>
                     <label class="categoria-item">
-                        <input type="checkbox" name="categorias[]" class="checkbox-categoria" value="<?= $cat['id_categoria'] ?>"
-                            <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
+                        <!-- adicionei a classe checkbox-categoria para o JS identificar -->
+                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>" 
+                               <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
                         <?= htmlspecialchars($cat['nome_categoria']) ?>
                     </label><br>
                 <?php endforeach; ?>
             </div>
-
             <div class="modal-botoes">
                 <button type="button" id="salvarCategorias">Salvar</button>
                 <button type="button" id="fecharModal">Fechar</button>
@@ -236,18 +240,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
-
-<!-- Segurança extra: se modal estiver aberto na primeira carga, bloqueia scroll -->
-<script>
-(function() {
-    const modal = document.getElementById('modalCategorias');
-    if (!modal) return;
-    // se o modal deve aparecer na carga (display:flex), desabilita rolagem
-    if (getComputedStyle(modal).display !== 'none') {
-        document.body.style.overflow = 'hidden';
-    }
-})();
-</script>
+<script src="../js/modalcategoria.js"></script>
 
 </body>
 </html>

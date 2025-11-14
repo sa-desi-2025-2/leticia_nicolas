@@ -30,10 +30,11 @@ $usuarios = $usuario->listarUsuarios(); // busca todos os usuários
 <body>
 
 <!-- TOPO -->
+<a href="<?= $homeLink ?>">
 <div class="topo">
     <div class="logo">
         <img src="../img/logo.png" alt="Checkpoint Logo">
-
+    </div>
         <!-- 🔙 Voltar à página principal do ADM -->
         <a href="pagina_principal_adm.php" title="Voltar à página inicial">
             <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home" class="home-icon">

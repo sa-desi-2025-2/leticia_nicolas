@@ -1,69 +1,331 @@
-.perfil-container {
-    margin-left: 100px;
-    margin-top: 40px;
-    color: #fff;
+/* ============================
+   ESTILO BASE + BACKGROUND
+============================ */
+body {
+    margin: 0;
     font-family: Arial, sans-serif;
-}
-
-.banner {
-    width: 100%;
-    height: 250px;
+    background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg')
+        no-repeat center center fixed;
     background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-    position: relative;
-}
-
-.perfil-info {
-    text-align: center;
-    margin-top: -60px;
-}
-
-.foto-perfil {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid #00bfa5;
-    object-fit: cover;
-    background-color: #fff;
-}
-
-.perfil-info h2 {
-    margin: 15px 0 5px;
-    font-size: 22px;
     color: #fff;
 }
 
-.contadores {
+/* ============================
+   SIDEBAR
+============================ */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 100vh;
+    background-color: #04c5af96;
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 10;
+}
+
+.menu-icons .icon {
+    width: 40px;
+    height: 40px;
+    background-color: #02695c;
+    border-radius: 10px;
+    margin: 22px 0;
+    transition: 0.3s;
+}
+
+.menu-icons .icon:hover {
+    transform: scale(1.1);
+}
+
+.add-icon {
+    margin-top: auto;
+    margin-bottom: 25px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-icon:hover {
+    transform: rotate(90deg);
+}
+
+/* ============================
+   TOP BAR
+============================ */
+.top-bar {
+    margin-left: 80px;
+    height: 70px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: fixed;
+    top: 0;
+    width: calc(100% - 80px);
+    z-index: 20;
+}
+
+.logo img {
+    height: 85px;
+    filter: drop-shadow(0 0 6px #00ffe1);
+}
+
+/* ============================
+   ÍCONE DO USUÁRIO NO TOPO
+============================ */
+.user-menu {
+    position: relative;
+    margin-right: 40px; /* puxar para longe da borda */
+}
+
+.user-icon img {
+    width: 58px; /* maior para ficar proporcional */
+    height: 58px;
+    border-radius: 50%;
+    cursor: pointer;
+
+
+    transition: 0.3s;
+}
+
+.user-icon img:hover {
+    transform: scale(1.1);
+}
+
+/* ============================
+   DROPDOWN LATERAL
+============================ */
+.dropdown-side {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 260px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    transition: right 0.4s ease;
+    z-index: 999;
+}
+
+.dropdown-side.show {
+    right: 0;
+}
+
+/* ============================
+   PERFIL
+============================ */
+
+.profile-container {
+    margin-left: 120px;
+    margin-top: 80px;
+    width: calc(100% - 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ==== BANNER ==== */
+.banner {
+    width: 95%;
+    right: 40px;
+    left: 30px;
+    height: 400px; /* maior */
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==== CARD DO PERFIL ==== */
+.profile-info {
+    width: 95%;
+    max-width: 5000px;  /* MAIOR COMO VOCÊ PEDIU */
+    margin-top: -1px;
+    padding: 1px;
+  
+
+
+    background: #ffffff;  /* branco */
+    color: #000;            /* letras pretas */
+    backdrop-filter: blur(5px);
+
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* ==== FOTO DO PERFIL ==== */
+.profile-pic img {
+    width: 160px;        /* maior */
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #ffffff;
+
+    margin-top: -100px;
+}
+
+/* ==== TEXTO ==== */
+.profile-info h2 {
+    margin-top: 20px;
+    font-size: 28px;
+    color: #000;
+}
+
+/* ==== BIO ==== */
+.bio {
+    font-size: 16px;
+    margin-top: 8px;
+    color: #111;
+}
+
+/* ==== CONTADORES ==== */
+.follow-stats {
+    margin-top: 18px;
     display: flex;
     justify-content: center;
-    gap: 25px;
-    margin: 10px 0;
-    font-size: 16px;
+    gap: 50px;
+    font-size: 18px;
+    color: #000;
 }
 
-.bio {
-    font-style: italic;
-    color: #ccc;
-    max-width: 600px;
-    margin: 10px auto;
+.follow-stats span strong {
+    color: #00a616;
+    text-shadow: none;
 }
 
-.follow-btn {
-    background: #00bfa5;
+/* ============================
+   RESPONSIVIDADE
+============================ */
+@media (max-width: 768px) {
+
+    .profile-info {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .profile-pic img {
+        width: 130px;
+        height: 130px;
+    }
+
+    .follow-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* ============================
+   BOTÃO SEGUIR / SEGUINDO
+============================ */
+
+.follow-btn,
+.unfollow-btn {
+    padding: 5px 5x;
     border: none;
-    padding: 10px 25px;
-    border-radius: 20px;
-    color: white;
-    font-weight: bold;
+    border-radius: 10px;
+    font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    font-weight: bold;
+
+    background:rgb(0, 255, 21);
+    color: black;
+
+   
+    transition: 0.3s ease-in-out;
+    margin-top: 15px;
 }
 
-.follow-btn:hover {
-    background: #00e1c2;
+.follow-btn:hover,
+.unfollow-btn:hover {
+    transform: scale(1.07);
+  
 }
 
-.follow-btn.seguindo {
-    background: #0069AC;
+/* Quando já está seguindo */
+.seguindo {
+    background: #02695c;
+    color: #fff;
+    box-shadow: 0 0 10px #02695c;
+}
+
+.seguindo:hover {
+ 
+    transform: scale(1.07);
+}
+
+/* ============================
+   BOTÃO SEGUIR / DEIXAR DE SEGUIR
+============================ */
+
+.follow-action {
+    margin-top: 20px;
+}
+
+/* Botão padrão (SEGUIR) */
+.follow-btn {
+    padding: 12px 35px;
+    border: none;
+    border-radius: 30px;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: bold;
+
+   
+    color: black;
+
+    
+    transition: 0.3s ease-in-out;
+
+    letter-spacing: 1px;
+}
+
+/* Botão DESISTIR (DEIXAR DE SEGUIR) */
+.unfollow-btn {
+    padding: 12px 35px;
+    border: none;
+    border-radius: 30px;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: bold;
+
+    background: #ff3b3b;
+    color: rgb(0, 0, 0);
+
+   
+    transition: 0.3s ease-in-out;
+    letter-spacing: 1px;
+}
+
+/* HOVER */
+.follow-btn:hover,
+.unfollow-btn:hover {
+    transform: scale(1.08);
+    filter: brightness(1.2);
+}
+
+/* ESTILO QUANDO JÁ ESTÁ SEGUINDO */
+.seguindo {
+    background: #26ff00 !important;
+    color: #fff !important;
+
+    box-shadow: 0 0 12px #ffffff !important;
+}
+
+.seguindo:hover {
+    background: #038f7e !important;
+    transform: scale(1.08);
 }

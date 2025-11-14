@@ -1,19 +1,59 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 
+/* ================================
+   1) Gateway – valida login e tipo
+   ================================ */
 require_once __DIR__ . '/gateway.php';
-require_once __DIR__ . '/conexao.php';
-require_once __DIR__ . '/pesquisa_funcao.php';
-require_once __DIR__ . '/Seguidor.php';
 
+/* ==================================
+   2) Conexão – agora pode usar $con
+   ================================== */
+require_once __DIR__ . '/conexao.php';
+$db = new Conexao();
+$con = $db->getCon();
+
+$idLogado = $_SESSION['id_usuario'] ?? 0;
+
+/* ===============================
+   3) Carregar TODAS as categorias
+   =============================== */
+$stmt = $con->prepare("SELECT id_categoria, nome_categoria FROM categorias ORDER BY nome_categoria ASC");
+$stmt->execute();
+$categorias = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+/* ==========================================
+   4) Categorias QUE o admin já selecionou
+   ========================================== */
+$stmt = $con->prepare("SELECT id_categoria FROM usuarios_categorias WHERE id_usuario = ?");
+$stmt->bind_param("i", $idLogado);
+$stmt->execute();
+$res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+$categoriasSelecionadas = array_column($res, 'id_categoria');
+$temCategorias = count($categoriasSelecionadas) > 0;
+
+/* ============================
+   5) Impedir acesso de usuário
+   ============================ */
 if ($_SESSION['tipo_usuario'] !== 'admin') {
     header("Location: pagina_principal.php");
     exit();
 }
 
-$seguidor = new Seguidor();
-$idLogado = $_SESSION['id_usuario'] ?? 0;
+/* ==================================
+   6) Classes adicionais da página
+   ================================== */
+require_once __DIR__ . '/pesquisa_funcao.php';
+require_once __DIR__ . '/seguidor.php';
 
+$seguidor = new Seguidor();
+
+/* ======================
+   7) Sistema de pesquisa
+   ====================== */
 $termo = $_GET['q'] ?? '';
 $paginaUsuarios = intval($_GET['page_usuario'] ?? 1);
 $paginaComunidades = intval($_GET['page_comunidade'] ?? 1);
@@ -77,7 +117,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             </div>
             <nav class="menu-links">
                 <a href="perfil.php">Perfil</a>
-                <a href="#">Categorias</a>
+                <a href="#" id="abrirCategorias">Categorias</a>
                 <a href="pagina_principal_contas.php">Contas</a>
                 <a href="seguidos.php">Seguidos</a>
                 <a href="login_estrutura.php">Sair</a>
@@ -102,12 +142,25 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                         $textoBotao = $jaSegue ? "Seguindo" : "Seguir";
                         $classeExtra = $jaSegue ? "seguindo" : "";
                     ?>
+                    
                     <div class="user-card">
-                        <span><?= htmlspecialchars($user['nome_usuario']) ?></span>
-                        <button class="follow-btn <?= $classeExtra ?>" data-id="<?= $user['id_usuario'] ?>" data-tipo="usuario">
+                        <div class="user-info">
+                            <img class="foto-mini" 
+                                src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
+                                alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
+
+                            <a class="nome-link" href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>">
+                                <?= htmlspecialchars($user['nome_usuario']) ?>
+                            </a>
+                        </div>
+
+                        <button class="follow-btn <?= $classeExtra ?>"
+                                data-id="<?= $user['id_usuario'] ?>" 
+                                data-tipo="usuario">
                             <?= $textoBotao ?>
                         </button>
                     </div>
+
                 <?php endforeach; ?>
                 <div class="pagination">
                     <?= criarLinkPagina($paginaUsuarios, $resultado['totalUsuarios'], 10, 'page_usuario', $termo); ?>
@@ -133,6 +186,33 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             <?php endif; ?>
         </div>
 
+    </div>
+</div>
+<?php endif; ?>
+<!-- === MODAL DE CATEGORIAS (ADMIN) === -->
+<?php if ($idLogado > 0): ?>
+<div id="modalCategorias" class="modal-overlay" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
+    <div class="modal-categorias" role="dialog" aria-modal="true">
+        <h2>Escolha suas categorias favoritas</h2>
+        <form id="formCategorias">
+            <div class="lista-categorias">
+                <?php foreach ($categorias as $cat): ?>
+                    <label class="categoria-item">
+                        <input class="checkbox-categoria" 
+                               type="checkbox" 
+                               name="categorias[]" 
+                               value="<?= $cat['id_categoria'] ?>"
+                               <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
+                        <?= htmlspecialchars($cat['nome_categoria']) ?>
+                    </label><br>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="modal-botoes">
+                <button type="button" id="salvarCategorias">Salvar</button>
+                <button type="button" id="fecharModal">Fechar</button>
+            </div>
+        </form>
     </div>
 </div>
 <?php endif; ?>

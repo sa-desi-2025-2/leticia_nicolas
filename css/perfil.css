@@ -1,241 +1,6 @@
-/* ===== RESET E BASE ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  /* Fundo gamer */
-  body {
-    background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg')
-      no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* ===== TOPO ===== */
-  .topo {
-    margin-left: 80px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    background: transparent;
-  }
-  
-  .topo .logo {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  .topo .logo img {
-    height: 90px;
-  }
-  
-  .topo .user-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .topo .user-icon img {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    background: transparent;
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  /* ===== PERFIL ===== */
-  main {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .perfil-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .perfil-box {
-    background: rgba(255, 240, 255, 0.95);
-    border-radius: 12px;
-    padding: 40px;
-    width: 85%;
-    max-width: 950px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    gap: 40px;
-  }
-  
-  /* ===== CAMPOS ===== */
-  .linha-campos {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  .campo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .campo label {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: #000;
-  }
-  
-  .campo input {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1.5px solid #aaa;
-    border-radius: 6px;
-    outline: none;
-    font-size: 14px;
-    transition: 0.3s;
-  }
-  
-  .campo input:focus {
-    border-color: #a678ff;
-    box-shadow: 0 0 6px #a678ff;
-  }
-  
-  /* ===== BOTÕES ===== */
-  .btn-alterar,
-  .perfil-info button,
-  .perfil-foto button {
-    background-color: #a678ff;
-    border: none;
-    color: white;
-    padding: 8px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-    margin-top: 10px;
-  }
-  
-  .btn-alterar:hover,
-  .perfil-info button:hover,
-  .perfil-foto button:hover {
-    background-color: #00c3ff;
-    box-shadow: 0 0 10px #00c3ff;
-  }
-  
-  /* ===== PERFIL INFO ===== */
-  .perfil-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    color: #000;
-  }
-  
-  /* ===== ALTERAR SENHA ===== */
-  .alterar-senha {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    color: #000;
-    margin-top: 15px;
-  }
-  
-  .alterar-senha label {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: -5px;
-  }
-  
-  .alterar-senha input {
-    width: 90%;
-    padding: 8px 10px;
-    border: 1.5px solid #aaa;
-    border-radius: 6px;
-    outline: none;
-    font-size: 14px;
-    transition: 0.3s;
-  }
-  
-  .alterar-senha input:focus {
-    border-color: #a678ff;
-    box-shadow: 0 0 6px #a678ff;
-  }
-  
-  /* ===== FOTO PERFIL ===== */
-  .perfil-foto {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 0.5;
-    gap: 10px;
-    color: #000;
-  }
-  
-  .perfil-foto img,
-  .foto-perfil {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 3px solid #a07eff;
-    background: white;
-    object-fit: cover;
-    margin-bottom: 10px;
-  }
-  
-  input[type="file"] {
-    margin: 10px 0;
-  }
-  
-  /* ===== LOGO ICON ===== */
-  .topo .logo img[src*="img.icons8.com"] {
-    width: 70px;
-    height: 60px;
-    object-fit: contain;
-    margin-left: 140px;
-    filter: brightness(0) invert(1);
-  }
-  
-  /* ===== RESPONSIVIDADE ===== */
-  @media (max-width: 768px) {
-    .perfil-box {
-      flex-direction: column;
-      gap: 30px;
-      text-align: center;
-    }
-  
-    .linha-campos {
-      flex-direction: column;
-    }
-  
-    .perfil-info input,
-    .alterar-senha input {
-      width: 100%;
-    }
-  
-    .perfil-foto img {
-      width: 120px;
-      height: 120px;
-    }
-  }
-  /* ===== RESET E BASE ===== */
+/* ============================
+   RESET E BASE
+============================ */
 * {
   margin: 0;
   padding: 0;
@@ -254,7 +19,9 @@ body {
   flex-direction: column;
 }
 
-/* ===== TOPO ===== */
+/* ============================
+ TOPO
+============================ */
 .topo {
   margin-left: 80px;
   height: 70px;
@@ -290,7 +57,9 @@ body {
   cursor: pointer;
 }
 
-/* ===== PERFIL ===== */
+/* ============================
+ ÁREA PRINCIPAL
+============================ */
 main {
   flex: 1;
   display: flex;
@@ -299,12 +68,12 @@ main {
 }
 
 .perfil-container {
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
 }
 
+/* Caixa principal do formulário de perfil */
 .perfil-box {
   background: rgba(255, 240, 255, 0.95);
   border-radius: 12px;
@@ -314,12 +83,14 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 40px;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
   border: 1.5px solid rgba(255, 255, 255, 0.5);
-  gap: 40px;
 }
 
-/* ===== CAMPOS ===== */
+/* ============================
+ CAMPOS DO PERFIL
+============================ */
 .linha-campos {
   display: flex;
   justify-content: space-between;
@@ -354,7 +125,7 @@ main {
   box-shadow: 0 0 6px #a678ff;
 }
 
-/* ===== BOTÕES ===== */
+/* Botões */
 .btn-alterar,
 .perfil-info button,
 .perfil-foto button {
@@ -376,16 +147,9 @@ main {
   box-shadow: 0 0 10px #00c3ff;
 }
 
-/* ===== PERFIL INFO ===== */
-.perfil-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  color: #000;
-}
-
-/* ===== ALTERAR SENHA ===== */
+/* ============================
+ ALTERAR SENHA
+============================ */
 .alterar-senha {
   display: flex;
   flex-direction: column;
@@ -397,7 +161,6 @@ main {
 .alterar-senha label {
   font-size: 15px;
   font-weight: 600;
-  margin-bottom: -5px;
 }
 
 .alterar-senha input {
@@ -415,7 +178,9 @@ main {
   box-shadow: 0 0 6px #a678ff;
 }
 
-/* ===== FOTO PERFIL ===== */
+/* ============================
+ FOTO DE PERFIL
+============================ */
 .perfil-foto {
   display: flex;
   flex-direction: column;
@@ -434,53 +199,227 @@ main {
   border: 3px solid #a07eff;
   background: white;
   object-fit: cover;
-  margin-bottom: 10px;
 }
 
-input[type="file"] {
-  margin: 10px 0;
-}
-
-/* ===== LOGO ICON ===== */
-.topo .logo img[src*="img.icons8.com"] {
-  width: 70px;
-  height: 60px;
-  object-fit: contain;
-  margin-left: 140px;
-  filter: brightness(0) invert(1);
-}
-
-/* ===== RESPONSIVIDADE ===== */
-@media (max-width: 768px) {
-  .perfil-box {
-    flex-direction: column;
-    gap: 30px;
-    text-align: center;
-  }
-
-  .linha-campos {
-    flex-direction: column;
-  }
-
-  .perfil-info input,
-  .alterar-senha input {
-    width: 100%;
-  }
-
-  .perfil-foto img {
-    width: 120px;
-    height: 120px;
-  }
-}
-/* Esconde todas as abas inicialmente */
+/* ============================
+ SWITCH DE ABAS (TAB)
+============================ */
 .tab-content {
   display: none;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-/* Mostra apenas a aba ativa */
 .tab-content.active {
   display: block;
   opacity: 1;
+}
+
+/* ============================
+  VISUALIZAÇÃO DO PERFIL (AJUSTADA)
+============================ */
+.perfil-visual {
+  text-align: center;
+  position: relative;
+  margin-top: 40px;
+  width: 660px; /* maior que antes */
+  margin-bottom: 40px;
+  background: #ffffff; /* Fundo branco */
+  padding-bottom: 40px; /* espaço um pouco maior embaixo */
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.25); /* sombra levemente mais forte */
+}
+
+/* Remove fundo gigante */
+.perfil-visual::before {
+  content: none !important;
+}
+
+/* Banner estilo Facebook - maior lateralmente */
+.perfil-visual .banner {
+  width: 660px;
+  height: 460px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px 15px 0 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  margin: 0; /* ocupa toda largura */
+}
+
+/* FOTO DE PERFIL grande e centralizada */
+.perfil-visual .foto-perfil {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 6px solid #ff0000;
+  object-fit: cover;
+  position: relative;
+  margin: -85px auto 0;
+  z-index: 10;
+  background: #ff0000;
+}
+
+/* Nome */
+.perfil-visual h2 {
+  margin-top: 12px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #000000; /* Preto para contraste com fundo branco */
+}
+
+/* Contadores */
+.perfil-visual .contadores {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.perfil-visual .contadores span {
+  color: #000000; /* Preto */
+}
+
+/* Bio */
+.perfil-visual .bio {
+  margin-top: 12px;
+  font-size: 15px;
+  color: #333333; /* Preto suave */
+  padding: 0 15px;
+}
+
+/* ============================
+ ABA "CONTA" (Banner, foto e bio)
+============================ */
+.conta-section {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  background-color: #f5f6f8;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding-bottom: 30px;
+}
+
+/* Banner */
+.banner-wrapper {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  background-color: #e0e0e0;
+  border-bottom: 2px solid #ddd;
+  overflow: hidden;
+}
+
+.banner-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-upload {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+}
+
+/* Foto de perfil da aba Conta */
+.foto-perfil-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  overflow: hidden;
+  margin: -90px auto 15px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+}
+
+.foto-perfil-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foto-upload {
+  text-align: center;
+  display: block;
+  font-size: 0.9rem;
+  color: #007bff;
+  cursor: pointer;
+  margin-top: 6px;
+  text-decoration: none;
+}
+
+/* Bio */
+.campo-bio {
+  padding: 20px 40px;
+}
+
+.campo-bio label {
+  font-weight: 500;
+  color: #444;
+}
+
+.campo-bio textarea {
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 1rem;
+}
+
+/* Botão salvar */
+.btn-salvar {
+  display: inline-block;
+  background-color: #0400ff;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 15 px;
+}
+
+/* ============================
+ RESPONSIVIDADE
+============================ */
+@media (max-width: 768px) {
+  .perfil-box {
+      flex-direction: column;
+      gap: 30px;
+      text-align: center;
+  }
+
+  .linha-campos {
+      flex-direction: column;
+  }
+
+  .perfil-foto img {
+      width: 120px;
+      height: 120px;
+  }
+
+  .foto-perfil-wrapper {
+      width: 110px;
+      height: 110px;
+      margin-top: -70px;
+  }
+
+  .banner-wrapper {
+      height: 250px;
+  }
 }

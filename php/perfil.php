@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once __DIR__ . '/usuario.php';
+require_once __DIR__ . '/conexao.php';
+require_once __DIR__ . '/Seguidor.php';
 
 $usuario = new Usuario();
 
@@ -26,8 +28,25 @@ $homeLink = ($_SESSION['tipo_usuario'] === 'admin')
     ? 'pagina_principal_adm.php'
     : 'pagina_principal.php';
 
-// Controla qual aba abrir após atualização
-$abaAtiva = $_GET['aba'] ?? 'configuracoes';
+// Controla qual aba abrir
+$abaAtiva = $_GET['aba'] ?? 'meu_perfil';
+
+// === CONTADORES ===
+$conexao = new Conexao();
+$conn = $conexao->getCon();
+$seguidor = new Seguidor();
+
+$stmtSeguindo = $conn->prepare("SELECT COUNT(*) AS seguindo FROM seguidores WHERE id_seguidor = ?");
+$stmtSeguindo->bind_param("i", $id);
+$stmtSeguindo->execute();
+$seguindo = $stmtSeguindo->get_result()->fetch_assoc()['seguindo'] ?? 0;
+$stmtSeguindo->close();
+
+$stmtSeguidores = $conn->prepare("SELECT COUNT(*) AS seguidores FROM seguidores WHERE id_seguindo = ?");
+$stmtSeguidores->bind_param("i", $id);
+$stmtSeguidores->execute();
+$seguidores = $stmtSeguidores->get_result()->fetch_assoc()['seguidores'] ?? 0;
+$stmtSeguidores->close();
 ?>
 
 <!DOCTYPE html>
@@ -37,8 +56,9 @@ $abaAtiva = $_GET['aba'] ?? 'configuracoes';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkpoint - Perfil do Usuário</title>
     <link rel="stylesheet" href="../css/perfil.css">
+
     <link rel="stylesheet" href="../css/dropdown.css">
-    <link rel="stylesheet" href="../css/conta.css">
+
     <link rel="stylesheet" href="../css/sidebar_perfil.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
@@ -66,6 +86,10 @@ $abaAtiva = $_GET['aba'] ?? 'configuracoes';
                         <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home" class="menu-icon">
                         Home
                     </a>
+           
+                
+                <a href="seguidos.php">Seguidos</a>
+                <a href="login_estrutura.php">Sair</a>
                 </nav>
             </div>
         </div>
@@ -74,10 +98,13 @@ $abaAtiva = $_GET['aba'] ?? 'configuracoes';
     <!-- MENU LATERAL -->
     <aside class="sidebar">
         <div class="menu-icons">
-            <a href="#" class="icon tab-link <?= ($abaAtiva === 'configuracoes') ? 'active' : ''; ?>" data-tab="configuracoes">
+            <a href="#" class="icon tab-link <?= ($abaAtiva === 'meu_perfil') ? 'active' : ''; ?>" data-tab="meu_perfil" title="Meu Perfil">
+                <i class="bi bi-person-badge"></i>
+            </a>
+            <a href="#" class="icon tab-link <?= ($abaAtiva === 'configuracoes') ? 'active' : ''; ?>" data-tab="configuracoes" title="Configurações">
                 <i class="bi bi-gear"></i>
             </a>
-            <a href="#" class="icon tab-link <?= ($abaAtiva === 'conta') ? 'active' : ''; ?>" data-tab="conta">
+            <a href="#" class="icon tab-link <?= ($abaAtiva === 'conta') ? 'active' : ''; ?>" data-tab="conta" title="Conta">
                 <i class="bi bi-person-circle"></i>
             </a>
         </div>
@@ -86,6 +113,28 @@ $abaAtiva = $_GET['aba'] ?? 'configuracoes';
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="main-conteudo">
         <div class="perfil-container">
+
+            <!-- ABA MEU PERFIL -->
+            <div id="meu_perfil" class="tab-content <?= ($abaAtiva === 'meu_perfil') ? 'active' : ''; ?>">
+                <section class="perfil-visual">
+                    <div class="banner" style="background-image: url('<?= !empty($fotoBanner) ? htmlspecialchars($fotoBanner) : '../img/banner_default.jpg' ?>');">
+                    </div>
+
+                    <div class="perfil-info">
+                        <img class="foto-perfil" src="<?= htmlspecialchars($fotoPerfil); ?>" alt="Foto do usuário">
+                        <h2><?= htmlspecialchars($nome) ?></h2>
+
+                        <div class="contadores">
+                            <span><strong><?= $seguindo ?></strong> Seguindo</span>
+                            <span><strong><?= $seguidores ?></strong> Seguidores</span>
+                        </div>
+
+                        <p class="bio"><?= !empty($bio) ? htmlspecialchars($bio) : 'Sem bio.' ?></p>
+
+                        <a href="?aba=conta" class="btn-editar-perfil">✏️ Editar Perfil</a>
+                    </div>
+                </section>
+            </div>
 
             <!-- ABA CONFIGURAÇÕES -->
             <div id="configuracoes" class="tab-content <?= ($abaAtiva === 'configuracoes') ? 'active' : ''; ?>">
@@ -127,7 +176,6 @@ $abaAtiva = $_GET['aba'] ?? 'configuracoes';
             <!-- ABA CONTA -->
             <div id="conta" class="tab-content <?= ($abaAtiva === 'conta') ? 'active' : ''; ?>">
                 <div class="conta-section">
-
                     <form action="atualizar_conta.php?aba=conta" method="POST" enctype="multipart/form-data" class="form-conta">
                         <input type="hidden" name="id_usuario" value="<?php echo $id; ?>">
 
@@ -144,7 +192,7 @@ $abaAtiva = $_GET['aba'] ?? 'configuracoes';
                         <input type="file" name="foto_perfil" id="foto_perfil" accept="image/*" style="display: none;">
 
                         <div class="conta-info">
-                            <h3>Editar Perfil</h3>
+                     
 
                             <div class="campo-bio">
                                 <label for="bio">Sobre (Bio):</label>
@@ -154,9 +202,9 @@ $abaAtiva = $_GET['aba'] ?? 'configuracoes';
                             <button type="submit" class="btn-salvar">Salvar Alterações</button>
                         </div>
                     </form>
-
                 </div>
             </div>
+
         </div>
     </main>
 

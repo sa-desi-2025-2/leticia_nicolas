@@ -1,87 +1,105 @@
 <?php
 session_start();
-require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/Seguidor.php';
 
-if (!isset($_GET['id'])) {
-    header("Location: pagina_principal.php");
-    exit();
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: login.php");
+    exit;
 }
 
-$idPerfil = intval($_GET['id']);
-$idLogado = $_SESSION['id_usuario'] ?? 0;
+$idLogado = $_SESSION['id_usuario'];
+$tipoUsuario = $_SESSION['tipo_usuario'] ?? 'user';
+$homeLink = $tipoUsuario === 'admin' ? 'pagina_principal_adm.php' : 'pagina_principal.php';
+
+// ID do usuário cujo perfil será exibido
+if (!isset($_GET['id'])) {
+    header("Location: $homeLink");
+    exit;
+}
+$idUsuarioPerfil = intval($_GET['id']);
 
 $conexao = new Conexao();
 $conn = $conexao->getCon();
-$seguidor = new Seguidor();
 
-// === BUSCA DADOS DO USUÁRIO ===
-$stmt = $conn->prepare("SELECT nome_usuario, foto_perfil, imagem_banner, bio FROM usuarios WHERE id_usuario = ?");
-$stmt->bind_param("i", $idPerfil);
+// Buscar dados do usuário
+$sql = "SELECT nome_usuario, foto_perfil, imagem_banner, bio FROM usuarios WHERE id_usuario = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $idUsuarioPerfil);
 $stmt->execute();
 $result = $stmt->get_result();
-
-if ($result->num_rows === 0) {
-    echo "<p>Usuário não encontrado.</p>";
-    exit();
-}
 $usuario = $result->fetch_assoc();
-$stmt->close();
+if (!$usuario) {
+    header("Location: $homeLink");
+    exit;
+}
 
-// === CONTADORES ===
-$stmtSeguindo = $conn->prepare("SELECT COUNT(*) AS seguindo FROM seguidores WHERE id_seguidor = ?");
-$stmtSeguindo->bind_param("i", $idPerfil);
+// Contagem de seguidores e seguindo
+$sqlSeguindo = "SELECT COUNT(*) AS seguindo FROM seguidores WHERE id_seguidor = ?";
+$stmtSeguindo = $conn->prepare($sqlSeguindo);
+$stmtSeguindo->bind_param("i", $idUsuarioPerfil);
 $stmtSeguindo->execute();
 $seguindo = $stmtSeguindo->get_result()->fetch_assoc()['seguindo'] ?? 0;
-$stmtSeguindo->close();
 
-$stmtSeguidores = $conn->prepare("SELECT COUNT(*) AS seguidores FROM seguidores WHERE id_seguindo = ?");
-$stmtSeguidores->bind_param("i", $idPerfil);
+$sqlSeguidores = "SELECT COUNT(*) AS seguidores FROM seguidores WHERE id_seguindo = ?";
+$stmtSeguidores = $conn->prepare($sqlSeguidores);
+$stmtSeguidores->bind_param("i", $idUsuarioPerfil);
 $stmtSeguidores->execute();
 $seguidores = $stmtSeguidores->get_result()->fetch_assoc()['seguidores'] ?? 0;
+
+// Verificar se já segue
+$sqlCheckFollow = "SELECT 1 FROM seguidores WHERE id_seguidor = ? AND id_seguindo = ?";
+$stmtCheck = $conn->prepare($sqlCheckFollow);
+$stmtCheck->bind_param("ii", $idLogado, $idUsuarioPerfil);
+$stmtCheck->execute();
+$jaSegue = $stmtCheck->get_result()->num_rows > 0;
+
+// Fechar conexões
+$stmt->close();
+$stmtSeguindo->close();
 $stmtSeguidores->close();
-
-// === VERIFICA SE LOGADO SEGUE O PERFIL ===
-$jaSegue = $seguidor->verificaSeguindo($idLogado, $idPerfil);
-$textoBotao = $jaSegue ? "Seguindo" : "Seguir";
-$classeExtra = $jaSegue ? "seguindo" : "";
-
+$stmtCheck->close();
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($usuario['nome_usuario']) ?> - Perfil</title>
-    <link rel="stylesheet" href="../css/pagina_principal.css">
-    <link rel="stylesheet" href="../css/dropdown.css">
-    <link rel="stylesheet" href="../css/perfil_usuario.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil de Usuário</title>
+<link rel="stylesheet" href="../css/perfil_usuario.css">
+<link rel="stylesheet" href="../css/dropdown.css">
 </head>
 <body>
 
-<!-- === SIDEBAR === -->
+<!-- SIDEBAR -->
 <aside class="sidebar">
     <div class="menu-icons">
-        <div class="icon"></div><div class="icon"></div><div class="icon"></div><div class="icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
     </div>
     <div class="add-icon">+</div>
 </aside>
 
-<!-- === TOPBAR === -->
+<!-- TOPO COM DROPDOWN -->
 <div class="top-bar">
-    <div class="logo"><img src="../img/logo.png" alt="Checkpoint"></div>
+    <div class="logo"><img src="../img/logo.png" alt="Logo"></div>
     <div class="user-menu">
         <div class="user-icon" id="userButton">
-            <img src="<?= $_SESSION['foto_perfil'] ?? '../uploads/default.png' ?>" alt="Usuário">
+            <img src="<?= htmlspecialchars($_SESSION['foto_perfil'] ?? '../uploads/default.png') ?>" alt="Usuário Logado">
         </div>
         <div class="dropdown-side" id="dropdownMenu">
             <div class="profile-section">
-                <img src="<?= $_SESSION['foto_perfil'] ?? '../uploads/default.png' ?>" alt="Usuário">
+                <img src="<?= htmlspecialchars($_SESSION['foto_perfil'] ?? '../uploads/default.png') ?>" alt="Usuário Logado">
                 <h3><?= htmlspecialchars($_SESSION['nome_usuario'] ?? 'Usuário') ?></h3>
             </div>
             <nav class="menu-links">
-                <a href="perfil.php">Perfil</a>
+                <a href="<?= $homeLink ?>">Home</a>
+                <a href="perfil.php?id=<?= $idLogado ?>">Perfil</a>
+                <a href="#" id="abrirCategorias">Categorias</a>
                 <a href="seguidos.php">Seguidos</a>
                 <a href="login_estrutura.php">Sair</a>
             </nav>
@@ -89,32 +107,40 @@ $classeExtra = $jaSegue ? "seguindo" : "";
     </div>
 </div>
 
-<!-- === PERFIL === -->
-<main class="perfil-container">
-    <div class="banner" style="background-image: url('<?= !empty($usuario['imagem_banner']) ? '../uploads/' . htmlspecialchars($usuario['imagem_banner']) : '../img/banner_default.jpg' ?>');">
+<!-- PERFIL -->
+<div class="profile-container">
+    <div class="banner">
+        <img src="<?= htmlspecialchars($usuario['imagem_banner'] ?? '../uploads/default_banner.jpg') ?>" alt="Banner do Usuário">
     </div>
+    <div class="profile-info">
+        <div class="profile-pic">
+            <img src="<?= htmlspecialchars($usuario['foto_perfil'] ?? '../uploads/default.png') ?>" alt="Foto de Perfil">
+        </div>
 
-    <div class="perfil-info">
-        <img class="foto-perfil" src="<?= !empty($usuario['foto_perfil']) ? htmlspecialchars($usuario['foto_perfil']) : '../uploads/default.png' ?>" alt="Foto do usuário">
         <h2><?= htmlspecialchars($usuario['nome_usuario']) ?></h2>
+        <p class="bio"><?= htmlspecialchars($usuario['bio'] ?? 'Sem biografia adicionada.') ?></p>
 
-        <div class="contadores">
+        <div class="follow-stats">
             <span><strong><?= $seguindo ?></strong> Seguindo</span>
             <span><strong><?= $seguidores ?></strong> Seguidores</span>
         </div>
 
-        <p class="bio"><?= !empty($usuario['bio']) ? htmlspecialchars($usuario['bio']) : 'Sem bio.' ?></p>
-
-        <?php if ($idLogado != $idPerfil): ?>
-            <button class="follow-btn <?= $classeExtra ?>" data-id="<?= $idPerfil ?>" data-tipo="usuario">
-                <?= $textoBotao ?>
-            </button>
+        <!-- BOTÃO AJAX -->
+        <?php if ($idUsuarioPerfil !== $idLogado): ?>
+        <div class="follow-action">
+            <?php if ($jaSegue): ?>
+                <button class="btn-desativar unfollow-btn" data-id="<?= $idUsuarioPerfil ?>">Deixar de seguir</button>
+            <?php else: ?>
+                <button class="btn-ativar follow-btn" data-id="<?= $idUsuarioPerfil ?>">Seguir</button>
+            <?php endif; ?>
+        </div>
         <?php endif; ?>
-    </div>
-</main>
 
-<script src="../js/dropdown.js"></script>
+    </div>
+</div>
+
 <script src="../js/seguir.js"></script>
-<script src="../js/perfil_usuario.js"></script>
+<script src="../js/dropdown.js"></script>
+
 </body>
 </html>

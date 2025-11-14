@@ -27,31 +27,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         btn.addEventListener("click", () => {
-            const targetClass = btn.getAttribute("data-target"); // user-list ou community-list
-            const lista = document.querySelector(`.${targetClass}`);
+            const targetAttr = btn.getAttribute("data-target");
+            // se data-target for um nome de param (ex: page_comunidade), assumimos comportamento server-side
+            // mas se for uma classe real (user-list / community-list), manipulamos client-side
+            const lista = document.querySelector(`.${targetAttr}`);
             if (!lista) return;
 
-            const items = lista.children;
-            let mostrados = 0;
-
-            // Conta quantos estão visíveis
-            for (let i = 0; i < items.length; i++) {
-                if (items[i].style.display !== "none") mostrados++;
-            }
+            const items = Array.from(lista.children);
+            let mostrados = items.filter(i => i.style.display !== "none" && getComputedStyle(i).display !== "none").length;
 
             // Mostra próximos 10 (ajustado conforme pedido)
             let mostradosAgora = 0;
             for (let i = mostrados; i < items.length; i++) {
                 if (mostradosAgora >= 10) break;
-                items[i].style.display = "flex"; // ou "block" se preferir
+                items[i].style.display = "flex";
                 mostradosAgora++;
             }
 
             // Se todos já estiverem visíveis, remove o botão
-            let todosVisiveis = true;
-            for (let i = 0; i < items.length; i++) {
-                if (items[i].style.display === "none") todosVisiveis = false;
-            }
+            const todosVisiveis = items.every(it => it.style.display !== "none" && getComputedStyle(it).display !== "none");
             if (todosVisiveis) btn.style.display = "none";
         });
     });
@@ -59,120 +53,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ===== MODAL DE CATEGORIAS =====
 document.addEventListener("DOMContentLoaded", () => {
-    const abrirCategoriasLink = document.getElementById('abrirCategorias'); // link no menu
-    const modal = document.getElementById('modalCategorias');
-    const btnSalvar = document.getElementById('salvarCategorias');
-    const btnFechar = document.getElementById('fecharModal');
-    const form = document.getElementById('formCategorias');
+    const modal = document.getElementById("modalCategorias");
+    const salvar = document.getElementById("salvarCategorias");
+    const fechar = document.getElementById("fecharModal");
+    const form = document.getElementById("formCategorias");
+    const botaoAbrirMenu = document.getElementById("abrirCategorias");
 
-    // util: bloqueia/desbloqueia scroll da página
-    function bloquearPagina(b) {
-        document.body.style.overflow = b ? 'hidden' : '';
+    if (!modal || !salvar || !fechar || !form) {
+        return; // admin sem modal → evita erro
     }
 
-    // abre modal e bloqueia interação
-    function abrirModal() {
-        if (!modal) return;
-        modal.style.display = 'flex';
-        bloquearPagina(true);
+    // ABRIR MODAL PELO MENU (admin e usuário)
+    if (botaoAbrirMenu) {
+        botaoAbrirMenu.addEventListener("click", (e) => {
+            e.preventDefault();
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        });
     }
 
-    // tenta fechar modal: só permite fechar se o usuário já tiver salvo ao menos uma categoria
-    // implementamos lógica em que o botão FECHAR SEMPRE verifica se há checkbox marcada E se já foi salvo (server)
-    // Para simplificar confiamos no fato de que salvar devolve sucesso; após salvar, o modal poderá fechar.
-    function fecharModalForcado() {
-        if (!modal) return;
-        // verifica se existe ao menos uma checkbox marcada
-        const marcadas = modal.querySelectorAll('.checkbox-categoria:checked');
-        if (marcadas.length === 0) {
-            alert('Selecione pelo menos uma categoria antes de fechar!');
-            return false;
+    // SALVAR CATEGORIAS
+salvar.addEventListener("click", () => {
+    const selecionadas = form.querySelectorAll(".checkbox-categoria:checked");
+
+    if (selecionadas.length === 0) {
+        alert("Selecione pelo menos uma categoria antes de salvar.");
+        return;
+    }
+
+    const dados = new FormData(form);
+
+    fetch("salvar_categorias.php", {
+        method: "POST",
+        body: dados
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.sucesso) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+            location.reload();
+        } else {
+            alert(res.mensagem);
         }
-        // Se chegou aqui significa que o usuário marcou ao menos uma — entretanto, ele precisa salvar.
-        // Para garantir, solicitamos que ele clique em "Salvar" (não fechamos automaticamente aqui).
-        alert('Clique em "Salvar" para confirmar suas preferências antes de fechar.');
-        return false;
-    }
+    })
+    .catch(() => alert("Erro ao salvar categorias."));
+});
 
-    if (abrirCategoriasLink && modal) {
-        abrirCategoriasLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            abrirModal();
-        });
-    }
 
-    // Se modal existir e estiver visível ao carregar (usuário sem categorias), bloqueia a página
-    if (modal && getComputedStyle(modal).display !== 'none') {
-        bloquearPagina(true);
-    }
-
-    // fechar pelo botão: mas só se ao menos uma categoria estiver marcada E após salvar (salvar deve ser clicado)
-    if (btnFechar) {
-        btnFechar.addEventListener('click', (e) => {
-            e.preventDefault();
-            // impedir fechar sem seleção + salvar
-            fecharModalForcado();
-        });
-    }
-
-    // salvar via AJAX
-    if (btnSalvar && form) {
-        btnSalvar.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            // coleta selecionadas
-            const selecionadas = Array.from(form.querySelectorAll('.checkbox-categoria:checked')).map(c => c.value);
-
-            if (selecionadas.length === 0) {
-                alert('Selecione pelo menos uma categoria antes de salvar.');
-                return;
-            }
-
-            // montar body x-www-form-urlencoded (compatível com seu salvar_categorias.php)
-            const params = new URLSearchParams();
-            selecionadas.forEach(id => params.append('categorias[]', id));
-
-            fetch('salvar_categorias.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: params.toString()
-            })
-            .then(r => r.json())
-            .then(data => {
-                if (data && data.sucesso) {
-                    alert('Categorias salvas com sucesso!');
-                    // fecha modal e desbloqueia página
-                    if (modal) modal.style.display = 'none';
-                    bloquearPagina(false);
-                    // recarregar para atualizar estado (opcional, mantém compatibilidade com resto)
-                    location.reload();
-                } else {
-                    alert(data.mensagem || 'Erro ao salvar categorias.');
-                }
-            })
-            .catch(() => {
-                alert('Erro de comunicação com o servidor.');
-            });
-        });
-    }
-
-    // impedir fechar clicando fora enquanto modal estiver bloqueando
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            // se clicar na overlay (fora do conteúdo), tratamos como tentativa de fechar: prevenir se não houver seleção/salvo
-            if (e.target === modal) {
-                // se ao menos uma marcada, pedimos salvar; caso contrário alert.
-                const marcadas = modal.querySelectorAll('.checkbox-categoria:checked');
-                if (marcadas.length === 0) {
-                    alert('Selecione pelo menos uma categoria antes de fechar!');
-                    return;
-                } else {
-                    alert('Clique em "Salvar" para confirmar suas preferências antes de fechar.');
-                    return;
-                }
-            }
-        });
-    }
+    // FECHAR MODAL
+    fechar.addEventListener("click", () => {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    });
 });

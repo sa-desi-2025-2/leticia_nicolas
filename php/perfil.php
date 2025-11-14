@@ -58,7 +58,7 @@ $stmtSeguidores->close();
     <link rel="stylesheet" href="../css/perfil.css">
 
     <link rel="stylesheet" href="../css/dropdown.css">
-    <link rel="stylesheet" href="../css/conta.css">
+
     <link rel="stylesheet" href="../css/sidebar_perfil.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
@@ -188,7 +188,7 @@ $stmtSeguidores->close();
                         <input type="file" name="foto_perfil" id="foto_perfil" accept="image/*" style="display: none;">
 
                         <div class="conta-info">
-                            <h3>Editar Perfil</h3>
+                     
 
                             <div class="campo-bio">
                                 <label for="bio">Sobre (Bio):</label>

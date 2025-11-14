@@ -38,7 +38,6 @@ $stmtSeguindo->close();
 $stmtSeguidores->close();
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -72,12 +71,19 @@ $conn->close();
                     <img src="<?= htmlspecialchars($usuario['foto_perfil'] ?? '../uploads/default.png') ?>" alt="Usuário">
                     <h3><?= htmlspecialchars($usuario['nome_usuario'] ?? 'Usuário') ?></h3>
                 </div>
+
                 <nav class="menu-links">
-                    <a href="perfil_usuario.php">Perfil</a>
-                    <a href="configuracoes.php">Configurações</a>
-                    <a href="seguidos.php">Seguidos</a>
-                    <a href="login_estrutura.php">Sair</a>
+           
+
+                    <!-- 🔥 AQUI ESTÁ O LINK COMUM SEM SER MENU 🔥 -->
+                    <a href="pagina_principal.php">Home</a>
+                    <a href="perfil.php">Perfil</a>
+                <a href="#" id="abrirCategorias">Categorias</a>
+                <a href="seguidos.php">Seguidos</a>
+                <a href="login_estrutura.php">Sair</a>
+            </nav>
                 </nav>
+
             </div>
         </div>
     </div>

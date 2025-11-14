@@ -137,8 +137,10 @@ body {
 
 /* ==== BANNER ==== */
 .banner {
-    width: 100%;
-    height: 330px; /* maior */
+    width: 95%;
+    right: 40px;
+    left: 30px;
+    height: 400px; /* maior */
     overflow: hidden;
 }
 
@@ -151,12 +153,13 @@ body {
 /* ==== CARD DO PERFIL ==== */
 .profile-info {
     width: 95%;
-    max-width: 1100px;  /* MAIOR COMO VOCÊ PEDIU */
-    margin-top: -90px;
-    padding: 35px;
-    border-radius: 20px;
+    max-width: 5000px;  /* MAIOR COMO VOCÊ PEDIU */
+    margin-top: -1px;
+    padding: 1px;
+  
 
-    background: #ffffffd5;  /* branco */
+
+    background: #ffffff;  /* branco */
     color: #000;            /* letras pretas */
     backdrop-filter: blur(5px);
 

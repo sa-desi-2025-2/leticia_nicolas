@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/pesquisa_funcao.php';
-require_once __DIR__ . '/Seguidor.php';
+require_once __DIR__ . '/seguidor.php';
 
 if ($_SESSION['tipo_usuario'] !== 'admin') {
     header("Location: pagina_principal.php");

@@ -222,7 +222,8 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             <div class="lista-categorias">
                 <?php foreach ($categorias as $cat): ?>
                     <label class="categoria-item">
-                        <input type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>" 
+                        <!-- adicionei a classe checkbox-categoria para o JS identificar -->
+                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>" 
                                <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
                         <?= htmlspecialchars($cat['nome_categoria']) ?>
                     </label><br>
@@ -240,8 +241,6 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
 <script src="../js/modalcategoria.js"></script>
-
-
 
 </body>
 </html>

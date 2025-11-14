@@ -1,247 +1,226 @@
-/* ===========================
-   RESET E ESTILO BASE
-=========================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
+/* ============================
+   ESTILO BASE + BACKGROUND
+============================ */
 body {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f5f5f5;
-    color: #333;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg')
+        no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
 }
 
-/* ===========================
+/* ============================
    SIDEBAR
-=========================== */
+============================ */
 .sidebar {
-    width: 60px;
-    background-color: #1e1e2f;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
     position: fixed;
     top: 0;
     left: 0;
-    bottom: 0;
-    gap: 20px;
+    width: 70px;
+    height: 100vh;
+    background-color: #04c5af96;
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 10;
 }
 
-.sidebar .menu-icons .icon {
-    width: 30px;
-    height: 3px;
-    background-color: #fff;
-    margin: 4px 0;
-    border-radius: 2px;
-    cursor: pointer;
+.menu-icons .icon {
+    width: 40px;
+    height: 40px;
+    background-color: #02695c;
+    border-radius: 10px;
+    margin: 22px 0;
+    transition: 0.3s;
 }
 
-.sidebar .add-icon {
+.menu-icons .icon:hover {
+    transform: scale(1.1);
+}
+
+.add-icon {
     margin-top: auto;
-    width: 30px;
-    height: 30px;
-    background-color: #4CAF50;
-    color: #fff;
-    font-size: 24px;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 50%;
+    margin-bottom: 25px;
+    font-size: 30px;
+    color: white;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-/* ===========================
-   TOPBAR
-=========================== */
+.add-icon:hover {
+    transform: rotate(90deg);
+}
+
+/* ============================
+   TOP BAR
+============================ */
 .top-bar {
-    margin-left: 60px;
-    height: 60px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
+    margin-left: 80px;
+    height: 70px;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 25px;
     position: fixed;
-    width: calc(100% - 60px);
     top: 0;
-    z-index: 10;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.top-bar .logo img {
-    height: 40px;
-}
-
-.user-menu {
-    position: relative;
-}
-
-.user-icon img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    object-fit: cover;
-    border: 2px solid #4CAF50;
-}
-
-/* ===========================
-   DROPDOWN MENU
-=========================== */
-.dropdown-side {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 50px;
-    width: 200px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
+    width: calc(100% - 80px);
     z-index: 20;
 }
 
-.dropdown-side.show {
-    display: block;
+.logo img {
+    height: 85px;
+    filter: drop-shadow(0 0 6px #00ffe1);
 }
 
-.dropdown-side .profile-section {
-    text-align: center;
-    padding: 15px;
-    border-bottom: 1px solid #eee;
+/* ============================
+   ÍCONE DO USUÁRIO NO TOPO
+============================ */
+.user-menu {
+    position: relative;
+    margin-right: 40px; /* puxar para longe da borda */
 }
 
-.dropdown-side .profile-section img {
-    width: 60px;
-    height: 60px;
+.user-icon img {
+    width: 58px; /* maior para ficar proporcional */
+    height: 58px;
     border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
+    cursor: pointer;
+    border: 3px solid #00ffe1;
+    box-shadow: 0 0 12px #00ffe1;
+    transition: 0.3s;
 }
 
-.dropdown-side .profile-section h3 {
-    font-size: 16px;
-    font-weight: bold;
+.user-icon img:hover {
+    transform: scale(1.1);
 }
 
-.menu-links a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #333;
-    transition: background 0.2s;
+/* ============================
+   DROPDOWN LATERAL
+============================ */
+.dropdown-side {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 260px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    transition: right 0.4s ease;
+    z-index: 999;
 }
 
-.menu-links a:hover {
-    background-color: #f0f0f0;
+.dropdown-side.show {
+    right: 0;
 }
 
-/* ===========================
-   PERFIL CONTAINER
-=========================== */
-.perfil-container {
-    margin-left: 60px;
-    margin-top: 60px;
-    width: calc(100% - 60px);
+/* ============================
+   PERFIL
+============================ */
+
+.profile-container {
+    margin-left: 120px;
+    margin-top: 80px;
+    width: calc(100% - 120px);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* ==== BANNER ==== */
 .banner {
     width: 100%;
-    max-height: 250px;
-    background-size: cover;
-    background-position: center;
-    border-bottom: 2px solid #ddd;
-    border-radius: 0 0 10px 10px;
+    height: 330px; /* maior */
+    overflow: hidden;
 }
 
-.perfil-info {
-    background-color: #fff;
-    width: 90%;
-    max-width: 800px;
-    margin-top: -60px;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==== CARD DO PERFIL ==== */
+.profile-info {
+    width: 95%;
+    max-width: 1100px;  /* MAIOR COMO VOCÊ PEDIU */
+    margin-top: -90px;
+    padding: 35px;
+    border-radius: 20px;
+
+    background: #ffffffd5;  /* branco */
+    color: #000;            /* letras pretas */
+    backdrop-filter: blur(5px);
+
     text-align: center;
-    position: relative;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
 
-.perfil-info .foto-perfil {
-    width: 120px;
-    height: 120px;
+/* ==== FOTO DO PERFIL ==== */
+.profile-pic img {
+    width: 160px;        /* maior */
+    height: 160px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #fff;
-    margin-top: -60px;
+    border: 5px solid #00ffe1;
+    box-shadow: 0 0 15px #00ffe1;
+    margin-top: -100px;
 }
 
-.perfil-info h2 {
-    font-size: 24px;
-    margin: 15px 0 10px;
+/* ==== TEXTO ==== */
+.profile-info h2 {
+    margin-top: 20px;
+    font-size: 28px;
+    color: #000;
 }
 
-.contadores {
+/* ==== BIO ==== */
+.bio {
+    font-size: 16px;
+    margin-top: 8px;
+    color: #111;
+}
+
+/* ==== CONTADORES ==== */
+.follow-stats {
+    margin-top: 18px;
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin: 10px 0;
-    font-size: 16px;
+    gap: 50px;
+    font-size: 18px;
+    color: #000;
 }
 
-.bio {
-    font-size: 14px;
-    color: #666;
-    margin: 15px 0;
+.follow-stats span strong {
+    color: #00a6a6;
+    text-shadow: none;
 }
 
-/* ===========================
-   BOTÃO SEGUIR
-=========================== */
-.follow-btn {
-    padding: 10px 25px;
-    font-size: 16px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: #fff;
-    transition: all 0.3s;
-}
-
-.follow-btn.seguindo {
-    background-color: #fff;
-    border: 2px solid #4CAF50;
-    color: #4CAF50;
-}
-
-.follow-btn:hover {
-    opacity: 0.9;
-}
-
-/* ===========================
-   RESPONSIVO
-=========================== */
+/* ============================
+   RESPONSIVIDADE
+============================ */
 @media (max-width: 768px) {
-    .perfil-info {
+
+    .profile-info {
         width: 95%;
-        margin-top: -40px;
+        padding: 25px;
     }
 
-    .contadores {
+    .profile-pic img {
+        width: 130px;
+        height: 130px;
+    }
+
+    .follow-stats {
         flex-direction: column;
         gap: 10px;
-    }
-
-    .top-bar {
-        padding: 0 10px;
     }
 }

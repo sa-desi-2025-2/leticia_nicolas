@@ -52,7 +52,7 @@ session_start();
                     
                     <label for="idade">
                         <img class="icon" src="https://img.icons8.com/?size=100&id=1663&format=png&color=ffffff" alt="idade"/>
-                        Idade:
+                        Data Nascimento:
                     </label>
                     <input type="date" id="idade" name="idade" required>
                     

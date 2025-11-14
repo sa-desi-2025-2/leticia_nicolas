@@ -89,8 +89,8 @@ body {
     height: 58px;
     border-radius: 50%;
     cursor: pointer;
-    border: 3px solid #00ffe1;
-    box-shadow: 0 0 12px #00ffe1;
+
+
     transition: 0.3s;
 }
 
@@ -173,8 +173,8 @@ body {
     height: 160px;
     border-radius: 50%;
     object-fit: cover;
-    border: 5px solid #00ffe1;
-    box-shadow: 0 0 15px #00ffe1;
+    border: 5px solid #ffffff;
+
     margin-top: -100px;
 }
 
@@ -203,7 +203,7 @@ body {
 }
 
 .follow-stats span strong {
-    color: #00a6a6;
+    color: #00a616;
     text-shadow: none;
 }
 
@@ -226,4 +226,106 @@ body {
         flex-direction: column;
         gap: 10px;
     }
+}
+
+/* ============================
+   BOTÃO SEGUIR / SEGUINDO
+============================ */
+
+.follow-btn,
+.unfollow-btn {
+    padding: 5px 5x;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+
+    background:rgb(0, 255, 21);
+    color: black;
+
+   
+    transition: 0.3s ease-in-out;
+    margin-top: 15px;
+}
+
+.follow-btn:hover,
+.unfollow-btn:hover {
+    transform: scale(1.07);
+  
+}
+
+/* Quando já está seguindo */
+.seguindo {
+    background: #02695c;
+    color: #fff;
+    box-shadow: 0 0 10px #02695c;
+}
+
+.seguindo:hover {
+ 
+    transform: scale(1.07);
+}
+
+/* ============================
+   BOTÃO SEGUIR / DEIXAR DE SEGUIR
+============================ */
+
+.follow-action {
+    margin-top: 20px;
+}
+
+/* Botão padrão (SEGUIR) */
+.follow-btn {
+    padding: 12px 35px;
+    border: none;
+    border-radius: 30px;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: bold;
+
+   
+    color: black;
+
+    
+    transition: 0.3s ease-in-out;
+
+    letter-spacing: 1px;
+}
+
+/* Botão DESISTIR (DEIXAR DE SEGUIR) */
+.unfollow-btn {
+    padding: 12px 35px;
+    border: none;
+    border-radius: 30px;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: bold;
+
+    background: #ff3b3b;
+    color: rgb(0, 0, 0);
+
+   
+    transition: 0.3s ease-in-out;
+    letter-spacing: 1px;
+}
+
+/* HOVER */
+.follow-btn:hover,
+.unfollow-btn:hover {
+    transform: scale(1.08);
+    filter: brightness(1.2);
+}
+
+/* ESTILO QUANDO JÁ ESTÁ SEGUINDO */
+.seguindo {
+    background: #26ff00 !important;
+    color: #fff !important;
+
+    box-shadow: 0 0 12px #ffffff !important;
+}
+
+.seguindo:hover {
+    background: #038f7e !important;
+    transform: scale(1.08);
 }

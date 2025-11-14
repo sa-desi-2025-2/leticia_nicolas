@@ -86,6 +86,10 @@ $stmtSeguidores->close();
                         <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home" class="menu-icon">
                         Home
                     </a>
+           
+                
+                <a href="seguidos.php">Seguidos</a>
+                <a href="login_estrutura.php">Sair</a>
                 </nav>
             </div>
         </div>

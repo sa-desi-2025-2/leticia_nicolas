@@ -13,8 +13,12 @@ if ($_SESSION['tipo_usuario'] !== 'admin') {
 $usuario = new Usuario();
 $usuarios = $usuario->listarUsuarios();
 
-$usuario = new Usuario();
-$usuarios = $usuario->listarUsuarios(); // busca todos os usuários
+$homeLink = "pagina_principal_adm.php";
+
+// Dados do usuário logado
+$fotoLogado = $_SESSION['foto_perfil'] ?? '../uploads/default.png';
+$nomeLogado = $_SESSION['nome_usuario'] ?? 'Usuário';
+$idLogado   = $_SESSION['id_usuario'];
 ?>
 
 <!DOCTYPE html>
@@ -25,31 +29,64 @@ $usuarios = $usuario->listarUsuarios(); // busca todos os usuários
     <title>Checkpoint - Gerenciamento de Usuários</title>
 
     <link rel="stylesheet" href="../css/usuarios.css">
+    <link rel="stylesheet" href="../css/dropdown.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 
-<!-- TOPO -->
-<a href="<?= $homeLink ?>">
+<!-- ======================= TOPO ======================= -->
+
 <div class="topo">
-    <div class="logo">
+
+    <!-- LOGO CLICÁVEL (VAI PARA HOME DO ADMIN) -->
+    <a href="<?= $homeLink ?>" class="logo">
         <img src="../img/logo.png" alt="Checkpoint Logo">
-    </div>
-        <!-- 🔙 Voltar à página principal do ADM -->
-        <a href="pagina_principal_adm.php" title="Voltar à página inicial">
-            <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home" class="home-icon">
-        </a>
+    </a>
+
+    <!-- ÍCONE DO PERFIL (ABRE DROPDOWN) -->
+    <div class="user-menu">
+        <div class="user-icon" id="userButton">
+            <img src="<?= $fotoLogado ?>" alt="Usuário Logado">
+        </div>
     </div>
 
-    <div class="user-menu">
-        <div class="user-icon">
-           
-            <img src="<?php echo $_SESSION['foto_perfil'] ?? '../uploads/default.png'; ?>" alt="Usuário Logado">
-        </div>
+</div>
+
+<!-- =================== DROPDOWN LATERAL =================== -->
+
+<div id="dropdownMenu" class="dropdown-side">
+
+    <div class="profile-section">
+        <img src="<?= $fotoLogado ?>" alt="Foto do Usuário">
+
+        <h3>
+            <a href="perfil_usuario.php?id=<?= $idLogado ?>" style="color:white; text-decoration:none;">
+                <?= $nomeLogado ?>
+            </a>
+        </h3>
+    </div>
+
+    <div class="menu-links">
+    <a href="<?= $homeLink ?>">
+            <img src="https://img.icons8.com/?size=100&id=TZ2lKyH3LVjx&format=png&color=000000" alt="home" class="menu-icon">
+            Home
+</a>
+        <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" alt="home" class="menu-icon">Perfil</a>
+
+    
+        <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" alt="home" class="menu-icon">Seguidos</a>
+        <a href="login_estrutura.php">
+            <img class="menu-icon" src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000">
+            Sair
+        </a>
     </div>
 </div>
 
-<!-- CONTEÚDO PRINCIPAL -->
+<!-- FUNDO ESCURO QUANDO O MENU ABRE -->
+<div id="overlay" class="overlay"></div>
+
+<!-- =================== CONTEÚDO PRINCIPAL =================== -->
+
 <main class="content">
     <h2 class="titulo">Gerenciamento de Usuários</h2>
 
@@ -57,16 +94,25 @@ $usuarios = $usuario->listarUsuarios(); // busca todos os usuários
         <?php foreach ($usuarios as $user): ?>
             <div class="user-card">
                 <div class="user-info">
-                    <!-- ✅ Foto de perfil do usuário -->
+
+                    <!-- FOTO DO USUÁRIO -->
                     <img 
                         src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
                         alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>" 
                         class="foto-usuario"
                     >
-                    <p class="user-name"><?= htmlspecialchars($user['nome_usuario']) ?></p>
+
+                    <a 
+    class="user-name" 
+    href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>"
+    style="text-decoration:none; color:black; font-weight:600;"
+>
+    <?= htmlspecialchars($user['nome_usuario']) ?>
+</a>
+
                 </div>
 
-                <!-- Botão de ativar/desativar -->
+                <!-- BOTÃO DE ATIVAR/DESATIVAR -->
                 <button 
                     id="btnUsuario<?= $user['id_usuario'] ?>" 
                     class="<?= $user['ativo'] == 1 ? 'btn-desativar' : 'btn-ativar' ?>" 
@@ -79,7 +125,10 @@ $usuarios = $usuario->listarUsuarios(); // busca todos os usuários
     </div>
 </main>
 
+<!-- =================== SCRIPTS =================== -->
+
 <script src="../js/adm.js"></script>
 <script src="../js/principal.js"></script>
+
 </body>
 </html>

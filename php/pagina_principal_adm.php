@@ -116,11 +116,12 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 <h3><?= htmlspecialchars($_SESSION['nome_usuario'] ?? 'Usuário') ?></h3>
             </div>
             <nav class="menu-links">
-                <a href="perfil.php">Perfil</a>
-                <a href="#" id="abrirCategorias">Categorias</a>
-                <a href="pagina_principal_contas.php">Contas</a>
-                <a href="seguidos.php">Seguidos</a>
-                <a href="login_estrutura.php">Sair</a>
+                
+                <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" alt="home" class="menu-icon">Perfil</a>
+                <a href="#" id="abrirCategorias"><img src="https://img.icons8.com/?size=100&id=99515&format=png&color=000000" alt="home" class="menu-icon">Categorias</a>
+                <a href="pagina_principal_contas.php"><img src="https://img.icons8.com/?size=100&id=82535&format=png&color=000000" alt="home" class="menu-icon">Contas</a>
+                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" alt="home" class="menu-icon">Seguidos</a>
+                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" alt="home" class="menu-icon">Sair</a>
             </nav>
         </div>
     </div>

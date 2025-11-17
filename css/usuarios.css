@@ -286,3 +286,31 @@ body {
   box-shadow: 0 0 10px #ff0055;
 }
 
+.user-info-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer; /* continua abrindo o menu */
+}
+
+/* Foto pequena do topo */
+.foto-top {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+/* Nome do usuário */
+.nome-top {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+/* Efeito ao passar o mouse */
+.nome-top:hover {
+  text-decoration: underline;
+}

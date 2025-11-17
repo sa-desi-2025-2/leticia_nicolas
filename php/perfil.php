@@ -66,9 +66,9 @@ $stmtSeguidores->close();
 
     <!-- TOPO -->
     <div class="topo">
-        <div class="logo">
-            <img src="../img/logo.png" alt="Checkpoint Logo">
-        </div>
+    <a href="<?= $homeLink ?>">
+    <div class="logo"><img src="../img/logo.png" alt="Logo"></div>
+    </a>
 
         <!-- MENU DO USUÁRIO -->
         <div class="user-menu">
@@ -87,9 +87,11 @@ $stmtSeguidores->close();
                         Home
                     </a>
            
-                
-                <a href="seguidos.php">Seguidos</a>
-                <a href="login_estrutura.php">Sair</a>
+                    <?php if ($_SESSION['tipo_usuario'] === 'admin'): ?>
+                <a href="pagina_principal_contas.php"><img src="https://img.icons8.com/?size=100&id=82535&format=png&color=000000" alt="home" class="menu-icon">Contas</a>
+            <?php endif; ?>
+                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" alt="home" class="menu-icon">Seguidos</a>
+                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" alt="home" class="menu-icon">Sair</a>
                 </nav>
             </div>
         </div>

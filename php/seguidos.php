@@ -37,12 +37,12 @@ $homeLink = 'pagina_principal.php';
     <div class="logo">
         <img src="../img/logo.png" alt="Checkpoint Logo">
     </div>
-    </a>
-    <div class="user-menu">
-        <div class="user-icon" onclick="toggleDropdown()">
-            <img src="<?= htmlspecialchars($fotoPerfil) ?>" alt="Usuário Logado">
-        </div>
+</a>
+<div class="user-menu">
+    <div class="user-icon" onclick="toggleDropdown()">
+        <img src="<?= htmlspecialchars($fotoPerfil) ?>" alt="Usuário Logado">
     </div>
+</div>
 </div>
 
 <!-- DROPDOWN LATERAL -->
@@ -53,13 +53,20 @@ $homeLink = 'pagina_principal.php';
     </div>
     <nav class="menu-links">
         <a href="<?= $homeLink ?>">
-            <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home" class="menu-icon">
+            <img src="https://img.icons8.com/?size=100&id=TZ2lKyH3LVjx&format=png&color=000000" alt="home" class="menu-icon">
             Home
-      
-        <a href="perfil.php">Perfil</a>
-                
-                <a href="seguidos.php">Seguidos</a>
-                <a href="login_estrutura.php">Sair</a>
+        </a>
+        <a href="perfil.php">
+            <img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" alt="home" class="menu-icon">
+            Perfil
+        </a>
+        <?php if ($_SESSION['tipo_usuario'] === 'admin'): ?>
+                <a href="pagina_principal_contas.php"><img src="https://img.icons8.com/?size=100&id=82535&format=png&color=000000" alt="home" class="menu-icon">Contas</a>
+            <?php endif; ?>
+        <a href="login_estrutura.php">
+            <img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" alt="home" class="menu-icon">
+            Sair
+        </a>
     </nav>
 </div>
 <div class="overlay" id="overlay" onclick="toggleDropdown()"></div>
@@ -79,7 +86,11 @@ $homeLink = 'pagina_principal.php';
                             <div class="user-info">
                                 <img src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
                                      class="foto-usuario" alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
-                                <p class="user-name"><?= htmlspecialchars($user['nome_usuario']) ?></p>
+                                <p class="user-name">
+                                    <a href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>">
+                                        <?= htmlspecialchars($user['nome_usuario']) ?>
+                                    </a>
+                                </p>
                             </div>
                             <button class="btn-desativar unfollow-btn" data-id="<?= $user['id_usuario'] ?>">Deixar de seguir</button>
                         </div>
@@ -100,7 +111,11 @@ $homeLink = 'pagina_principal.php';
                             <div class="user-info">
                                 <img src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
                                      class="foto-usuario" alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
-                                <p class="user-name"><?= htmlspecialchars($user['nome_usuario']) ?></p>
+                                <p class="user-name">
+                                    <a href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>">
+                                        <?= htmlspecialchars($user['nome_usuario']) ?>
+                                    </a>
+                                </p>
                             </div>
                             <button class="btn-ativar follow-btn" data-id="<?= $user['id_usuario'] ?>">Seguir</button>
                         </div>

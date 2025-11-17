@@ -86,7 +86,9 @@ $conn->close();
 
 <!-- TOPO COM DROPDOWN -->
 <div class="top-bar">
+<a href="<?= $homeLink ?>">
     <div class="logo"><img src="../img/logo.png" alt="Logo"></div>
+    </a>
     <div class="user-menu">
         <div class="user-icon" id="userButton">
             <img src="<?= htmlspecialchars($_SESSION['foto_perfil'] ?? '../uploads/default.png') ?>" alt="Usuário Logado">
@@ -97,11 +99,18 @@ $conn->close();
                 <h3><?= htmlspecialchars($_SESSION['nome_usuario'] ?? 'Usuário') ?></h3>
             </div>
             <nav class="menu-links">
-                <a href="<?= $homeLink ?>">Home</a>
-                <a href="perfil.php?id=<?= $idLogado ?>">Perfil</a>
-                <a href="#" id="abrirCategorias">Categorias</a>
-                <a href="seguidos.php">Seguidos</a>
-                <a href="login_estrutura.php">Sair</a>
+            <a href="<?= $homeLink ?>">
+                        <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home" class="menu-icon">
+                        Home
+                    </a>
+
+                <a href="perfil.php?id=<?= $idLogado ?>"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" alt="home" class="menu-icon">Perfil</a>
+            
+                <?php if ($_SESSION['tipo_usuario'] === 'admin'): ?>
+                <a href="pagina_principal_contas.php"><img src="https://img.icons8.com/?size=100&id=82535&format=png&color=000000" alt="home" class="menu-icon">Contas</a>
+            <?php endif; ?>
+                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" alt="home" class="menu-icon">Seguidos</a>
+                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" alt="home" class="menu-icon">Sair</a>
             </nav>
         </div>
     </div>

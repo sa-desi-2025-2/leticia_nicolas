@@ -107,6 +107,14 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <style>
+    /* pequenos ajustes locais para garantir o modal por cima */
+    .modal { z-index: 20000 !important; }
+    .modal-backdrop { z-index: 19999 !important; }
+    /* garantir overlays custom não bloqueiem quando escondidos */
+    .overlay, .modal-overlay { pointer-events: none; }
+    .overlay.show, .modal-overlay.show { pointer-events: auto; }
+    </style>
 </head>
 <body>
 
@@ -116,7 +124,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
         <?php if (count($comunidadesUsuario) > 0): ?>
             <?php foreach ($comunidadesUsuario as $com): ?>
                 <a href="comunidade.php?id=<?= $com['id_comunidade'] ?>" class="community-icon">
-                    <img src="<?= !empty($com['imagem_comunidade']) ? '../uploads/' . htmlspecialchars($com['imagem_comunidade']) : '../img/default_comunidade.png' ?>" 
+                    <img src="<?= !empty($com['imagem_comunidade']) ? '../uploads/' . htmlspecialchars($com['imagem_comunidade']) : '../img/default_comunidade.png' ?>"
                          alt="<?= htmlspecialchars($com['nome_comunidade']) ?>">
                 </a>
             <?php endforeach; ?>
@@ -130,58 +138,9 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <!-- === TOPO === -->
 <div class="top-bar">
     <div class="logo"><img src="../img/logo.png" alt="Checkpoint Logo"></div>
-    <button class="btn-post">Criar Post</button>
-        <!-- MODAL CRIAR POST -->
-        <div class="modal fade" id="criarPostModal" tabindex="-1" aria-labelledby="criarPostModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content text-dark">
-              <div class="modal-header">
-                <h5 class="modal-title" id="criarPostModalLabel">Criar nova postagem</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-              </div>
-              <form id="formCriarPost" enctype="multipart/form-data">
-                <div class="modal-body">
-                  <div class="mb-3">
-                    <label for="textoPost" class="form-label">Texto</label>
-                    <textarea id="textoPost" name="texto_postagem" class="form-control" rows="4" maxlength="255" required></textarea>
-                  </div>
 
-                  <div class="mb-3">
-                    <label for="categoriaPost" class="form-label">Categoria</label>
-                    <select id="categoriaPost" name="id_categoria" class="form-select" required>
-                      <option value="">Selecione uma categoria</option>
-                      <?php foreach ($categorias as $cat): ?>
-                        <option value="<?= (int)$cat['id_categoria'] ?>"><?= htmlspecialchars($cat['nome_categoria']) ?></option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                    
-                  <div class="mb-3">
-                    <label for="imagemPost" class="form-label">Imagem (opcional) — JPG/PNG/GIF até 5MB</label>
-                    <input class="form-control" type="file" id="imagemPost" name="imagem_postagem" accept="image/*">
-                    <div id="previewWrapper" class="mt-2" style="display:none;">
-                      <p class="mb-1">Pré-visualização:</p>
-                      <img id="previewImage" src="#" alt="preview" style="max-width:100%; border-radius:8px;"/>
-                    </div>
-                  </div>
-                    
-                </div>
-                <div class="modal-footer">
-                  <div id="postFeedback" class="me-auto text-success" style="display:none;"></div>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Publicar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-                    
-        <!-- CONTAINER DOS POSTS -->
-        <div class="content" style="margin-top:20px;">
-          <div id="postsContainer" class="results-wrapper">
-            <!-- posts serão carregados dinamicamente via AJAX (carregar_posts.php) -->
-          </div>
-        </div>
+    <!-- botão corrigido (mantém a classe original) -->
+    <button class="btn-post" data-bs-toggle="modal" data-bs-target="#criarPostModal">Criar Post</button>
 
     <div class="search-container">
         <form method="GET" action="" class="search-form">
@@ -209,6 +168,15 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     </div>
 </div>
 
+<!-- === CONTAINER DOS POSTS (apenas se não houver pesquisa) === -->
+<?php if (empty($termo)): ?>
+<div class="content" style="margin-top:20px;">
+  <div id="postsContainer" class="results-wrapper">
+    <!-- posts serão carregados dinamicamente via AJAX (carregar_posts.php) -->
+  </div>
+</div>
+<?php endif; ?>
+
 <!-- === RESULTADOS DE PESQUISA === -->
 <?php if (!empty($termo)): ?>
 <div class="content">
@@ -220,22 +188,22 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 <p class="no-results">Nenhum usuário encontrado.</p>
             <?php else: ?>
                 <?php foreach ($resultado['usuarios'] as $user): ?>
-                    <?php 
-                        $jaSegue = $seguidor->verificaSeguindo($idLogado, $user['id_usuario']); 
+                    <?php
+                        $jaSegue = $seguidor->verificaSeguindo($idLogado, $user['id_usuario']);
                         $textoBotao = $jaSegue ? "Seguindo" : "Seguir";
                         $classeExtra = $jaSegue ? "seguindo" : "";
                     ?>
                     <div class="user-card">
                         <div class="user-info">
-                            <img class="foto-mini" 
-                                src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
+                            <img class="foto-mini"
+                                src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>"
                                 alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
                             <a class="nome-link" href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>">
                                 <?= htmlspecialchars($user['nome_usuario']) ?>
                             </a>
                         </div>
-                        <button class="follow-btn <?= $classeExtra ?>" 
-                                data-id="<?= $user['id_usuario'] ?>" 
+                        <button class="follow-btn <?= $classeExtra ?>"
+                                data-id="<?= $user['id_usuario'] ?>"
                                 data-tipo="usuario">
                             <?= $textoBotao ?>
                         </button>
@@ -268,7 +236,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 <?php endif; ?>
 
-<!-- === MODAL DE CATEGORIAS === -->
+<!-- === MODAL DE CATEGORIAS (mantido igual) === -->
 <?php if ($idLogado > 0): ?>
 <div id="modalCategorias" class="modal-overlay" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
     <div class="modal-categorias" role="dialog" aria-modal="true">
@@ -277,8 +245,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             <div class="lista-categorias">
                 <?php foreach ($categorias as $cat): ?>
                     <label class="categoria-item">
-                        <!-- adicionei a classe checkbox-categoria para o JS identificar -->
-                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>" 
+                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>"
                                <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
                         <?= htmlspecialchars($cat['nome_categoria']) ?>
                     </label><br>
@@ -293,10 +260,91 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 <?php endif; ?>
 
+<!-- === MODAL CRIAR POST (MOVIDO PARA FORA DA TOP-BAR) ===
+     Mantive todos os campos e ids originais do seu formulário.
+-->
+<div class="modal fade" id="criarPostModal" tabindex="-1" aria-labelledby="criarPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="criarPostModalLabel">Criar nova postagem</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <form id="formCriarPost" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="textoPost" class="form-label">Texto</label>
+            <textarea id="textoPost" name="texto_postagem" class="form-control" rows="4" maxlength="255" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="categoriaPost" class="form-label">Categoria</label>
+            <select id="categoriaPost" name="id_categoria" class="form-select" required>
+              <option value="">Selecione uma categoria</option>
+              <?php foreach ($categorias as $cat): ?>
+                <option value="<?= (int)$cat['id_categoria'] ?>"><?= htmlspecialchars($cat['nome_categoria']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+            
+          <div class="mb-3">
+            <label for="imagemPost" class="form-label">Imagem (opcional) — JPG/PNG/GIF até 5MB</label>
+            <input class="form-control" type="file" id="imagemPost" name="imagem_postagem" accept="image/*">
+            <div id="previewWrapper" class="mt-2" style="display:none;">
+              <p class="mb-1">Pré-visualização:</p>
+              <img id="previewImage" src="#" alt="preview" style="max-width:100%; border-radius:8px;"/>
+            </div>
+          </div>
+            
+        </div>
+        <div class="modal-footer">
+          <div id="postFeedback" class="me-auto text-success" style="display:none;"></div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY CONTROLADOR (prevenção de overlay fantasma) -->
+<div id="overlayCriarPost" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:19950; pointer-events:none;"></div>
+
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
 <script src="../js/modalcategoria.js"></script>
 <script src="../js/posts.js"></script>
+
+<script>
+/*
+  Controle de overlay para evitar que algum overlay custom fique cobrindo a tela.
+  Mantemos compatibilidade com seu posts.js — NÃO removemos nenhuma função JS existente.
+*/
+
+// referencia aos elementos
+const overlay = document.getElementById('overlayCriarPost');
+const criarModalEl = document.getElementById('criarPostModal');
+
+if (criarModalEl) {
+  // Quando o modal for mostrado pelo Bootstrap
+  criarModalEl.addEventListener('show.bs.modal', function () {
+    overlay.style.display = 'block';
+    overlay.style.pointerEvents = 'auto';
+    // opcional: bloquear rolagem (bootstrap já faz isso, mas mantemos seguro)
+    document.body.classList.add('modal-open');
+  });
+
+  // Quando o modal for totalmente escondido
+  criarModalEl.addEventListener('hidden.bs.modal', function () {
+    overlay.style.display = 'none';
+    overlay.style.pointerEvents = 'none';
+    document.body.classList.remove('modal-open');
+  });
+}
+
+// proteção adicional: se algum outro script ativar a classe .show no backdrop, garantimos pointer-events só quando o modal estiver aberto
+// nada aqui remove ou altera seus handlers originais (posts.js continua intacto).
+</script>
 
 </body>
 </html>

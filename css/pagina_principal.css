@@ -384,3 +384,29 @@ body {
 .modal-overlay {
     transition: opacity 0.18s ease;
 }
+/* --- Correção de z-index do Bootstrap Modal --- */
+
+.modal {
+    z-index: 1055 !important;
+}
+
+.modal-backdrop.show {
+    z-index: 1050 !important;
+    opacity: 0.75 !important;
+}
+
+/* --- Corrigir elementos que estavam ficando acima do modal --- */
+.top-bar,
+.sidebar,
+.dropdown-side,
+.overlay {
+    z-index: 500 !important;
+}
+
+.dropdown-side.show {
+    z-index: 600 !important;
+}
+
+.overlay {
+    display: none !important;
+}

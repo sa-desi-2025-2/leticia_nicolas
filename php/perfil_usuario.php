@@ -22,7 +22,7 @@ $idUsuarioPerfil = intval($_GET['id']);
 $conexao = new Conexao();
 $conn = $conexao->getCon();
 
-// Buscar dados do usuário
+// Buscar dados do usuário do perfil
 $sql = "SELECT nome_usuario, foto_perfil, imagem_banner, bio FROM usuarios WHERE id_usuario = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $idUsuarioPerfil);
@@ -34,20 +34,21 @@ if (!$usuario) {
     exit;
 }
 
-// Contagem de seguidores e seguindo
+// Contar seguindo
 $sqlSeguindo = "SELECT COUNT(*) AS seguindo FROM seguidores WHERE id_seguidor = ?";
 $stmtSeguindo = $conn->prepare($sqlSeguindo);
 $stmtSeguindo->bind_param("i", $idUsuarioPerfil);
 $stmtSeguindo->execute();
 $seguindo = $stmtSeguindo->get_result()->fetch_assoc()['seguindo'] ?? 0;
 
+// Contar seguidores
 $sqlSeguidores = "SELECT COUNT(*) AS seguidores FROM seguidores WHERE id_seguindo = ?";
 $stmtSeguidores = $conn->prepare($sqlSeguidores);
 $stmtSeguidores->bind_param("i", $idUsuarioPerfil);
 $stmtSeguidores->execute();
 $seguidores = $stmtSeguidores->get_result()->fetch_assoc()['seguidores'] ?? 0;
 
-// Verificar se já segue
+// Verifica se o usuário logado segue o perfil
 $sqlCheckFollow = "SELECT 1 FROM seguidores WHERE id_seguidor = ? AND id_seguindo = ?";
 $stmtCheck = $conn->prepare($sqlCheckFollow);
 $stmtCheck->bind_param("ii", $idLogado, $idUsuarioPerfil);
@@ -68,8 +69,12 @@ $conn->close();
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Perfil de Usuário</title>
+
+<!-- CSS -->
 <link rel="stylesheet" href="../css/perfil_usuario.css">
 <link rel="stylesheet" href="../css/dropdown.css">
+<link rel="stylesheet" href="../css/pagina_principal.css">
+<link rel="stylesheet" href="../css/perfil_post.css">
 </head>
 <body>
 
@@ -84,33 +89,42 @@ $conn->close();
     <div class="add-icon">+</div>
 </aside>
 
-<!-- TOPO COM DROPDOWN -->
+<!-- TOPO -->
 <div class="top-bar">
-<a href="<?= $homeLink ?>">
-    <div class="logo"><img src="../img/logo.png" alt="Logo"></div>
+    <a href="<?= $homeLink ?>">
+        <div class="logo"><img src="../img/logo.png" alt="Logo"></div>
     </a>
+
     <div class="user-menu">
         <div class="user-icon" id="userButton">
             <img src="<?= htmlspecialchars($_SESSION['foto_perfil'] ?? '../uploads/default.png') ?>" alt="Usuário Logado">
         </div>
+
         <div class="dropdown-side" id="dropdownMenu">
             <div class="profile-section">
                 <img src="<?= htmlspecialchars($_SESSION['foto_perfil'] ?? '../uploads/default.png') ?>" alt="Usuário Logado">
                 <h3><?= htmlspecialchars($_SESSION['nome_usuario'] ?? 'Usuário') ?></h3>
             </div>
-            <nav class="menu-links">
-            <a href="<?= $homeLink ?>">
-                        <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" alt="home" class="menu-icon">
-                        Home
-                    </a>
 
-                <a href="perfil.php?id=<?= $idLogado ?>"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" alt="home" class="menu-icon">Perfil</a>
-            
-                <?php if ($_SESSION['tipo_usuario'] === 'admin'): ?>
-                <a href="pagina_principal_contas.php"><img src="https://img.icons8.com/?size=100&id=82535&format=png&color=000000" alt="home" class="menu-icon">Contas</a>
-            <?php endif; ?>
-                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" alt="home" class="menu-icon">Seguidos</a>
-                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" alt="home" class="menu-icon">Sair</a>
+            <nav class="menu-links">
+                <a href="<?= $homeLink ?>">
+                    <img src="https://img.icons8.com/?size=100&id=14096&format=png&color=000000" class="menu-icon">Home
+                </a>
+
+                <a href="perfil.php?id=<?= $idLogado ?>">
+                    <img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" class="menu-icon">
+                    Perfil
+                </a>
+
+                <a href="seguidos.php">
+                    <img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" class="menu-icon">
+                    Seguidos
+                </a>
+
+                <a href="login_estrutura.php">
+                    <img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" class="menu-icon">
+                    Sair
+                </a>
             </nav>
         </div>
     </div>
@@ -121,6 +135,7 @@ $conn->close();
     <div class="banner">
         <img src="<?= htmlspecialchars($usuario['imagem_banner'] ?? '../uploads/default_banner.jpg') ?>" alt="Banner do Usuário">
     </div>
+
     <div class="profile-info">
         <div class="profile-pic">
             <img src="<?= htmlspecialchars($usuario['foto_perfil'] ?? '../uploads/default.png') ?>" alt="Foto de Perfil">
@@ -134,7 +149,7 @@ $conn->close();
             <span><strong><?= $seguidores ?></strong> Seguidores</span>
         </div>
 
-        <!-- BOTÃO AJAX -->
+        <!-- BOTÃO SEGUIR -->
         <?php if ($idUsuarioPerfil !== $idLogado): ?>
         <div class="follow-action">
             <?php if ($jaSegue): ?>
@@ -148,8 +163,20 @@ $conn->close();
     </div>
 </div>
 
+<!-- FEED DO USUÁRIO -->
+<div class="content" style="margin-top:20px; max-width:800px; margin-left:auto; margin-right:auto;">
+    <h2 class="text-center">Postagens de <?= htmlspecialchars($usuario['nome_usuario']) ?></h2>
+
+    <div id="postsContainer"
+         data-user-id="<?= $idUsuarioPerfil ?>"
+         class="results-wrapper">
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
 <script src="../js/seguir.js"></script>
 <script src="../js/dropdown.js"></script>
+<script src="../js/carregar_post.js"></script>
 
 </body>
 </html>

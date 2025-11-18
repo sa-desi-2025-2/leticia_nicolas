@@ -134,3 +134,15 @@
     z-index: 998;
     display: none; /* deve iniciar escondido */
 }
+
+.dropdown-side {
+    background-color: #006aacbe!important;
+}
+
+.dropdown-side a {
+    color: #000 !important;
+}
+
+.dropdown-side a:hover {
+    background-color: #1eff00 !important;
+}

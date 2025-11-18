@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  /* ================================
+     BOTÃO SEGUIR / DEIXAR DE SEGUIR
+  ================================== */
   const botoesSeguir = document.querySelectorAll(".follow-btn, .unfollow-btn");
 
   botoesSeguir.forEach((botao) => {
@@ -27,14 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const dados = await resposta.json();
 
         if (dados.status === "ok") {
-          // Se passou a seguir
           if (dados.seguindo) {
             botao.textContent = "Deixar de seguir";
             botao.classList.remove("follow-btn");
             botao.classList.add("unfollow-btn");
-          } 
-          // Se deixou de seguir
-          else {
+          } else {
             botao.textContent = "Seguir";
             botao.classList.remove("unfollow-btn");
             botao.classList.add("follow-btn");
@@ -50,4 +51,29 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+
+
+  /* ================================
+      CARREGAR POSTS DO PERFIL
+  ================================== */
+  function carregarPostsPerfil() {
+      const idPerfil = document.getElementById("idPerfil").value;
+
+      fetch("carregar_posts.php?id_usuario=" + idPerfil)
+          .then(r => r.text())
+          .then(html => {
+              document.getElementById("postsContainer").innerHTML = html;
+
+              // Se existe função de reações, reconecta
+              if (typeof conectarEventosReacao === "function") {
+                  conectarEventosReacao();
+              }
+          })
+          .catch(err => console.error("Erro ao carregar posts:", err));
+  }
+
+  // Carrega automaticamente ao abrir a página
+  carregarPostsPerfil();
+
 });

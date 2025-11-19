@@ -22,7 +22,7 @@
     right: -280px;
     width: 260px;
     height: 100vh;
-     background:  #0092c3da; /* muda cor do dropdaw */
+     background:   rgba(0, 255, 225, 0.4); /* muda cor do dropdaw */
     backdrop-filter: blur(6px);
    
     color: white;
@@ -78,7 +78,7 @@
 }
 
 .menu-links a:hover {
-    background: #0069AC;
+    background:  rgba(0, 255, 225, 0.4);
     color: #ffffff;
     font-weight: bold;
 }
@@ -113,7 +113,7 @@
 }
 
 .menu-links a:hover {
-    background: #00bf33;
+    background: #ffffff;
     color: #000;
     font-weight: bold;
 }
@@ -136,7 +136,7 @@
 }
 
 .dropdown-side {
-    background-color: #006aacbe!important;
+    background-color:  rgba(0, 255, 225, 0.4)!important;
 }
 
 .dropdown-side a {
@@ -144,5 +144,5 @@
 }
 
 .dropdown-side a:hover {
-    background-color: #1eff00 !important;
+    background-color: #00ffc3ca !important;
 }

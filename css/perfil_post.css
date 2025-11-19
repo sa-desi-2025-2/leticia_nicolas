@@ -11,11 +11,11 @@
 
 /* ======== CARD DO POST (FUNDO BRANCO) ======== */
 .post-card {
-    background: #00000096 !important;
+    background: #ffffff96 !important;
     border-radius: 14px;
     padding: 15px 18px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-    border: 1px solid #00ffd0;
+
 }
 
 /* ======== CABEÇALHO DO POST ======== */
@@ -38,7 +38,7 @@
 .post-username {
     font-weight: 600;
     font-size: 17px;
-    color: #000 !important;   /* <<< força a ficar preto */
+    color: #ff0000 !important;   /* <<< força a ficar preto */
     text-decoration: none !important;
 }
 

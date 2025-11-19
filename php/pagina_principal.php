@@ -108,12 +108,16 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-    /* pequenos ajustes locais para garantir o modal por cima */
+    /* Ajustes para evitar conflitos entre modais */
+    .modal-overlay {
+        z-index: 10000 !important; /* Abaixo do modal Bootstrap (20000) */
+        pointer-events: none;
+    }
+    .modal-overlay.show {
+        pointer-events: auto;
+    }
     .modal { z-index: 20000 !important; }
     .modal-backdrop { z-index: 19999 !important; }
-    /* garantir overlays custom não bloqueiem quando escondidos */
-    .overlay, .modal-overlay { pointer-events: none; }
-    .overlay.show, .modal-overlay.show { pointer-events: auto; }
     </style>
 </head>
 <body>
@@ -124,7 +128,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
         <?php if (count($comunidadesUsuario) > 0): ?>
             <?php foreach ($comunidadesUsuario as $com): ?>
                 <a href="comunidade.php?id=<?= $com['id_comunidade'] ?>" class="community-icon">
-                    <img src="<?= !empty($com['imagem_comunidade']) ? '../uploads/' . htmlspecialchars($com['imagem_comunidade']) : '../img/default_comunidade.png' ?>"
+                    <img src="<?= !empty($com['imagem_comunidade']) ? '../uploads/' . htmlspecialchars($com['imagem_comunidade']) : '../img/default_comunidade.png' ?>" 
                          alt="<?= htmlspecialchars($com['nome_comunidade']) ?>">
                 </a>
             <?php endforeach; ?>
@@ -188,22 +192,22 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 <p class="no-results">Nenhum usuário encontrado.</p>
             <?php else: ?>
                 <?php foreach ($resultado['usuarios'] as $user): ?>
-                    <?php
-                        $jaSegue = $seguidor->verificaSeguindo($idLogado, $user['id_usuario']);
+                    <?php 
+                        $jaSegue = $seguidor->verificaSeguindo($idLogado, $user['id_usuario']); 
                         $textoBotao = $jaSegue ? "Seguindo" : "Seguir";
                         $classeExtra = $jaSegue ? "seguindo" : "";
                     ?>
                     <div class="user-card">
                         <div class="user-info">
-                            <img class="foto-mini"
-                                src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>"
+                            <img class="foto-mini" 
+                                src="<?= !empty($user['foto_perfil']) ? '../uploads/' . htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
                                 alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
                             <a class="nome-link" href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>">
                                 <?= htmlspecialchars($user['nome_usuario']) ?>
                             </a>
                         </div>
-                        <button class="follow-btn <?= $classeExtra ?>"
-                                data-id="<?= $user['id_usuario'] ?>"
+                        <button class="follow-btn <?= $classeExtra ?>" 
+                                data-id="<?= $user['id_usuario'] ?>" 
                                 data-tipo="usuario">
                             <?= $textoBotao ?>
                         </button>
@@ -236,16 +240,16 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 <?php endif; ?>
 
-<!-- === MODAL DE CATEGORIAS (mantido igual) === -->
+<!-- === MODAL DE CATEGORIAS === -->
 <?php if ($idLogado > 0): ?>
-<div id="modalCategorias" class="modal-overlay" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
+<div id="modalCategorias" class="modal-overlay" style="display: none;"> <!-- Sempre oculto inicialmente, controlado por JS -->
     <div class="modal-categorias" role="dialog" aria-modal="true">
         <h2>Escolha suas categorias favoritas</h2>
         <form id="formCategorias">
             <div class="lista-categorias">
                 <?php foreach ($categorias as $cat): ?>
                     <label class="categoria-item">
-                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>"
+                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>" 
                                <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
                         <?= htmlspecialchars($cat['nome_categoria']) ?>
                     </label><br>
@@ -260,9 +264,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 <?php endif; ?>
 
-<!-- === MODAL CRIAR POST (MOVIDO PARA FORA DA TOP-BAR) ===
-     Mantive todos os campos e ids originais do seu formulário.
--->
+<!-- === MODAL CRIAR POST === -->
 <div class="modal fade" id="criarPostModal" tabindex="-1" aria-labelledby="criarPostModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content text-dark">
@@ -316,37 +318,5 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <script src="../js/seguir.js"></script>
 <script src="../js/modalcategoria.js"></script>
 <script src="../js/posts.js"></script>
-
-<script>
-/*
-  Controle de overlay para evitar que algum overlay custom fique cobrindo a tela.
-  Mantemos compatibilidade com seu posts.js — NÃO removemos nenhuma função JS existente.
-*/
-
-// referencia aos elementos
-const overlay = document.getElementById('overlayCriarPost');
-const criarModalEl = document.getElementById('criarPostModal');
-
-if (criarModalEl) {
-  // Quando o modal for mostrado pelo Bootstrap
-  criarModalEl.addEventListener('show.bs.modal', function () {
-    overlay.style.display = 'block';
-    overlay.style.pointerEvents = 'auto';
-    // opcional: bloquear rolagem (bootstrap já faz isso, mas mantemos seguro)
-    document.body.classList.add('modal-open');
-  });
-
-  // Quando o modal for totalmente escondido
-  criarModalEl.addEventListener('hidden.bs.modal', function () {
-    overlay.style.display = 'none';
-    overlay.style.pointerEvents = 'none';
-    document.body.classList.remove('modal-open');
-  });
-}
-
-// proteção adicional: se algum outro script ativar a classe .show no backdrop, garantimos pointer-events só quando o modal estiver aberto
-// nada aqui remove ou altera seus handlers originais (posts.js continua intacto).
-</script>
-
 </body>
 </html>

@@ -1,7 +1,7 @@
 /* Sidebar minimalista */
 .sidebar {
     width: 80px;
-    background:  #0092c3da;
+    background:  rgba(0, 255, 225, 0.4);
     color: white;
     display: flex;
     flex-direction: column;
@@ -25,7 +25,7 @@
 .icon {
     width: 40px;
     height: 40px;
-    background: #03ffe6;
+    background: #ffffff;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -36,7 +36,7 @@
 }
 
 .icon:hover, .icon.active {
-    background:#00bf33;
+    background: rgba(0, 255, 225, 0.4);
     transform: scale(1.1);
 }
 

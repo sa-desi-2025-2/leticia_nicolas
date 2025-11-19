@@ -1,13 +1,13 @@
 /* ============================
    ESTILO BASE + BACKGROUND
 ============================ */
+/* === BODY === */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg')
-        no-repeat center center fixed;
+    background-color: #000 !important; /* FUNDO PRETO */
     background-size: cover;
-    color: #fff;
+    color: #fff !important; /* TEXTO BRANCO PARA APARECER */
 }
 
 /* ============================
@@ -203,7 +203,7 @@ body {
 }
 
 .follow-stats span strong {
-    color: #00a616;
+    color: #ffffff;
     text-shadow: none;
 }
 
@@ -241,7 +241,7 @@ body {
     cursor: pointer;
     font-weight: bold;
 
-    background:rgb(0, 255, 21);
+    background:rgb(255, 255, 255);
     color: black;
 
    

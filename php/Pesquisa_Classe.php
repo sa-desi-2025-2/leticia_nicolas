@@ -22,9 +22,10 @@ class Pesquisa {
         $termo_esc = $this->conn->real_escape_string($termo);
         $offset = ($pagina - 1) * $this->itensPorPagina;
 
-        $sql = "SELECT id_usuario, nome_usuario 
-                FROM usuarios 
-                WHERE nome_usuario LIKE '%$termo_esc%'";
+        $sql = "SELECT id_usuario, nome_usuario, foto_perfil
+        FROM usuarios 
+        WHERE nome_usuario LIKE '%$termo_esc%'";
+
 
         // Se não for admin, exibe apenas usuários ativos (se existir a coluna)
         if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] !== 'admin') {

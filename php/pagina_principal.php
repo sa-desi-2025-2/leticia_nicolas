@@ -308,7 +308,9 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 
 <!-- OVERLAY CONTROLADOR (prevenção de overlay fantasma) -->
-<div id="overlayCriarPost" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:19950; pointer-events:none;"></div>
+<div id="overlayCriarPost" 
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:-1; pointer-events:none;">
+</div>
 
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>

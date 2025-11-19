@@ -410,3 +410,104 @@ body {
 .overlay {
     display: none !important;
 }
+
+/* --- Correção de z-index do Bootstrap Modal --- */
+
+
+
+.modal {
+
+    z-index: 1055 !important;
+
+}
+
+
+
+.modal-backdrop.show {
+
+    z-index: 1050 !important;
+
+    opacity: 0.75 !important;
+
+}
+
+
+
+/* --- Corrigir elementos que estavam ficando acima do modal --- */
+
+.top-bar,
+
+.sidebar,
+
+.dropdown-side,
+
+.overlay {
+
+    z-index: 500 !important;
+
+}
+
+
+
+.dropdown-side.show {
+
+    z-index: 600 !important;
+
+}
+
+
+
+.overlay {
+
+    display: none !important;
+
+}
+
+/* === FIX ABSOLUTO PARA TELA TRAVADA NO MODAL === */
+
+/* Remove overlays que ficam por cima do Bootstrap Modal */
+.overlay {
+    display: none !important;
+    pointer-events: none !important;
+}
+
+/* Garante que a sidebar, menu lateral e top-bar NÃO fiquem acima do modal */
+.sidebar,
+.top-bar,
+.dropdown-side {
+    z-index: 1 !important;
+}
+
+/* Modal do Bootstrap sempre acima de tudo */
+.modal {
+    z-index: 9999 !important;
+}
+
+.modal-backdrop.show {
+    z-index: 9990 !important;
+}
+/* ============================================================
+   FIX DEFINITIVO PARA TELA TRAVADA NO MODAL CRIAR POST
+   ============================================================ */
+
+/* Desativa qualquer overlay antiga que bloqueia cliques */
+.modal-overlay,
+.overlay {
+    pointer-events: none !important;
+    z-index: -1 !important;
+    opacity: 0 !important;
+}
+
+/* Força o backdrop e o modal do Bootstrap a ficarem acima de tudo */
+.modal {
+    z-index: 20000 !important;
+}
+
+.modal-backdrop.show {
+    z-index: 19999 !important;
+}
+
+/* Overlay manual não deve capturar eventos */
+#overlayCriarPost {
+    pointer-events: none !important;
+}

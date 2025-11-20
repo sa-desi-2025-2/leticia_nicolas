@@ -108,16 +108,33 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-    /* Ajustes para evitar conflitos entre modais */
-    .modal-overlay {
-        z-index: 10000 !important; /* Abaixo do modal Bootstrap (20000) */
-        pointer-events: none;
+    /* Pequeno CSS para o modal caso precise de ajustes rápidos */
+    #modalCategorias {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.65);
+        z-index: 30000 !important; 
+        justify-content: center;
+        align-items: center;
     }
-    .modal-overlay.show {
-        pointer-events: auto;
+
+    .modal-categorias {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        width: 420px;
+        max-height: 85vh;
+        overflow-y: auto;
+        z-index: 31000 !important;
+        box-sizing: border-box;
     }
-    .modal { z-index: 20000 !important; }
-    .modal-backdrop { z-index: 19999 !important; }
+
+    .modal-categorias h2 { margin-top: 0; }
+    .modal-botoes { margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
+    #salvarCategorias, #fecharModal { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; }
+    #salvarCategorias { background: #007bff; color: white; }
+    #fecharModal { background: #777; color: white; }
     </style>
 </head>
 <body>
@@ -143,7 +160,6 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <div class="top-bar">
     <div class="logo"><img src="../img/logo.png" alt="Checkpoint Logo"></div>
 
-    <!-- botão corrigido (mantém a classe original) -->
     <button class="btn-post" data-bs-toggle="modal" data-bs-target="#criarPostModal">Criar Post</button>
 
     <div class="search-container">
@@ -163,10 +179,10 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 <h3><?= htmlspecialchars($_SESSION['nome_usuario'] ?? 'Usuário') ?></h3>
             </div>
             <nav class="menu-links">
-            <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" alt="home" class="menu-icon">Perfil</a>
-                <a href="#" id="abrirCategorias"><img src="https://img.icons8.com/?size=100&id=99515&format=png&color=000000" alt="home" class="menu-icon">Categorias</a>
-                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" alt="home" class="menu-icon">Seguidos</a>
-                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" alt="home" class="menu-icon">Sair</a>
+                <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" class="menu-icon" alt="Perfil">Perfil</a>
+                <a href="#" id="abrirCategorias"><img src="https://img.icons8.com/?size=100&id=99515&format=png&color=000000" class="menu-icon" alt="Categorias">Categorias</a>
+                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" class="menu-icon" alt="Seguidos">Seguidos</a>
+                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" class="menu-icon" alt="Sair">Sair</a>
             </nav>
         </div>
     </div>
@@ -242,29 +258,35 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 
 <!-- === MODAL DE CATEGORIAS === -->
 <?php if ($idLogado > 0): ?>
-<div id="modalCategorias" class="modal-overlay" style="display: none;"> <!-- Sempre oculto inicialmente, controlado por JS -->
-    <div class="modal-categorias" role="dialog" aria-modal="true">
-        <h2>Escolha suas categorias favoritas</h2>
+<div id="modalCategorias" aria-hidden="true">
+    <div class="modal-categorias" role="dialog" aria-modal="true" aria-labelledby="modalCategoriasTitle">
+        <h2 id="modalCategoriasTitle">Escolha suas categorias favoritas</h2>
+
         <form id="formCategorias">
             <div class="lista-categorias">
                 <?php foreach ($categorias as $cat): ?>
-                    <label class="categoria-item">
-                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>" 
+                    <label class="categoria-item" style="display:block; margin-bottom:6px;">
+                        <input class="checkbox-categoria" 
+                               type="checkbox" 
+                               name="categorias[]" 
+                               value="<?= (int)$cat['id_categoria'] ?>"
                                <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
                         <?= htmlspecialchars($cat['nome_categoria']) ?>
-                    </label><br>
+                    </label>
                 <?php endforeach; ?>
             </div>
+
             <div class="modal-botoes">
                 <button type="button" id="salvarCategorias">Salvar</button>
                 <button type="button" id="fecharModal">Fechar</button>
             </div>
         </form>
+
     </div>
 </div>
 <?php endif; ?>
 
-<!-- === MODAL CRIAR POST === -->
+<!-- === MODAL CRIAR POST (Bootstrap) === -->
 <div class="modal fade" id="criarPostModal" tabindex="-1" aria-labelledby="criarPostModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content text-dark">
@@ -309,14 +331,22 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
   </div>
 </div>
 
-<!-- OVERLAY CONTROLADOR (prevenção de overlay fantasma) -->
+<!-- OVERLAY CONTROLADOR -->
 <div id="overlayCriarPost" 
      style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:-1; pointer-events:none;">
 </div>
 
+<!-- SCRIPTS -->
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
-<script src="../js/modalcategoria.js"></script>
+
+<!-- variável que informa ao modal_categoria.js se deve abrir automaticamente -->
+<script>
+    const mostrarModalCategorias = <?= $temCategorias ? 'false' : 'true' ?>;
+</script>
+
+<script src="../js/modal_categoria.js"></script>
 <script src="../js/posts.js"></script>
+
 </body>
 </html>

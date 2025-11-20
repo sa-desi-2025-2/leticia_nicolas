@@ -8,7 +8,7 @@ require_once __DIR__ . '/gateway.php';
 
 /* ==================================
    2) Conexão – agora pode usar $con
-   ================================== */
+   ==================================*/
 require_once __DIR__ . '/conexao.php';
 $db = new Conexao();
 $con = $db->getCon();
@@ -17,7 +17,7 @@ $idLogado = $_SESSION['id_usuario'] ?? 0;
 
 /* ===============================
    3) Carregar TODAS as categorias
-   =============================== */
+   ===============================*/
 $stmt = $con->prepare("SELECT id_categoria, nome_categoria FROM categorias ORDER BY nome_categoria ASC");
 $stmt->execute();
 $categorias = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -47,7 +47,7 @@ if ($_SESSION['tipo_usuario'] !== 'admin') {
    6) Classes adicionais da página
    ================================== */
 require_once __DIR__ . '/pesquisa_funcao.php';
-require_once __DIR__ . '/seguidor.php';
+require_once __DIR__ . '/Seguidor.php';
 
 $seguidor = new Seguidor();
 
@@ -82,9 +82,25 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkpoint - Administração</title>
+
 <link rel="stylesheet" href="../css/pagina_principal.css">
 <link rel="stylesheet" href="../css/pesquisa.css">
 <link rel="stylesheet" href="../css/dropdown.css">
+<link rel="stylesheet" href="../css/sidebar_comunidades.css">
+
+<!-- BOOTSTRAP (CDN) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Pequeno CSS do modal (mantive parecido com versão usuário para consistência) -->
+<style>
+.modal-overlay, #modalCategorias { display: none; }
+.modal-categorias { background: #fff; padding: 25px; border-radius: 12px; width: 420px; max-height: 85vh; overflow-y: auto; box-sizing: border-box; }
+.modal-botoes { margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
+#salvarCategorias, #fecharModal { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; }
+#salvarCategorias { background: #007bff; color: white; }
+#fecharModal { background: #777; color: white; }
+</style>
 </head>
 <body>
 
@@ -97,7 +113,9 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 
 <div class="top-bar">
     <div class="logo"><img src="../img/logo.png" alt="Checkpoint Logo"></div>
-    <button class="btn-post">Criar Post</button>
+
+    <!-- botão Criar Post (abre modal Bootstrap) -->
+    <button class="btn-post" data-bs-toggle="modal" data-bs-target="#criarPostModal">Criar Post</button>
 
     <div class="search-container">
         <form method="GET" action="">
@@ -116,25 +134,32 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 <h3><?= htmlspecialchars($_SESSION['nome_usuario'] ?? 'Usuário') ?></h3>
             </div>
             <nav class="menu-links">
-                
-                <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" alt="home" class="menu-icon">Perfil</a>
-                <a href="#" id="abrirCategorias"><img src="https://img.icons8.com/?size=100&id=99515&format=png&color=000000" alt="home" class="menu-icon">Categorias</a>
-                <a href="pagina_principal_contas.php"><img src="https://img.icons8.com/?size=100&id=82535&format=png&color=000000" alt="home" class="menu-icon">Contas</a>
-                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" alt="home" class="menu-icon">Seguidos</a>
-                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" alt="home" class="menu-icon">Sair</a>
+                <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" class="menu-icon" alt="Perfil">Perfil</a>
+                <!-- abrirCategorias funciona via modal_categoria.js -->
+                <a href="#" id="abrirCategorias"><img src="https://img.icons8.com/?size=100&id=99515&format=png&color=000000" class="menu-icon" alt="Categorias">Categorias</a>
+                <a href="pagina_principal_contas.php"><img src="https://img.icons8.com/?size=100&id=82535&format=png&color=000000" class="menu-icon" alt="Contas">Contas</a>
+                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" class="menu-icon" alt="Seguidos">Seguidos</a>
+                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" class="menu-icon" alt="Sair">Sair</a>
             </nav>
         </div>
     </div>
 </div>
 
+<!-- === CONTAINER DOS POSTS (mesmo comportamento da página de usuário) === -->
+<div class="content" style="margin-top:20px;">
+  <div id="postsContainer" class="results-wrapper" data-user-id="<?= $idLogado ?>">
+    <!-- posts serão carregados dinamicamente via carregar_posts.php -->
+  </div>
+</div>
+
 <?php if (!empty($termo)): ?>
 <div class="content">
     <div class="results-wrapper">
-
+        <!-- resultados de pesquisa são renderizados abaixo -->
         <!-- Usuários -->
         <div class="result-section">
-            <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?>)</h2>
-            <?php if (count($resultado['usuarios']) === 0): ?>
+            <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?? 0 ?>)</h2>
+            <?php if (empty($resultado['usuarios'])): ?>
                 <p class="no-results">Nenhum usuário encontrado.</p>
             <?php else: ?>
                 <?php foreach ($resultado['usuarios'] as $user): ?>
@@ -143,25 +168,13 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                         $textoBotao = $jaSegue ? "Seguindo" : "Seguir";
                         $classeExtra = $jaSegue ? "seguindo" : "";
                     ?>
-                    
                     <div class="user-card">
                         <div class="user-info">
-                            <img class="foto-mini" 
-                                src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
-                                alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
-
-                            <a class="nome-link" href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>">
-                                <?= htmlspecialchars($user['nome_usuario']) ?>
-                            </a>
+                            <img class="foto-mini" src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
+                            <a class="nome-link" href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>"><?= htmlspecialchars($user['nome_usuario']) ?></a>
                         </div>
-
-                        <button class="follow-btn <?= $classeExtra ?>"
-                                data-id="<?= $user['id_usuario'] ?>" 
-                                data-tipo="usuario">
-                            <?= $textoBotao ?>
-                        </button>
+                        <button class="follow-btn <?= $classeExtra ?>" data-id="<?= $user['id_usuario'] ?>" data-tipo="usuario"><?= $textoBotao ?></button>
                     </div>
-
                 <?php endforeach; ?>
                 <div class="pagination">
                     <?= criarLinkPagina($paginaUsuarios, $resultado['totalUsuarios'], 10, 'page_usuario', $termo); ?>
@@ -171,8 +184,8 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 
         <!-- Comunidades -->
         <div class="result-section">
-            <h2>Comunidades encontradas (<?= $resultado['totalComunidades'] ?>)</h2>
-            <?php if (count($resultado['comunidades']) === 0): ?>
+            <h2>Comunidades encontradas (<?= $resultado['totalComunidades'] ?? 0 ?>)</h2>
+            <?php if (empty($resultado['comunidades'])): ?>
                 <p class="no-results">Nenhuma comunidade encontrada.</p>
             <?php else: ?>
                 <?php foreach ($resultado['comunidades'] as $com): ?>
@@ -186,10 +199,10 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 </div>
             <?php endif; ?>
         </div>
-
     </div>
 </div>
 <?php endif; ?>
+
 <!-- === MODAL DE CATEGORIAS (ADMIN) === -->
 <?php if ($idLogado > 0): ?>
 <div id="modalCategorias" class="modal-overlay" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
@@ -199,11 +212,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             <div class="lista-categorias">
                 <?php foreach ($categorias as $cat): ?>
                     <label class="categoria-item">
-                        <input class="checkbox-categoria" 
-                               type="checkbox" 
-                               name="categorias[]" 
-                               value="<?= $cat['id_categoria'] ?>"
-                               <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
+                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= (int)$cat['id_categoria'] ?>" <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
                         <?= htmlspecialchars($cat['nome_categoria']) ?>
                     </label><br>
                 <?php endforeach; ?>
@@ -218,7 +227,66 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 <?php endif; ?>
 
+<!-- === MODAL CRIAR POST (mesma estrutura da página de usuário) === -->
+<div class="modal fade" id="criarPostModal" tabindex="-1" aria-labelledby="criarPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="criarPostModalLabel">Criar nova postagem</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <form id="formCriarPost" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="textoPost" class="form-label">Texto</label>
+            <textarea id="textoPost" name="texto_postagem" class="form-control" rows="4" maxlength="255" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="categoriaPost" class="form-label">Categoria</label>
+            <select id="categoriaPost" name="id_categoria" class="form-select" required>
+              <option value="">Selecione uma categoria</option>
+              <?php foreach ($categorias as $cat): ?>
+                <option value="<?= (int)$cat['id_categoria'] ?>"><?= htmlspecialchars($cat['nome_categoria']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+            
+          <div class="mb-3">
+            <label for="imagemPost" class="form-label">Imagem (opcional) — JPG/PNG/GIF até 5MB</label>
+            <input class="form-control" type="file" id="imagemPost" name="imagem_postagem" accept="image/*">
+            <div id="previewWrapper" class="mt-2" style="display:none;">
+              <p class="mb-1">Pré-visualização:</p>
+              <img id="previewImage" src="#" alt="preview" style="max-width:100%; border-radius:8px;"/>
+            </div>
+          </div>
+            
+        </div>
+        <div class="modal-footer">
+          <div id="postFeedback" class="me-auto text-success" style="display:none;"></div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY CONTROLADOR -->
+<div id="overlayCriarPost" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:-1; pointer-events:none;"></div>
+
+<!-- SCRIPTS -->
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
+
+<!-- variável que informa ao modal_categoria.js se deve abrir automaticamente -->
+<script>
+    const mostrarModalCategorias = <?= $temCategorias ? 'false' : 'true' ?>;
+</script>
+
+<!-- carregar handlers do modal de categorias e posts (mesmos arquivos usados na versão usuário) -->
+<script src="../js/modal_categoria.js"></script>
+<script src="../js/posts.js"></script>
+
 </body>
 </html>

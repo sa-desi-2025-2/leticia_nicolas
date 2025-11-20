@@ -7,16 +7,15 @@
 }
 
 /* === FUNDO GERAL GAMER === */
+/* === BODY === */
 body {
-  font-family: 'Poppins', sans-serif;
-  background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg') 
-      no-repeat center center fixed;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #000 !important; /* FUNDO PRETO */
   background-size: cover;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  color: #fff !important; /* TEXTO BRANCO PARA APARECER */
 }
+
 
 /* Cabeçalho */
 .topo {
@@ -59,7 +58,7 @@ body {
   margin-left: 120px;
   margin-top: 40px;
   padding: 20px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 255, 225, 0.4);
   border-radius: 15px;
   width: calc(100% - 160px);
   color: #fff;
@@ -68,8 +67,8 @@ body {
 /* Título */
 .titulo {
   text-align: center;
-  background-color: #c6b5ff;
-  color: #000;
+  background-color: #ffffff;
+  color: #000000;
   display: inline-block;
   margin: 0 auto 25px auto;
   padding: 8px 20px;
@@ -86,7 +85,7 @@ body {
 
 /* Cartão do usuário */
 .user-card {
-  background: rgba(255, 240, 255, 0.95);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 10px;
   padding: 15px 20px;
   display: flex;
@@ -113,7 +112,7 @@ body {
 }
 
 .user-name {
-  color: #000;
+  color: #ffffff;
   font-weight: bold;
 }
 

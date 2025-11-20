@@ -107,6 +107,35 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <style>
+    /* Pequeno CSS para o modal caso precise de ajustes rápidos */
+    #modalCategorias {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.65);
+        z-index: 30000 !important; 
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-categorias {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        width: 420px;
+        max-height: 85vh;
+        overflow-y: auto;
+        z-index: 31000 !important;
+        box-sizing: border-box;
+    }
+
+    .modal-categorias h2 { margin-top: 0; }
+    .modal-botoes { margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
+    #salvarCategorias, #fecharModal { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; }
+    #salvarCategorias { background: #007bff; color: white; }
+    #fecharModal { background: #777; color: white; }
+    </style>
 </head>
 <body>
 
@@ -130,58 +159,8 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <!-- === TOPO === -->
 <div class="top-bar">
     <div class="logo"><img src="../img/logo.png" alt="Checkpoint Logo"></div>
-    <button class="btn-post">Criar Post</button>
-        <!-- MODAL CRIAR POST -->
-        <div class="modal fade" id="criarPostModal" tabindex="-1" aria-labelledby="criarPostModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content text-dark">
-              <div class="modal-header">
-                <h5 class="modal-title" id="criarPostModalLabel">Criar nova postagem</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-              </div>
-              <form id="formCriarPost" enctype="multipart/form-data">
-                <div class="modal-body">
-                  <div class="mb-3">
-                    <label for="textoPost" class="form-label">Texto</label>
-                    <textarea id="textoPost" name="texto_postagem" class="form-control" rows="4" maxlength="255" required></textarea>
-                  </div>
 
-                  <div class="mb-3">
-                    <label for="categoriaPost" class="form-label">Categoria</label>
-                    <select id="categoriaPost" name="id_categoria" class="form-select" required>
-                      <option value="">Selecione uma categoria</option>
-                      <?php foreach ($categorias as $cat): ?>
-                        <option value="<?= (int)$cat['id_categoria'] ?>"><?= htmlspecialchars($cat['nome_categoria']) ?></option>
-                      <?php endforeach; ?>
-                    </select>
-                  </div>
-                    
-                  <div class="mb-3">
-                    <label for="imagemPost" class="form-label">Imagem (opcional) — JPG/PNG/GIF até 5MB</label>
-                    <input class="form-control" type="file" id="imagemPost" name="imagem_postagem" accept="image/*">
-                    <div id="previewWrapper" class="mt-2" style="display:none;">
-                      <p class="mb-1">Pré-visualização:</p>
-                      <img id="previewImage" src="#" alt="preview" style="max-width:100%; border-radius:8px;"/>
-                    </div>
-                  </div>
-                    
-                </div>
-                <div class="modal-footer">
-                  <div id="postFeedback" class="me-auto text-success" style="display:none;"></div>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Publicar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-                    
-        <!-- CONTAINER DOS POSTS -->
-        <div class="content" style="margin-top:20px;">
-          <div id="postsContainer" class="results-wrapper">
-            <!-- posts serão carregados dinamicamente via AJAX (carregar_posts.php) -->
-          </div>
-        </div>
+    <button class="btn-post" data-bs-toggle="modal" data-bs-target="#criarPostModal">Criar Post</button>
 
     <div class="search-container">
         <form method="GET" action="" class="search-form">
@@ -200,14 +179,23 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                 <h3><?= htmlspecialchars($_SESSION['nome_usuario'] ?? 'Usuário') ?></h3>
             </div>
             <nav class="menu-links">
-            <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" alt="home" class="menu-icon">Perfil</a>
-                <a href="#" id="abrirCategorias"><img src="https://img.icons8.com/?size=100&id=99515&format=png&color=000000" alt="home" class="menu-icon">Categorias</a>
-                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" alt="home" class="menu-icon">Seguidos</a>
-                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" alt="home" class="menu-icon">Sair</a>
+                <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" class="menu-icon" alt="Perfil">Perfil</a>
+                <a href="#" id="abrirCategorias"><img src="https://img.icons8.com/?size=100&id=99515&format=png&color=000000" class="menu-icon" alt="Categorias">Categorias</a>
+                <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" class="menu-icon" alt="Seguidos">Seguidos</a>
+                <a href="login_estrutura.php"><img src="https://img.icons8.com/?size=100&id=82792&format=png&color=000000" class="menu-icon" alt="Sair">Sair</a>
             </nav>
         </div>
     </div>
 </div>
+
+<!-- === CONTAINER DOS POSTS (apenas se não houver pesquisa) === -->
+<?php if (empty($termo)): ?>
+<div class="content" style="margin-top:20px;">
+  <div id="postsContainer" class="results-wrapper">
+    <!-- posts serão carregados dinamicamente via AJAX (carregar_posts.php) -->
+  </div>
+</div>
+<?php endif; ?>
 
 <!-- === RESULTADOS DE PESQUISA === -->
 <?php if (!empty($termo)): ?>
@@ -228,7 +216,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
                     <div class="user-card">
                         <div class="user-info">
                             <img class="foto-mini" 
-                                src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
+                                src="<?= !empty($user['foto_perfil']) ? '../uploads/' . htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
                                 alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>">
                             <a class="nome-link" href="perfil_usuario.php?id=<?= $user['id_usuario'] ?>">
                                 <?= htmlspecialchars($user['nome_usuario']) ?>
@@ -270,32 +258,94 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 
 <!-- === MODAL DE CATEGORIAS === -->
 <?php if ($idLogado > 0): ?>
-<div id="modalCategorias" class="modal-overlay" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
-    <div class="modal-categorias" role="dialog" aria-modal="true">
-        <h2>Escolha suas categorias favoritas</h2>
+<div id="modalCategorias" aria-hidden="true">
+    <div class="modal-categorias" role="dialog" aria-modal="true" aria-labelledby="modalCategoriasTitle">
+        <h2 id="modalCategoriasTitle">Escolha suas categorias favoritas</h2>
+
         <form id="formCategorias">
             <div class="lista-categorias">
                 <?php foreach ($categorias as $cat): ?>
-                    <label class="categoria-item">
-                        <!-- adicionei a classe checkbox-categoria para o JS identificar -->
-                        <input class="checkbox-categoria" type="checkbox" name="categorias[]" value="<?= $cat['id_categoria'] ?>" 
+                    <label class="categoria-item" style="display:block; margin-bottom:6px;">
+                        <input class="checkbox-categoria" 
+                               type="checkbox" 
+                               name="categorias[]" 
+                               value="<?= (int)$cat['id_categoria'] ?>"
                                <?= in_array($cat['id_categoria'], $categoriasSelecionadas) ? 'checked' : '' ?>>
                         <?= htmlspecialchars($cat['nome_categoria']) ?>
-                    </label><br>
+                    </label>
                 <?php endforeach; ?>
             </div>
+
             <div class="modal-botoes">
                 <button type="button" id="salvarCategorias">Salvar</button>
                 <button type="button" id="fecharModal">Fechar</button>
             </div>
         </form>
+
     </div>
 </div>
 <?php endif; ?>
 
+<!-- === MODAL CRIAR POST (Bootstrap) === -->
+<div class="modal fade" id="criarPostModal" tabindex="-1" aria-labelledby="criarPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="criarPostModalLabel">Criar nova postagem</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <form id="formCriarPost" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="textoPost" class="form-label">Texto</label>
+            <textarea id="textoPost" name="texto_postagem" class="form-control" rows="4" maxlength="255" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="categoriaPost" class="form-label">Categoria</label>
+            <select id="categoriaPost" name="id_categoria" class="form-select" required>
+              <option value="">Selecione uma categoria</option>
+              <?php foreach ($categorias as $cat): ?>
+                <option value="<?= (int)$cat['id_categoria'] ?>"><?= htmlspecialchars($cat['nome_categoria']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+            
+          <div class="mb-3">
+            <label for="imagemPost" class="form-label">Imagem (opcional) — JPG/PNG/GIF até 5MB</label>
+            <input class="form-control" type="file" id="imagemPost" name="imagem_postagem" accept="image/*">
+            <div id="previewWrapper" class="mt-2" style="display:none;">
+              <p class="mb-1">Pré-visualização:</p>
+              <img id="previewImage" src="#" alt="preview" style="max-width:100%; border-radius:8px;"/>
+            </div>
+          </div>
+            
+        </div>
+        <div class="modal-footer">
+          <div id="postFeedback" class="me-auto text-success" style="display:none;"></div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY CONTROLADOR -->
+<div id="overlayCriarPost" 
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:-1; pointer-events:none;">
+</div>
+
+<!-- SCRIPTS -->
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
-<script src="../js/modalcategoria.js"></script>
+
+<!-- variável que informa ao modal_categoria.js se deve abrir automaticamente -->
+<script>
+    const mostrarModalCategorias = <?= $temCategorias ? 'false' : 'true' ?>;
+</script>
+
+<script src="../js/modal_categoria.js"></script>
 <script src="../js/posts.js"></script>
 
 </body>

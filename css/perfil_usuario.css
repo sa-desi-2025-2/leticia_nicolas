@@ -203,7 +203,7 @@ body {
 }
 
 .follow-stats span strong {
-    color: #ffffff;
+    color: #0004ff;
     text-shadow: none;
 }
 
@@ -241,7 +241,7 @@ body {
     cursor: pointer;
     font-weight: bold;
 
-    background:rgb(255, 255, 255);
+    background:rgb(0, 255, 13);
     color: black;
 
    
@@ -258,7 +258,7 @@ body {
 /* Quando já está seguindo */
 .seguindo {
     background: #02695c;
-    color: #fff;
+    color: #00ff2a;
     box-shadow: 0 0 10px #02695c;
 }
 

@@ -4,7 +4,7 @@ session_start();
 require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/usuario.php';
 
-// Bloqueia quem não for admin
+
 if ($_SESSION['tipo_usuario'] !== 'admin') {
     header("Location: pagina_principal.php");
     exit();
@@ -15,7 +15,6 @@ $usuarios = $usuario->listarUsuarios();
 
 $homeLink = "pagina_principal_adm.php";
 
-// Dados do usuário logado
 $fotoLogado = $_SESSION['foto_perfil'] ?? '../uploads/default.png';
 $nomeLogado = $_SESSION['nome_usuario'] ?? 'Usuário';
 $idLogado   = $_SESSION['id_usuario'];
@@ -34,16 +33,15 @@ $idLogado   = $_SESSION['id_usuario'];
 </head>
 <body>
 
-<!-- ======================= TOPO ======================= -->
 
 <div class="topo">
 
-    <!-- LOGO CLICÁVEL (VAI PARA HOME DO ADMIN) -->
+
     <a href="<?= $homeLink ?>" class="logo">
         <img src="../img/logo.png" alt="Checkpoint Logo">
     </a>
 
-    <!-- ÍCONE DO PERFIL (ABRE DROPDOWN) -->
+
     <div class="user-menu">
         <div class="user-icon" id="userButton">
             <img src="<?= $fotoLogado ?>" alt="Usuário Logado">
@@ -52,7 +50,7 @@ $idLogado   = $_SESSION['id_usuario'];
 
 </div>
 
-<!-- =================== DROPDOWN LATERAL =================== -->
+
 
 <div id="dropdownMenu" class="dropdown-side">
 
@@ -82,10 +80,10 @@ $idLogado   = $_SESSION['id_usuario'];
     </div>
 </div>
 
-<!-- FUNDO ESCURO QUANDO O MENU ABRE -->
+
 <div id="overlay" class="overlay"></div>
 
-<!-- =================== CONTEÚDO PRINCIPAL =================== -->
+
 
 <main class="content">
     <h2 class="titulo">Gerenciamento de Usuários</h2>
@@ -95,7 +93,7 @@ $idLogado   = $_SESSION['id_usuario'];
             <div class="user-card">
                 <div class="user-info">
 
-                    <!-- FOTO DO USUÁRIO -->
+                   
                     <img 
                         src="<?= !empty($user['foto_perfil']) ? htmlspecialchars($user['foto_perfil']) : '../uploads/default.png' ?>" 
                         alt="Foto de <?= htmlspecialchars($user['nome_usuario']) ?>" 
@@ -112,7 +110,7 @@ $idLogado   = $_SESSION['id_usuario'];
 
                 </div>
 
-                <!-- BOTÃO DE ATIVAR/DESATIVAR -->
+                
                 <button 
                     id="btnUsuario<?= $user['id_usuario'] ?>" 
                     class="<?= $user['ativo'] == 1 ? 'btn-desativar' : 'btn-ativar' ?>" 
@@ -125,7 +123,7 @@ $idLogado   = $_SESSION['id_usuario'];
     </div>
 </main>
 
-<!-- =================== SCRIPTS =================== -->
+
 
 <script src="../js/adm.js"></script>
 <script src="../js/principal.js"></script>

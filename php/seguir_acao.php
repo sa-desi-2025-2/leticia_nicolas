@@ -33,20 +33,20 @@ class Seguidor {
             }
 
         } elseif ($tipo === 'comunidade') {
-            // Usa a tabela usuarios_comunidades
+
             $stmt = $this->conn->prepare("SELECT 1 FROM usuarios_comunidades WHERE id_usuario = ? AND id_comunidade = ?");
             $stmt->bind_param("ii", $idSeguidor, $idSeguido);
             $stmt->execute();
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                // Já participa → sair
+       
                 $stmtDel = $this->conn->prepare("DELETE FROM usuarios_comunidades WHERE id_usuario = ? AND id_comunidade = ?");
                 $stmtDel->bind_param("ii", $idSeguidor, $idSeguido);
                 $stmtDel->execute();
                 return ['status' => 'ok', 'seguindo' => false, 'tipo' => 'comunidade'];
             } else {
-                // Ainda não participa → entrar
+                
                 $stmtIns = $this->conn->prepare("INSERT INTO usuarios_comunidades (id_usuario, id_comunidade) VALUES (?, ?)");
                 $stmtIns->bind_param("ii", $idSeguidor, $idSeguido);
                 $stmtIns->execute();
@@ -58,7 +58,6 @@ class Seguidor {
     }
 }
 
-// === AÇÃO DIRETA ===
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
     echo json_encode(['status' => 'erro', 'mensagem' => 'Usuário não autenticado.']);

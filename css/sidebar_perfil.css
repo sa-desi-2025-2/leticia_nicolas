@@ -1,4 +1,4 @@
-/* Sidebar minimalista */
+
 .sidebar {
     width: 80px;
     background:  rgba(0, 255, 225, 0.4);
@@ -52,7 +52,7 @@
     color: #3bff0a;
 }
 
-/* Ajusta o conteúdo principal para não ficar sob a sidebar */
+
 .main-conteudo {
     margin-left: 100px;
     padding: 40px;

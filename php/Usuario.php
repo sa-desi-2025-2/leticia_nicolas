@@ -7,7 +7,7 @@ class Usuario {
     private $senha;
     private $data_nascimento;
 
-    // ---------- SETTERS ----------
+
     public function setNome($nome) { 
         $this->nome = trim($nome); 
     }
@@ -24,7 +24,7 @@ class Usuario {
         $this->data_nascimento = $data; 
     }
 
-    // ---------- Cadastrar novo usuário ----------
+   
     public function cadastrar() {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -50,7 +50,7 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- Listar usuários ----------
+
     public function listarUsuarios() {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -68,7 +68,7 @@ class Usuario {
         return $usuarios;
     }
 
-    // ---------- Ativar / Desativar ----------
+
     public function alterarStatus($id_usuario, $novoStatus) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -81,7 +81,7 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- Buscar por ID ----------
+
     public function buscarPorId($id_usuario) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -97,7 +97,7 @@ class Usuario {
         return $result ? $result->fetch_assoc() : null;
     }
 
-    // ---------- Atualizar dados básicos ----------
+ 
     public function atualizarDados($id_usuario, $nome, $email) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -110,7 +110,7 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- Atualizar foto de perfil ----------
+
     public function atualizarFoto($id_usuario, $caminho) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -123,7 +123,7 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- Atualizar banner ----------
+
     public function atualizarBanner($id_usuario, $caminho) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -136,7 +136,6 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- Atualizar bio ----------
     public function atualizarBio($id_usuario, $bio) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -149,7 +148,7 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- Atualizar senha ----------
+ 
     public function atualizarSenha($id_usuario, $nova_senha) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -164,7 +163,6 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- Atualizar perfil completo ----------
     public function atualizarPerfil($id, $nome, $email, $bio, $fotoPerfil = null, $fotoBanner = null) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -196,7 +194,7 @@ class Usuario {
         return $stmt->execute();
     }
 
-    // ---------- Função de upload de imagens ----------
+
     public static function uploadImagem($arquivo, $prefixo, $id, $diretorio = "../uploads/") {
         if (!is_dir($diretorio)) mkdir($diretorio, 0755, true);
 
@@ -212,7 +210,6 @@ class Usuario {
         return null;
     }
 
-    // ---------- Listar seguidores ----------
     public function listarSeguidores($idUsuario) {
         $db = new Conexao();
         $conn = $db->getCon();
@@ -236,7 +233,7 @@ class Usuario {
         return $seguidores;
     }
 
-    // ---------- Listar quem segue ----------
+
     public function listarSeguidos($idUsuario) {
         $db = new Conexao();
         $conn = $db->getCon();

@@ -1,4 +1,4 @@
-/* === MENU DO USUÁRIO LATERAL === */
+
 .user-menu {
     position: relative;
 }
@@ -15,14 +15,14 @@
     transform: scale(1.1);
 }
 
-/* Dropdown lateral */
+
 .dropdown-side {
     position: fixed;
     top: 0;
     right: -280px;
     width: 260px;
     height: 100vh;
-     background:   rgba(0, 255, 225, 0.4); /* muda cor do dropdaw */
+     background:   rgba(0, 255, 225, 0.4);
     backdrop-filter: blur(6px);
    
     color: white;
@@ -59,7 +59,7 @@
     font-size: 18px;
 }
 
-/* Links do menu */
+
 .menu-links {
     display: flex;
     flex-direction: column;
@@ -83,7 +83,7 @@
     font-weight: bold;
 }
 
-/* Overlay ao abrir */
+
 .overlay {
     position: fixed;
     top: 0;
@@ -103,7 +103,7 @@
 .menu-links a {
     display: flex;
     align-items: center;
-    gap: 10px; /* espaço entre o ícone e o texto */
+    gap: 10px; 
     color: #fff;
     text-decoration: none;
     padding: 15px 25px;
@@ -119,7 +119,7 @@
 }
 
 .menu-links a .menu-icon {
-    width: 20px;   /* ajuste do tamanho do ícone */
+    width: 20px;   
     height: 20px;
 }
 
@@ -129,10 +129,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.3); /* leve transparência */
+    background: rgba(0,0,0,0.3); 
     backdrop-filter: blur(2px);
     z-index: 998;
-    display: none; /* deve iniciar escondido */
+    display: none;
 }
 
 .dropdown-side {

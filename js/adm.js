@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("✅ JS carregado com sucesso.");
 
-    // Seleciona todos os botões de ativar/desativar
+   
     const botoes = document.querySelectorAll(".btn-desativar, .btn-ativar");
 
     botoes.forEach((botao) => {
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const idUsuario = botao.dataset.id;
             const status = botao.classList.contains("btn-desativar") ? 0 : 1;
 
-            // Desabilita o botão temporariamente
+          
             botao.disabled = true;
 
             console.log("🔹 Enviando requisição para alterar_status.php", { idUsuario, status });
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("📦 Resposta recebida:", data);
 
                 if (data.success) {
-                    // Alterna texto e classe do botão
+                  
                     if (status === 0) {
                         botao.textContent = "Ativar";
                         botao.classList.remove("btn-desativar");
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("🚨 Falha ao enviar requisição:", erro);
                 alert("Erro de conexão com o servidor.");
             } finally {
-                // Reabilita o botão após a requisição
+          
                 botao.disabled = false;
             }
         });

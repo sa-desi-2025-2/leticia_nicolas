@@ -31,7 +31,7 @@ $homeLink = 'pagina_principal.php';
 </head>
 <body>
 
-<!-- TOPO -->
+
 <a href="<?= $homeLink ?>">
 <div class="topo">
     <div class="logo">
@@ -45,7 +45,7 @@ $homeLink = 'pagina_principal.php';
 </div>
 </div>
 
-<!-- DROPDOWN LATERAL -->
+
 <div class="dropdown-side" id="dropdownMenu">
     <div class="profile-section">
         <img src="<?= htmlspecialchars($fotoPerfil) ?>" alt="Usuário">
@@ -71,10 +71,10 @@ $homeLink = 'pagina_principal.php';
 </div>
 <div class="overlay" id="overlay" onclick="toggleDropdown()"></div>
 
-<!-- CONTEÚDO PRINCIPAL -->
+
 <main class="content">
     <div class="lists-container">
-        <!-- SEGUINDO -->
+  
         <div class="list-block">
             <h2 class="titulo">Seguindo</h2>
             <?php if (empty($seguidos)): ?>

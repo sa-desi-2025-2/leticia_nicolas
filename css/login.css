@@ -1,4 +1,4 @@
-/* === BODY === */
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -7,13 +7,13 @@ body {
   color: white;
 }
 
-/* Barra superior */
+
 .top-bar {
   position: relative;
   z-index: 2;
 }
 
-/* Caixa de login */
+
 .login-box {
   position: relative;
   background-color: #013f37de;
@@ -31,7 +31,7 @@ body {
   border-image-slice: 1;
 }
 
-/* Inputs */
+
 .form-control::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
@@ -43,13 +43,12 @@ body {
   border-radius: 20px;
 }
 
-/* Logo lateral */
 .logo-lateral {
   width: 780px;
   filter: drop-shadow(0 0 20px #fbff00);
 }
 
-/* Ícones */
+
 .icon {
   width: 20px;
   height: 20px;
@@ -57,7 +56,7 @@ body {
   filter: brightness(0) invert(1);
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
   .logo-lateral {
     width: 250px;
@@ -67,7 +66,7 @@ body {
   }
 }
 
-/* Botão gamer reativo (usado no Entrar) */
+
 .btn-reactive {
   position: relative;
   width: 100%;
@@ -86,13 +85,12 @@ body {
   text-decoration: none;
 }
 
-/* Efeito hover */
+
 .btn-reactive:hover {
   transform: scale(1.05);
   box-shadow: 0 0 25px 8px rgba(255, 0, 0, 0.5);
 }
 
-/* --- Botão "Cadastrar" no topo (menor) --- */
 .top-bar .btn-reactive {
   width: auto;
   padding: 6px 18px;
@@ -110,7 +108,7 @@ body {
   box-shadow: 0 0 20px 6px rgba(255, 180, 0, 0.6);
 }
 
-/* Animações */
+
 @keyframes gradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }

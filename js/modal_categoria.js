@@ -1,6 +1,4 @@
-// ================================
-// MODAL DE CATEGORIAS – COMPLETO
-// ================================
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -15,18 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // ===============================
-    // 1) ABRIR AUTOMATICAMENTE SE PHP PEDIR
-    // ===============================
+
     try {
         if (typeof mostrarModalCategorias !== "undefined" && mostrarModalCategorias === true) {
             abrirModal();
         }
     } catch {}
 
-    // ===============================
-    // 2) ABRIR MANUALMENTE PELO MENU
-    // ===============================
 
     if (botaoAbrir) {
         botaoAbrir.addEventListener("click", (e) => {
@@ -35,10 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ===============================
-    // 3) SALVAR CATEGORIAS
-    // ===============================
-
+  
     botaoSalvar.addEventListener("click", () => {
         const selecionadas = form.querySelectorAll(".checkbox-categoria:checked");
 
@@ -65,23 +55,16 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => alert("Erro ao salvar categorias."));
     });
 
-    // ===============================
-    // 4) FECHAR PELO BOTÃO
-    // ===============================
+
 
     botaoFechar.addEventListener("click", () => fecharModal());
 
-    // ===============================
-    // 5) FECHAR AO CLICAR FORA DO MODAL
-    // ===============================
+
 
     modal.addEventListener("click", (e) => {
         if (e.target === modal) fecharModal();
     });
 
-    // ===============================
-    // FUNÇÕES ÚTEIS
-    // ===============================
 
     function abrirModal() {
         modal.style.display = "flex";

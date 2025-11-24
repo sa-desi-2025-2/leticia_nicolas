@@ -6,7 +6,6 @@ require_once __DIR__ . '/Seguidor.php';
 
 $usuario = new Usuario();
 
-// Verifica login
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: login.php");
     exit;
@@ -14,10 +13,9 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $id = $_SESSION['id_usuario'];
 
-// Busca dados do usuário
+
 $dados = $usuario->buscarPorId($id);
 
-// Pega dados do banco ou usa padrão
 $fotoPerfil = $dados['foto_perfil'] ?? '../uploads/default.png';
 $fotoBanner = $dados['imagem_banner'] ?? '../uploads/default_banner.png';
 $bio        = $dados['bio'] ?? '';
@@ -28,10 +26,10 @@ $homeLink = ($_SESSION['tipo_usuario'] === 'admin')
     ? 'pagina_principal_adm.php'
     : 'pagina_principal.php';
 
-// Controla qual aba abrir
+
 $abaAtiva = $_GET['aba'] ?? 'meu_perfil';
 
-// === CONTADORES ===
+
 $conexao = new Conexao();
 $conn = $conexao->getCon();
 $seguidor = new Seguidor();
@@ -53,7 +51,7 @@ $stmtSeguidores->execute();
 $seguidores = $stmtSeguidores->get_result()->fetch_assoc()['seguidores'] ?? 0;
 $stmtSeguidores->close();
 
-// === POSTS DO USUÁRIO (COM FOTO, NOME E REAÇÕES) ===
+
 $stmtPosts = $conn->prepare("
     SELECT 
         p.id_postagem,
@@ -104,13 +102,11 @@ $resultPosts = $stmtPosts->get_result();
 </head>
 <body>
 
-    <!-- TOPO -->
     <div class="topo">
     <a href="<?= $homeLink ?>">
     <div class="logo"><img src="../img/logo.png" alt="Logo"></div>
     </a>
 
-        <!-- MENU DO USUÁRIO -->
         <div class="user-menu">
             <div class="user-icon" id="userButton">
                 <img src="<?php echo htmlspecialchars($fotoPerfil); ?>" alt="Usuário">
@@ -137,7 +133,7 @@ $resultPosts = $stmtPosts->get_result();
         </div>
     </div>
 
-    <!-- MENU LATERAL -->
+
     <aside class="sidebar">
         <div class="menu-icons">
             <a href="#" class="icon tab-link <?= ($abaAtiva === 'meu_perfil') ? 'active' : ''; ?>" data-tab="meu_perfil" title="Meu Perfil">
@@ -152,11 +148,11 @@ $resultPosts = $stmtPosts->get_result();
         </div>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
+
     <main class="main-conteudo">
         <div class="perfil-container">
 
-            <!-- ABA MEU PERFIL -->
+     
             <div id="meu_perfil" class="tab-content <?= ($abaAtiva === 'meu_perfil') ? 'active' : ''; ?>">
                 <section class="perfil-visual">
                     <div class="banner" style="background-image: url('<?= !empty($fotoBanner) ? htmlspecialchars($fotoBanner) : '../img/banner_default.jpg' ?>');">
@@ -177,8 +173,7 @@ $resultPosts = $stmtPosts->get_result();
                     </div>
                 </section>
 
-<!-- ================= MEUS POSTS ================= -->
-<!-- ================= MEUS POSTS ================= -->
+
 <div class="meus-posts">
 <h3> Meus Posts</h3>
 
@@ -187,7 +182,7 @@ $resultPosts = $stmtPosts->get_result();
 
 <div class="post">
 
-    <!-- FOTO + NOME DO USUÁRIO -->
+
     <div class="post-topo">
         <img src="<?= htmlspecialchars($post['foto_perfil']); ?>" class="post-foto-perfil">
         <span class="post-nome"><?= htmlspecialchars($post['nome']); ?></span>
@@ -232,7 +227,7 @@ $resultPosts = $stmtPosts->get_result();
             </div>
 
 
-            <!-- ABA CONFIGURAÇÕES -->
+       
             <div id="configuracoes" class="tab-content <?= ($abaAtiva === 'configuracoes') ? 'active' : ''; ?>">
                 <div class="perfil-box">
                     <div class="perfil-info">
@@ -269,7 +264,7 @@ $resultPosts = $stmtPosts->get_result();
                 </div>
             </div>
 
-            <!-- ABA CONTA -->
+
             <div id="conta" class="tab-content <?= ($abaAtiva === 'conta') ? 'active' : ''; ?>">
                 <div class="conta-section">
                     <form action="atualizar_conta.php?aba=conta" method="POST" enctype="multipart/form-data" class="form-conta">

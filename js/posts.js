@@ -1,19 +1,14 @@
 
-// ===============================
-// posts.js COMPLETO embutido NO PERFIL
-// ===============================
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Se existe termo na URL, não carregar posts
+
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get("q")) {
     console.log("Pesquisa ativa — posts não serão carregados");
-    return; // Cancela o carregamento de posts
+    return; 
 }
 
-    // ------------------------------
-    // MODAL DE CRIAÇÃO DE POST
-    // ------------------------------
+
     const btnPost = document.querySelector(".btn-post");
     const modalElement = document.getElementById('criarPostModal');
     const criarPostModal = modalElement ? new bootstrap.Modal(modalElement, {}) : null;
@@ -46,7 +41,6 @@ if (urlParams.get("q")) {
         });
     }
 
-    // Envio do post
     if (form) {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -100,9 +94,7 @@ if (urlParams.get("q")) {
         });
     }
 
-    // ------------------------------
-    // MONTAR CARD DE POST
-    // ------------------------------
+
 
     function montarPostHtml(post) {
         const perfilUrl = `perfil_usuario.php?id=${post.id_usuario}`;
@@ -154,9 +146,6 @@ if (urlParams.get("q")) {
             .replace(/'/g,"&#039;");
     }
 
-    // ------------------------------
-    // Exibir posts SOMENTE do usuário do perfil
-    // ------------------------------
 
     async function carregarPostsPerfil() {
         try {
@@ -184,9 +173,7 @@ if (urlParams.get("q")) {
         }
     }
 
-    // ------------------------------
-    // Reações
-    // ------------------------------
+
 
     function conectarEventosReacao() {
         const cards = document.querySelectorAll('.post-card');
@@ -219,9 +206,6 @@ if (urlParams.get("q")) {
         }
     }
 
-    // ------------------------------
-    // Estilo visual do botão ativo
-    // ------------------------------
 
     const style = document.createElement("style");
     style.innerHTML = `
@@ -232,7 +216,7 @@ if (urlParams.get("q")) {
     `;
     document.head.appendChild(style);
 
-    // Iniciar carregamento
+
     carregarPostsPerfil();
 });
 

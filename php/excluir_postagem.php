@@ -11,13 +11,11 @@ if (!isset($_POST['id_postagem'])) {
 
 $id = intval($_POST['id_postagem']);
 
-// 🔥 REMOVE TODAS AS REAÇÕES LIGADAS AO POST
 $stmtReacoes = $conn->prepare("DELETE FROM reacoes WHERE id_postagem = ?");
 $stmtReacoes->bind_param("i", $id);
 $stmtReacoes->execute();
 $stmtReacoes->close();
 
-// 🔥 DEPOIS REMOVE O POST
 $stmt = $conn->prepare("DELETE FROM postagens WHERE id_postagem = ?");
 $stmt->bind_param("i", $id);
 

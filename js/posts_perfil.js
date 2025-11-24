@@ -1,6 +1,6 @@
 document.addEventListener("click", function(e) {
 
-    // ===== EXCLUIR POST =====
+
     if (e.target.classList.contains("btn-excluir")) {
         const idPost = e.target.dataset.id;
 
@@ -21,7 +21,7 @@ document.addEventListener("click", function(e) {
         });
     }
 
-    // ===== EDITAR POST =====
+  
     if (e.target.classList.contains("btn-editar")) {
         const idPost = e.target.dataset.id;
         const postDiv = e.target.closest(".post");

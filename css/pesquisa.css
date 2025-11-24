@@ -1,4 +1,4 @@
-/* === ÁREA DE RESULTADOS === */
+
 .results-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -32,7 +32,7 @@
     text-align: center;
 }
 
-/* === CARTÕES DE RESULTADO === */
+
 .user-card,
 .community-card {
     background: rgba(255, 255, 255, 0.95);
@@ -52,7 +52,7 @@
     transform: translateY(-2px);
 }
 
-/* === TEXTO QUANDO NÃO TEM RESULTADO === */
+
 .no-results {
     color: #aaa;
     font-style: italic;
@@ -93,7 +93,7 @@
     color: #fff;
 }
 
-/* === BARRA DE PESQUISA CORRIGIDA === */
+
 .search-form {
     display: flex;
     align-items: center;
@@ -101,7 +101,7 @@
     border-radius: 25px;
     border: 2px solid #00bfa5;
     transition: 0.3s;
-    overflow: hidden; /* remove bordas brancas sobrando */
+    overflow: hidden; 
 }
 
 .search-form:hover {
@@ -122,14 +122,14 @@
     color: #888;
 }
 
-/* 🔍 Botão corrigido */
+
 .search-form .search-btn {
-    background: #ffffff; /* mesma cor da borda */
+    background: #ffffff; 
     border: none;
     cursor: pointer;
     padding: 10px 14px;
     font-size: 18px;
-    color: white; /* cor do ícone */
+    color: white; 
     transition: 0.3s;
     display: flex;
     align-items: center;
@@ -137,7 +137,7 @@
 }
 
 
-/* === AJUSTE GERAL DA TOP-BAR === */
+
 .top-bar {
     margin-left: 80px;
     height: 70px;
@@ -150,7 +150,7 @@
     z-index: 3;
 }
 
-/* === RESPONSIVIDADE === */
+
 @media (max-width: 1100px) {
     .results-wrapper {
         gap: 25px;
@@ -305,7 +305,7 @@
     color: #007bff;
   }
   
-  /* === RESULTADOS DE USUÁRIOS === */
+ 
 .user-card {
     display: flex;
     align-items: center;
@@ -341,7 +341,7 @@
   .nome-link:hover {
     text-decoration: underline;
     color: #007bff;
-  }/* === ÁREA DE RESULTADOS === */
+  }
 .results-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -375,7 +375,7 @@
     text-align: center;
 }
 
-/* === CARTÕES DE RESULTADO === */
+
 .user-card,
 .community-card {
     background: rgba(255, 255, 255, 0.95);
@@ -395,7 +395,7 @@
     transform: translateY(-2px);
 }
 
-/* === TEXTO QUANDO NÃO TEM RESULTADO === */
+
 .no-results {
     color: #aaa;
     font-style: italic;
@@ -407,7 +407,6 @@
     justify-content: center;
 }
 
-/* === PAGINAÇÃO === */
 .pagination {
     display: flex;
     justify-content: center;
@@ -436,7 +435,7 @@
     color: #fff;
 }
 
-/* === BARRA DE PESQUISA CORRIGIDA === */
+
 .search-form {
     display: flex;
     align-items: center;
@@ -444,7 +443,7 @@
     border-radius: 25px;
     border: 2px solid #00bfa5;
     transition: 0.3s;
-    overflow: hidden; /* remove bordas brancas sobrando */
+    overflow: hidden; 
 }
 
 .search-form:hover {
@@ -465,14 +464,14 @@
     color: #888;
 }
 
-/* 🔍 Botão corrigido */
+
 .search-form .search-btn {
-    background: #ffffff; /* mesma cor da borda */
+    background: #ffffff; 
     border: none;
     cursor: pointer;
     padding: 10px 14px;
     font-size: 18px;
-    color: white; /* cor do ícone */
+    color: white; 
     transition: 0.3s;
     display: flex;
     align-items: center;
@@ -480,7 +479,7 @@
 }
 
 
-/* === AJUSTE GERAL DA TOP-BAR === */
+
 .top-bar {
     margin-left: 80px;
     height: 70px;
@@ -493,7 +492,7 @@
     z-index: 3;
 }
 
-/* === RESPONSIVIDADE === */
+
 @media (max-width: 1100px) {
     .results-wrapper {
         gap: 25px;
@@ -648,7 +647,7 @@
     color: #007bff;
   }
   
-  /* === RESULTADOS DE USUÁRIOS === */
+
 .user-card {
     display: flex;
     align-items: center;
@@ -697,7 +696,7 @@
     color: white;
 }
 
-/* Botão SEGUIR (azul) */
+
 .follow-btn {
     background: linear-gradient(90deg, #00c6ff, #0072ff);
 }
@@ -707,7 +706,7 @@
     transform: scale(1.03);
 }
 
-/* Botão DEIXAR DE SEGUIR (vermelho claro) */
+
 .unfollow-btn {
     background: linear-gradient(90deg, #ff7b7b, #ff3b3b);
 }
@@ -717,7 +716,6 @@
     transform: scale(1.03);
 }
 
-/* CARD DO USUÁRIO */
 .user-card {
     display: flex;
     align-items: center;
@@ -729,14 +727,13 @@
     border: 1px solid #ddd;
 }
 
-/* Foto + nome */
 .user-info {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-/* Foto de perfil */
+
 .foto-mini {
     width: 50px;
     height: 50px;
@@ -744,7 +741,6 @@
     object-fit: cover;
 }
 
-/* Nome */
 .nome-link {
     font-size: 18px;
     font-weight: 600;
@@ -756,7 +752,7 @@
     text-decoration: underline;
 }
 
-/* Botão seguir */
+
 .follow-btn {
     padding: 8px 16px;
     border-radius: 8px;

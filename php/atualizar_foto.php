@@ -10,11 +10,11 @@ if (!isset($_SESSION['id_usuario'])) {
 $id = $_SESSION['id_usuario'];
 $usuario = new Usuario();
 
-// Pasta de uploads
+
 $diretorio = "../uploads/";
 if (!is_dir($diretorio)) mkdir($diretorio, 0755, true);
 
-// Função para upload de imagem
+
 function uploadImagem($arquivo, $prefixo, $id, $diretorio) {
     if (isset($arquivo) && $arquivo['error'] === 0) {
         $ext = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
@@ -28,15 +28,14 @@ function uploadImagem($arquivo, $prefixo, $id, $diretorio) {
     return null;
 }
 
-// Uploads
 $fotoPerfil = uploadImagem($_FILES['foto_perfil'] ?? null, 'perfil', $id, $diretorio);
 $fotoBanner = uploadImagem($_FILES['imagem_banner'] ?? null, 'banner', $id, $diretorio);
 
 
-// Bio do formulário
+
 $bio = $_POST['bio'] ?? '';
 
-// Busca dados atuais para nome e email
+
 $dados = $usuario->buscarPorId($id);
 if (!$dados) {
     die("Usuário não encontrado.");
@@ -44,11 +43,11 @@ if (!$dados) {
 $nome = $dados['nome_usuario'];
 $email = $dados['email_usuario'];
 
-// Atualiza perfil completo (nome e email mantidos)
+
 $sucesso = $usuario->atualizarPerfil($id, $nome, $email, $bio, $fotoPerfil, $fotoBanner);
 
 if ($sucesso) {
-    // Atualiza sessão com nova foto de perfil
+
     if ($fotoPerfil) $_SESSION['foto_perfil'] = $fotoPerfil;
 
     header("Location: perfil.php?sucesso=1");

@@ -12,7 +12,7 @@ session_start();
 </head>
 <body>
     <div class="container">
-        <!-- Barra superior -->
+
         <header>
             <div class="logo"></div>
             <a href="login_estrutura.php">
@@ -20,7 +20,7 @@ session_start();
             </a>
         </header>
 
-        <!-- Tela de cadastro -->
+
         <div class="main-content">
             <div class="logo-side"></div>
 
@@ -35,7 +35,7 @@ session_start();
                         ?>
                     </div>
                 <?php endif; ?>
-                <!-- Fim mensagem de erro -->
+             
 
                 <form id="loginForm" action="salvar_usuario.php" method="POST">
                     <label for="nome">

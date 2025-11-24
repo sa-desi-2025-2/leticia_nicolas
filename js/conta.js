@@ -1,4 +1,4 @@
-// PREVIEW DA FOTO DE PERFIL
+
 const fotoPerfilInput = document.getElementById('foto_perfil');
 const previewPerfil = document.getElementById('previewPerfil');
 
@@ -15,7 +15,7 @@ if(fotoPerfilInput && previewPerfil){
     });
 }
 
-// PREVIEW DO BANNER
+
 const fotoBannerInput = document.getElementById('foto_banner');
 const previewBanner = document.getElementById('previewBanner');
 

@@ -1,0 +1,102 @@
+/* CSS para página de perfil da comunidade baseado no estilo fornecido */
+
+body {
+    background-color: #000;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.perfil-container {
+    width: 60%;
+    margin: 50px auto;
+    background: #111;
+    border-radius: 12px;
+    padding-bottom: 20px;
+    box-shadow: 0 0 25px rgba(0, 255, 200, 0.4);
+}
+
+.perfil-header {
+    text-align: center;
+}
+
+.foto-perfil-comunidade {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.perfil-header h2 {
+    margin-top: -60px;
+    background: #000;
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 28px;
+}
+
+.categoria, .membros {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #0ff;
+}
+
+.entrar-btn,
+.sair-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #000;
+    background-color: #0ff;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.entrar-btn:hover,
+.sair-btn:hover {
+    background-color: #0bb;
+}
+
+.posts-comunidade {
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.posts-comunidade h3 {
+    font-size: 22px;
+    border-left: 4px solid #0ff;
+    padding-left: 10px;
+}
+
+.post {
+    background: #1b1b1b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.post-autor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.foto-post {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.foto-postagem {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 10px;
+}

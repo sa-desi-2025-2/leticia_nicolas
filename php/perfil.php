@@ -47,7 +47,47 @@ $stmtSeguidores->bind_param("i", $id);
 $stmtSeguidores->execute();
 $seguidores = $stmtSeguidores->get_result()->fetch_assoc()['seguidores'] ?? 0;
 $stmtSeguidores->close();
+$stmtSeguidores = $conn->prepare("SELECT COUNT(*) AS seguidores FROM seguidores WHERE id_seguindo = ?");
+$stmtSeguidores->bind_param("i", $id);
+$stmtSeguidores->execute();
+$seguidores = $stmtSeguidores->get_result()->fetch_assoc()['seguidores'] ?? 0;
+$stmtSeguidores->close();
+
+// === POSTS DO USUÁRIO (COM FOTO, NOME E REAÇÕES) ===
+$stmtPosts = $conn->prepare("
+    SELECT 
+        p.id_postagem,
+        p.texto_postagem,
+        p.imagem_postagem,
+
+        u.nome_usuario AS nome,
+        u.foto_perfil,
+
+        (SELECT COUNT(*) 
+         FROM reacoes 
+         WHERE id_postagem = p.id_postagem 
+         AND tipo_reacao = 'like') AS likes,
+
+        (SELECT COUNT(*) 
+         FROM reacoes 
+         WHERE id_postagem = p.id_postagem 
+         AND tipo_reacao = 'dislike') AS dislikes
+
+    FROM postagens p
+    JOIN usuarios u ON p.id_usuario = u.id_usuario
+
+    WHERE p.id_usuario = ?
+    ORDER BY p.id_postagem DESC
+");
+
+
+
+
+$stmtPosts->bind_param("i", $id);
+$stmtPosts->execute();
+$resultPosts = $stmtPosts->get_result();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -58,7 +98,7 @@ $stmtSeguidores->close();
     <link rel="stylesheet" href="../css/perfil.css">
 
     <link rel="stylesheet" href="../css/dropdown.css">
-
+    <link rel="stylesheet" href="../css/posts.css">
     <link rel="stylesheet" href="../css/sidebar_perfil.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
@@ -133,10 +173,64 @@ $stmtSeguidores->close();
 
                         <p class="bio"><?= !empty($bio) ? htmlspecialchars($bio) : 'Sem bio.' ?></p>
 
-                        <a href="?aba=conta" class="btn-editar-perfil">✏️ Editar Perfil</a>
+                        <a href="?aba=conta" class="btn-editar-perfil"> Editar Perfil</a>
                     </div>
                 </section>
+
+<!-- ================= MEUS POSTS ================= -->
+<!-- ================= MEUS POSTS ================= -->
+<div class="meus-posts">
+<h3> Meus Posts</h3>
+
+<?php if ($resultPosts->num_rows > 0): ?>
+<?php while ($post = $resultPosts->fetch_assoc()): ?>
+
+<div class="post">
+
+    <!-- FOTO + NOME DO USUÁRIO -->
+    <div class="post-topo">
+        <img src="<?= htmlspecialchars($post['foto_perfil']); ?>" class="post-foto-perfil">
+        <span class="post-nome"><?= htmlspecialchars($post['nome']); ?></span>
+    </div>
+
+    <p class="post-texto"><?= nl2br(htmlspecialchars($post['texto_postagem'])); ?></p>
+
+    <?php if (!empty($post['imagem_postagem'])): ?>
+        <img 
+            src="<?= '../uploads/' . htmlspecialchars($post['imagem_postagem']); ?>" 
+            class="post-imagem" 
+            alt="Imagem do post">
+    <?php endif; ?>
+
+    <div class="post-reacoes-botoes">
+
+        <button class="btn-like btn btn-sm"
+                data-id="<?= $post['id_postagem']; ?>"
+                data-tipo="like">
+            👍 <span class="count-like"><?= $post['likes']; ?></span>
+        </button>
+
+        <button class="btn-dislike btn btn-sm"
+                data-id="<?= $post['id_postagem']; ?>"
+                data-tipo="dislike">
+            👎 <span class="count-dislike"><?= $post['dislikes']; ?></span>
+        </button>
+
+    </div>
+
+    <div class="post-acoes">
+        <button class="btn-editar" data-id="<?= $post['id_postagem']; ?>">Editar</button>
+        <button class="btn-excluir" data-id="<?= $post['id_postagem']; ?>">Excluir</button>
+    </div>
+
+</div>
+
+<?php endwhile; ?>
+<?php endif; ?>
+</div>
+
             </div>
+
 
             <!-- ABA CONFIGURAÇÕES -->
             <div id="configuracoes" class="tab-content <?= ($abaAtiva === 'configuracoes') ? 'active' : ''; ?>">
@@ -213,5 +307,6 @@ $stmtSeguidores->close();
     <script src="../js/dropdown.js"></script>
     <script src="../js/abas.js" defer></script>
     <script src="../js/conta.js" defer></script>
+    <script src="../js/posts_perfil.js"></script>
 </body>
 </html>

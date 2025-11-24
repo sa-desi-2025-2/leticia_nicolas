@@ -9,11 +9,11 @@
 /* Fundo gamer */
 /* === BODY === */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000 !important; /* FUNDO PRETO */
-    background-size: cover;
-    color: #fff !important; /* TEXTO BRANCO PARA APARECER */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('https://acdn-us.mitiendanube.com/stores/001/776/325/products/papel-de-parede-para-quarto-gamer-still1-303008f9b80f83a1b816348243804631-1024-1024.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
 }
 
 

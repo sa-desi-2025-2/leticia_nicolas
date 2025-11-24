@@ -49,14 +49,14 @@ require_once __DIR__ . '/conexao.php';
         <form action="verifica_login.php" method="POST">
           <div class="mb-3">
             <label for="email" class="form-label">
-              <img class="icon" src="https://img.icons8.com/?size=100&id=11730&format=png&color=ffffff" alt="email"/> Email:
+              <img class="icon" src="https://img.icons8.com/?size=100&id=12580&format=png&color=000000" alt="email"/> Email:
             </label>
             <input type="email" id="email" name="email" class="form-control bg-transparent text-white border-light" placeholder="Digite seu email" required>
           </div>
 
           <div class="mb-3">
             <label for="senha" class="form-label">
-              <img class="icon" src="https://img.icons8.com/?size=100&id=Ww1lcGqgduif&format=png&color=ffffff" alt="senha"/> Senha:
+              <img class="icon" src="https://img.icons8.com/?size=100&id=107272&format=png&color=000000" alt="senha"/> Senha:
             </label>
             <input type="password" id="senha" name="senha" class="form-control bg-transparent text-white border-light" placeholder="Digite sua senha" required>
           </div>

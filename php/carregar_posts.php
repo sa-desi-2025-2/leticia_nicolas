@@ -23,7 +23,7 @@ if (!$idUsuarioFiltro) {
             (SELECT COUNT(*) FROM reacoes r WHERE r.id_postagem = p.id_postagem AND r.tipo_reacao = 'like') AS likes,
             (SELECT COUNT(*) FROM reacoes r WHERE r.id_postagem = p.id_postagem AND r.tipo_reacao = 'dislike') AS dislikes
         FROM postagens p
-        LEFT JOIN usuarios u ON p.id_usuario = u.id_usuario
+        INNER JOIN usuarios u ON p.id_usuario = u.id_usuario
         LEFT JOIN categorias c ON p.id_categoria = c.id_categoria
         ORDER BY p.id_postagem DESC
         LIMIT 50

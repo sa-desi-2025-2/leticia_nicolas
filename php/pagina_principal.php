@@ -18,7 +18,6 @@ $idLogado = $_SESSION['id_usuario'] ?? 0;
 $conexao = new Conexao();
 $conn = $conexao->getCon();
 
-// === BUSCA COMUNIDADES DO USUÁRIO ===
 $comunidadesUsuario = [];
 $stmtComunidades = $conn->prepare("
     SELECT c.id_comunidade, c.nome_comunidade, c.imagem_comunidade

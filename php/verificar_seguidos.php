@@ -13,17 +13,15 @@ $conexao = new Conexao();
 $conn = $conexao->getCon();
 
 try {
-    // 🔹 Busca IDs de usuários seguidos
+
     $stmt = $conn->prepare("SELECT id_usuario FROM seguidores WHERE id_seguidor = ?");
     $stmt->execute([$idSeguidor]);
     $usuariosSeguidos = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    // 🔹 Busca IDs de comunidades seguidas
     $stmt = $conn->prepare("SELECT id_comunidade FROM seguidores_comunidades WHERE id_seguidor = ?");
     $stmt->execute([$idSeguidor]);
     $comunidadesSeguidas = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-    // 🔸 Retorna tudo em JSON
     echo json_encode([
         "usuarios" => $usuariosSeguidos,
         "comunidades" => $comunidadesSeguidas

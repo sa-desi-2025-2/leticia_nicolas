@@ -1,6 +1,4 @@
-/* ============================
-   RESET E BASE
-============================ */
+
 * {
   margin: 0;
   padding: 0;
@@ -8,20 +6,16 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* Fundo gamer */
-/* === BODY === */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #000 !important; /* FUNDO PRETO */
+  background-color: #000 !important; 
   background-size: cover;
-  color: #fff !important; /* TEXTO BRANCO PARA APARECER */
+  color: #fff !important; 
 }
 
 
-/* ============================
- TOPO
-============================ */
+
 .topo {
   margin-left: 80px;
   height: 70px;
@@ -57,9 +51,7 @@ body {
   cursor: pointer;
 }
 
-/* ============================
- ÁREA PRINCIPAL
-============================ */
+
 main {
   flex: 1;
   display: flex;
@@ -73,7 +65,7 @@ main {
   justify-content: center;
 }
 
-/* Caixa principal do formulário de perfil */
+
 .perfil-box {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
@@ -88,9 +80,6 @@ main {
   border: 1.5px solid rgba(255, 255, 255, 0.5);
 }
 
-/* ============================
- CAMPOS DO PERFIL
-============================ */
 .linha-campos {
   display: flex;
   justify-content: space-between;
@@ -147,9 +136,7 @@ main {
   box-shadow: 0 0 10px #00c3ff;
 }
 
-/* ============================
- ALTERAR SENHA
-============================ */
+
 .alterar-senha {
   display: flex;
   flex-direction: column;
@@ -178,9 +165,7 @@ main {
   box-shadow: 0 0 6px #000000;
 }
 
-/* ============================
- FOTO DE PERFIL
-============================ */
+
 .perfil-foto {
   display: flex;
   flex-direction: column;
@@ -201,9 +186,7 @@ main {
   object-fit: cover;
 }
 
-/* ============================
- SWITCH DE ABAS (TAB)
-============================ */
+
 .tab-content {
   display: none;
   opacity: 0;
@@ -215,27 +198,25 @@ main {
   opacity: 1;
 }
 
-/* ============================
-  VISUALIZAÇÃO DO PERFIL (AJUSTADA)
-============================ */
+
 .perfil-visual {
   text-align: center;
   position: relative;
   margin-top: 40px;
-  width: 660px; /* maior que antes */
+  width: 660px; 
   margin-bottom: 40px;
-  background: #ffffff; /* Fundo branco */
-  padding-bottom: 40px; /* espaço um pouco maior embaixo */
+  background: #ffffff; 
+  padding-bottom: 40px; 
   border-radius: 10px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.25); /* sombra levemente mais forte */
+  box-shadow: 0 0 25px rgba(0,0,0,0.25); 
 }
 
-/* Remove fundo gigante */
+
 .perfil-visual::before {
   content: none !important;
 }
 
-/* Banner estilo Facebook - maior lateralmente */
+
 .perfil-visual .banner {
   width: 660px;
   height: 460px;
@@ -266,7 +247,7 @@ main {
   margin-top: 12px;
   font-size: 26px;
   font-weight: bold;
-  color: #000000; /* Preto para contraste com fundo branco */
+  color: #000000; 
 }
 
 /* Contadores */
@@ -279,20 +260,18 @@ main {
 }
 
 .perfil-visual .contadores span {
-  color: #000000; /* Preto */
+  color: #000000;
 }
 
 /* Bio */
 .perfil-visual .bio {
   margin-top: 12px;
   font-size: 15px;
-  color: #333333; /* Preto suave */
+  color: #333333; 
   padding: 0 15px;
 }
 
-/* ============================
- ABA "CONTA" (Banner, foto e bio)
-============================ */
+
 .conta-section {
   width: 100%;
   max-width: 850px;
@@ -334,7 +313,7 @@ main {
   transition: 0.3s;
 }
 
-/* Foto de perfil da aba Conta */
+
 .foto-perfil-wrapper {
   position: relative;
   width: 150px;
@@ -363,7 +342,7 @@ main {
   text-decoration: none;
 }
 
-/* Bio */
+
 .campo-bio {
   padding: 20px 40px;
 }
@@ -382,7 +361,7 @@ main {
   font-size: 1rem;
 }
 
-/* Botão salvar */
+
 .btn-salvar {
   display: inline-block;
   background-color: #39acf3;
@@ -394,9 +373,7 @@ main {
   margin-top: 15 px;
 }
 
-/* ============================
- RESPONSIVIDADE
-============================ */
+
 @media (max-width: 768px) {
   .perfil-box {
       flex-direction: column;

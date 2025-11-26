@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ================================
-     BOTÃO SEGUIR / DEIXAR DE SEGUIR
-  ================================== */
+
   const botoesSeguir = document.querySelectorAll(".follow-btn, .unfollow-btn");
 
   botoesSeguir.forEach((botao) => {
@@ -54,9 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  /* ================================
-      CARREGAR POSTS DO PERFIL
-  ================================== */
+
   function carregarPostsPerfil() {
       const idPerfil = document.getElementById("idPerfil").value;
 
@@ -65,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .then(html => {
               document.getElementById("postsContainer").innerHTML = html;
 
-              // Se existe função de reações, reconecta
+  
               if (typeof conectarEventosReacao === "function") {
                   conectarEventosReacao();
               }
@@ -73,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .catch(err => console.error("Erro ao carregar posts:", err));
   }
 
-  // Carrega automaticamente ao abrir a página
+
   carregarPostsPerfil();
 
 });

@@ -1,4 +1,4 @@
-/* ======== CONTAINER DOS POSTS ======== */
+
 .results-wrapper {
     width: 100%;
     max-width: 750px;
@@ -9,16 +9,16 @@
     padding: 10px;
 }
 
-/* ======== CARD DO POST (FUNDO BRANCO) ======== */
+
 .post-card {
     background: #ffffff96 !important;
     border-radius: 14px;
     padding: 15px 18px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 
 }
 
-/* ======== CABEÇALHO DO POST ======== */
+
 .post-header {
     display: flex;
     align-items: center;
@@ -34,30 +34,30 @@
     border: 2px solid #ff0000;
 }
 
-/* ======== NOME DO USUÁRIO (AGORA PRETO DE VERDADE) ======== */
+
 .post-username {
     font-weight: 600;
     font-size: 17px;
-    color: #ff0000 !important;   /* <<< força a ficar preto */
+    color: #ff0000 !important;  
     text-decoration: none !important;
 }
 
-/* ======== DATA ======== */
+
 .post-date {
     font-size: 13px;
     color: #ff0000 !important;
 }
 
-/* ======== TEXTO DO POST (PRETO) ======== */
+
 .post-text {
     font-size: 16px;
-    color: #000 !important;   /* <<< força texto preto */
+    color: #000 !important;  
     margin-bottom: 12px;
     white-space: pre-wrap;
     word-wrap: break-word;
 }
 
-/* ======== IMAGEM DO POST ======== */
+
 .post-image {
     width: 100%;
     max-height: 420px;
@@ -67,7 +67,7 @@
     border: 1px solid #e2e2e2f1;
 }
 
-/* ======== AÇÕES ======== */
+
 .post-actions {
     display: flex;
     justify-content: space-between;
@@ -78,7 +78,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #000 !important; /* <<< preto */
+    color: #000 !important; 
     font-size: 15px;
     display: flex;
     align-items: center;
@@ -92,13 +92,12 @@
     height: 20px;
 }
 
-/* CONTADOR DE CURTIDAS */
+
 .likes-count {
     font-size: 14px;
-    color: #000 !important; /* <<< preto */
+    color: #000 !important; 
 }
 
-/* RESPONSIVO */
 @media (max-width: 600px) {
     .post-card {
         padding: 12px;

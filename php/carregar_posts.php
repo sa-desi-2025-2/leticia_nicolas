@@ -1,3 +1,5 @@
+
+
 <?php
 session_start();
 require_once __DIR__ . '/conexao.php';
@@ -7,13 +9,10 @@ $conexao = new Conexao();
 $conn = $conexao->getCon();
 $idLogado = $_SESSION['id_usuario'] ?? 0;
 
-// ID do usuário do perfil
+
 $idUsuarioFiltro = isset($_GET['id_usuario']) ? intval($_GET['id_usuario']) : null;
 
 
-/* =======================================================
-    MODO 1 — JSON (FEED PRINCIPAL)
-========================================================== */
 if (!$idUsuarioFiltro) {
 
     header('Content-Type: application/json; charset=utf-8');
@@ -26,7 +25,7 @@ if (!$idUsuarioFiltro) {
             (SELECT COUNT(*) FROM reacoes r WHERE r.id_postagem = p.id_postagem AND r.tipo_reacao = 'like') AS likes,
             (SELECT COUNT(*) FROM reacoes r WHERE r.id_postagem = p.id_postagem AND r.tipo_reacao = 'dislike') AS dislikes
         FROM postagens p
-        LEFT JOIN usuarios u ON p.id_usuario = u.id_usuario
+        INNER JOIN usuarios u ON p.id_usuario = u.id_usuario
         LEFT JOIN categorias c ON p.id_categoria = c.id_categoria
         ORDER BY p.id_postagem DESC
         LIMIT 50
@@ -43,7 +42,7 @@ if (!$idUsuarioFiltro) {
         $row['likes'] = (int)$row['likes'];
         $row['dislikes'] = (int)$row['dislikes'];
 
-        // Reação do usuário logado
+  
         if ($idLogado) {
             $q = $conn->prepare("
                 SELECT tipo_reacao 
@@ -72,9 +71,7 @@ if (!$idUsuarioFiltro) {
 
 
 
-/* =======================================================
-    MODO 2 — HTML (POSTS DO PERFIL)
-========================================================== */
+
 
 header("Content-Type: text/html; charset=UTF-8");
 
@@ -110,7 +107,7 @@ while ($row = $res->fetch_assoc()) {
 
     $foto = $row['foto_perfil'] ?: "default.png";
 
-    // Imagem do post
+
     $img = "";
     if (!empty($row['imagem_postagem'])) {
         $img = "<img src='../uploads/{$row['imagem_postagem']}' style='width:100%; border-radius:8px; margin-top:10px;'>";

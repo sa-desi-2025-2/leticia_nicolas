@@ -1,4 +1,4 @@
-/* === BODY === */
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -7,7 +7,7 @@ body {
     color: #fff !important; /* TEXTO BRANCO PARA APARECER */
   }
 
-/* === SIDEBAR === */
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -38,7 +38,7 @@ body {
     cursor: pointer;
 }
 
-/* === TOP BAR (substitui header) === */
+
 .top-bar {
     margin-left: 80px;
     height: 70px;
@@ -55,7 +55,7 @@ body {
     height: 90px;
 }
 
-/* Botão Criar Post */
+
 .btn-post {
     background:rgba(0, 255, 225, 0.777);;
     border: none;
@@ -65,7 +65,7 @@ body {
     font-weight: bold;
 }
 
-/* Barra de pesquisa */
+
 .search-container {
     display: flex;
     align-items: center;
@@ -88,7 +88,7 @@ body {
     font-size: 16px;
 }
 
-/* === USER MENU === */
+
 .user-menu {
     position: relative;
 }
@@ -100,7 +100,6 @@ body {
     cursor: pointer;
 }
 
-/* Dropdown do usuário */
 .dropdown {
     display: none;
     position: absolute;
@@ -131,13 +130,13 @@ body {
     display: flex;
 }
 
-/* === CONTEÚDO PRINCIPAL === */
+
 .content {
     margin-left: 120px;
     margin-top: 40px;
 }
 
-/* Cartão de usuário */
+
 .user-card {
     background: rgba(255, 240, 255, 0.9);
     border-radius: 10px;
@@ -177,7 +176,7 @@ body {
     text-decoration: underline;
 }
 
-/* === RESPONSIVIDADE === */
+
 @media (max-width: 1024px) {
     .top-bar {
         margin-left: 70px;
@@ -218,7 +217,7 @@ body {
     }
 }
 
-/* === MENU DO USUÁRIO LATERAL === */
+
 .user-menu {
     position: relative;
 }
@@ -346,7 +345,7 @@ body {
 
 .modal-categorias h2 {
     margin-bottom: 20px;
-    color: #00ffc3;
+    color: #05c598;
     text-shadow: 0 0 10px #00ffc3;
 }
 
@@ -380,11 +379,10 @@ body {
     background: #029783;
 }
 
-/* efeito suave para modal */
 .modal-overlay {
     transition: opacity 0.18s ease;
 }
-/* --- Correção de z-index do Bootstrap Modal --- */
+
 
 .modal {
     z-index: 1055 !important;
@@ -395,7 +393,7 @@ body {
     opacity: 0.75 !important;
 }
 
-/* --- Corrigir elementos que estavam ficando acima do modal --- */
+
 .top-bar,
 .sidebar,
 .dropdown-side,

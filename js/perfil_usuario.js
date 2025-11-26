@@ -22,11 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
               const data = await resp.json();
 
               if (data.status === 'success') {
-                  // Alterna classe e texto do botão
+             
                   followBtn.classList.toggle('seguindo');
                   followBtn.textContent = seguindo ? 'Seguir' : 'Seguindo';
 
-                  // Atualiza contadores
                   if (seguidoresSpan) {
                       let count = parseInt(seguidoresSpan.textContent) || 0;
                       seguidoresSpan.textContent = seguindo ? count - 1 : count + 1;

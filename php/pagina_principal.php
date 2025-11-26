@@ -18,7 +18,6 @@ $idLogado = $_SESSION['id_usuario'] ?? 0;
 $conexao = new Conexao();
 $conn = $conexao->getCon();
 
-// === BUSCA COMUNIDADES DO USUÁRIO ===
 $comunidadesUsuario = [];
 $stmtComunidades = $conn->prepare("
     SELECT c.id_comunidade, c.nome_comunidade, c.imagem_comunidade
@@ -138,23 +137,8 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     </style>
 </head>
 <body>
-
-<!-- === SIDEBAR COM COMUNIDADES === -->
-<aside class="sidebar">
-    <div class="menu-icons">
-        <?php if (count($comunidadesUsuario) > 0): ?>
-            <?php foreach ($comunidadesUsuario as $com): ?>
-                <a href="comunidade.php?id=<?= $com['id_comunidade'] ?>" class="community-icon">
-                    <img src="<?= !empty($com['imagem_comunidade']) ? '../uploads/' . htmlspecialchars($com['imagem_comunidade']) : '../img/default_comunidade.png' ?>" 
-                         alt="<?= htmlspecialchars($com['nome_comunidade']) ?>">
-                </a>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <div class="icon"></div><div class="icon"></div><div class="icon"></div><div class="icon"></div>
-        <?php endif; ?>
-    </div>
-    <div class="add-icon">+</div>
-</aside>
+<?php include "sidebar_comunidades.php"; ?>
+<?php include "criar_comunidade_modal.php"; ?>
 
 <!-- === TOPO === -->
 <div class="top-bar">
@@ -347,6 +331,10 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 
 <script src="../js/modal_categoria.js"></script>
 <script src="../js/posts.js"></script>
+<link rel="stylesheet" href="../css/sidebar_comunidades.css">
+<link rel="stylesheet" href="../css/modal_comunidade.css">
+<script src="../js/sidebar_comunidades.js"></script>
+<script src="../js/comunidades.js"></script>
 
 </body>
 </html>

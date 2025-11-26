@@ -1,0 +1,194 @@
+
+.post {
+    background: #000000;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 10px 6px rgb(0, 255, 234);
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.post-header img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+
+.post-usuario-nome {
+    font-size: 17px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
+.post-texto {
+    color: #ffffff;
+    font-size: 16px;
+    margin: 10px 0;
+    white-space: pre-line;
+}
+
+
+.post-data {
+    font-size: 13px;
+    color: #555;
+    margin-top: 5px;
+}
+
+
+.post-acoes {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+
+.post-acoes button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-editar {
+    background: #007bff;
+    color: #000000;
+}
+
+.btn-editar:hover {
+    background: #0056c7;
+}
+
+.btn-excluir {
+    background: #d9534f;
+    color: #000000;
+}
+
+.btn-excluir:hover {
+    background: #b52e2a;
+}
+
+.reacoes-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.reacao-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+}
+
+.reacao-btn img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reacao-btn:hover img {
+    transform: scale(1.15);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+}
+
+.reacao-btn.ativa img {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+}
+
+.btn-like,
+.btn-dislike {
+    background: transparent !important;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-like {
+    border: 1px solid #00ffc3 !important;
+    color: #ffffff !important;
+}
+
+.btn-like:hover {
+    background: rgba(0, 255, 195, 0.15) !important;
+    transform: scale(1.07);
+}
+
+.btn-dislike {
+    border: 1px solid #ff6b6b !important;
+    color: #ffffff !important;
+}
+
+.btn-dislike:hover {
+    background: rgba(255, 107, 107, 0.15) !important;
+    transform: scale(1.07);
+}
+
+
+.btn-like.ativo {
+    background: #00ffc3 !important;
+    color: #000 !important;
+    border-color: #00ffc3 !important;
+}
+
+.btn-dislike.ativo {
+    background: #ff6b6b !important;
+    color: #000 !important;
+    border-color: #ff6b6b !important;
+}
+
+.post-topo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.post-foto-perfil {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00ffc3;
+}
+
+.post-nome {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+}
+
+.post-imagem {
+    width: 100%;
+    max-width: 500px;  
+    height: auto;
+    display: block;
+    margin: 10px auto; 
+    border-radius: 10px;
+    object-fit: cover;
+    background-color: #f0f0f0; 
+}

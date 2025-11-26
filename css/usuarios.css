@@ -1,4 +1,4 @@
-/* Reset de estilos */
+
 * {
   margin: 0;
   padding: 0;
@@ -6,18 +6,17 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* === FUNDO GERAL GAMER === */
-/* === BODY === */
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #000 !important; /* FUNDO PRETO */
+  background-color: #000 !important; 
   background-size: cover;
-  color: #fff !important; /* TEXTO BRANCO PARA APARECER */
+  color: #fff !important; 
 }
 
 
-/* Cabeçalho */
+
 .topo {
   margin-left: 80px;
   height: 70px;
@@ -35,7 +34,7 @@ body {
 }
 
 .topo .logo img {
-  height: 90px; /* Logo principal */
+  height: 90px;
 }
 
 .topo .user-menu {
@@ -53,7 +52,7 @@ body {
   cursor: pointer;
 }
 
-/* Conteúdo Principal */
+
 .content {
   margin-left: 120px;
   margin-top: 40px;
@@ -64,7 +63,7 @@ body {
   color: #fff;
 }
 
-/* Título */
+
 .titulo {
   text-align: center;
   background-color: #ffffff;
@@ -76,14 +75,13 @@ body {
   font-weight: bold;
 }
 
-/* === LISTA DE USUÁRIOS === */
 .user-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* Cartão do usuário */
+
 .user-card {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 10px;
@@ -116,7 +114,7 @@ body {
   font-weight: bold;
 }
 
-/* === BOTÕES === */
+
 .btn-ativar {
   background-color: #00c3ff;
   border: none;
@@ -149,12 +147,12 @@ body {
   box-shadow: 0 0 10px #ff0055;
 }
 
-/* Scroll e detalhes */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
   .content {
     margin-left: 0;
@@ -175,7 +173,7 @@ body {
   }
 }
 
-/* Estilo para ícones da logo (icons8) */
+
 .topo .logo img[src*="img.icons8.com"] {
   width: 70px;
   height: 60px;
@@ -207,11 +205,8 @@ body {
   min-width: 300px;
 }
 
-/* =============================
-   BOTÃO DE SEGUIR / SEGUINDO  
-============================= */
 
-/* Estilo base */
+
 .btn-seguir {
   background: #00c3ff;
   border: none;
@@ -231,7 +226,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Quando já está seguindo */
 .btn-seguindo {
   background: #a678ff;
   border: none;
@@ -252,7 +246,7 @@ body {
   transform: scale(1.05);
 }
 
-/* BOTÕES DE SEGUIR / SEGUINDO */
+
 .btn-ativar, .follow-btn {
   background-color: #00c3ff;
   border: none;
@@ -289,10 +283,10 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer; /* continua abrindo o menu */
+  cursor: pointer;
 }
 
-/* Foto pequena do topo */
+
 .foto-top {
   width: 42px;
   height: 42px;
@@ -301,7 +295,6 @@ body {
   border: 2px solid #fff;
 }
 
-/* Nome do usuário */
 .nome-top {
   color: white;
   font-weight: 600;
@@ -309,7 +302,7 @@ body {
   font-size: 16px;
 }
 
-/* Efeito ao passar o mouse */
+
 .nome-top:hover {
   text-decoration: underline;
 }

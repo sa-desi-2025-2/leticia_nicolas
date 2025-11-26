@@ -3,9 +3,8 @@ session_start();
 
 require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/conexao.php';
-require_once __DIR__ . '/Seguidor.php'; // usa mesma estrutura, mas agora também lida com comunidades
+require_once __DIR__ . '/Seguidor.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: login.php");
     exit;
@@ -13,7 +12,7 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $idUsuario = $_SESSION['id_usuario'];
 
-// Buscar comunidades que o usuário participa
+
 $db = new Conexao();
 $conn = $db->getCon();
 

@@ -114,7 +114,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 <div class="top-bar">
     <div class="logo"><img src="../img/logo.png" alt="Checkpoint Logo"></div>
 
-    <!-- botão Criar Post (abre modal Bootstrap) -->
+  
     <button class="btn-post" data-bs-toggle="modal" data-bs-target="#criarPostModal">Criar Post</button>
 
     <div class="search-container">
@@ -135,7 +135,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             </div>
             <nav class="menu-links">
                 <a href="perfil.php"><img src="https://img.icons8.com/?size=100&id=82751&format=png&color=000000" class="menu-icon" alt="Perfil">Perfil</a>
-                <!-- abrirCategorias funciona via modal_categoria.js -->
+           
                 <a href="#" id="abrirCategorias"><img src="https://img.icons8.com/?size=100&id=99515&format=png&color=000000" class="menu-icon" alt="Categorias">Categorias</a>
                 <a href="pagina_principal_contas.php"><img src="https://img.icons8.com/?size=100&id=82535&format=png&color=000000" class="menu-icon" alt="Contas">Contas</a>
                 <a href="seguidos.php"><img src="https://img.icons8.com/?size=100&id=85445&format=png&color=000000" class="menu-icon" alt="Seguidos">Seguidos</a>
@@ -145,18 +145,17 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
     </div>
 </div>
 
-<!-- === CONTAINER DOS POSTS (mesmo comportamento da página de usuário) === -->
+
 <div class="content" style="margin-top:20px;">
   <div id="postsContainer" class="results-wrapper" data-user-id="<?= $idLogado ?>">
-    <!-- posts serão carregados dinamicamente via carregar_posts.php -->
+
   </div>
 </div>
 
 <?php if (!empty($termo)): ?>
 <div class="content">
     <div class="results-wrapper">
-        <!-- resultados de pesquisa são renderizados abaixo -->
-        <!-- Usuários -->
+
         <div class="result-section">
             <h2>Usuários encontrados (<?= $resultado['totalUsuarios'] ?? 0 ?>)</h2>
             <?php if (empty($resultado['usuarios'])): ?>
@@ -182,7 +181,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
             <?php endif; ?>
         </div>
 
-        <!-- Comunidades -->
+
         <div class="result-section">
             <h2>Comunidades encontradas (<?= $resultado['totalComunidades'] ?? 0 ?>)</h2>
             <?php if (empty($resultado['comunidades'])): ?>
@@ -203,7 +202,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 <?php endif; ?>
 
-<!-- === MODAL DE CATEGORIAS (ADMIN) === -->
+
 <?php if ($idLogado > 0): ?>
 <div id="modalCategorias" class="modal-overlay" style="display: <?= $temCategorias ? 'none' : 'flex' ?>;">
     <div class="modal-categorias" role="dialog" aria-modal="true">
@@ -227,7 +226,7 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
 </div>
 <?php endif; ?>
 
-<!-- === MODAL CRIAR POST (mesma estrutura da página de usuário) === -->
+
 <div class="modal fade" id="criarPostModal" tabindex="-1" aria-labelledby="criarPostModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content text-dark">
@@ -272,19 +271,19 @@ function criarLinkPagina($paginaAtual, $totalItens, $itensPorPagina, $paramPagin
   </div>
 </div>
 
-<!-- OVERLAY CONTROLADOR -->
+
 <div id="overlayCriarPost" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:-1; pointer-events:none;"></div>
 
-<!-- SCRIPTS -->
+
 <script src="../js/principal.js"></script>
 <script src="../js/seguir.js"></script>
 
-<!-- variável que informa ao modal_categoria.js se deve abrir automaticamente -->
+
 <script>
     const mostrarModalCategorias = <?= $temCategorias ? 'false' : 'true' ?>;
 </script>
 
-<!-- carregar handlers do modal de categorias e posts (mesmos arquivos usados na versão usuário) -->
+<
 <script src="../js/modal_categoria.js"></script>
 <script src="../js/posts.js"></script>
 

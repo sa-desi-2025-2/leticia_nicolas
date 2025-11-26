@@ -1,6 +1,6 @@
 <?php
 // criar_post.php
-require_once __DIR__ . '/gateway.php'; // garante sessão
+require_once __DIR__ . '/gateway.php';
 require_once __DIR__ . '/conexao.php';
 
 header('Content-Type: application/json; charset=utf-8');
@@ -11,7 +11,7 @@ if (!$id_usuario) {
     exit;
 }
 
-// valida texto e categoria
+
 $texto = trim($_POST['texto_postagem'] ?? '');
 $id_categoria = intval($_POST['id_categoria'] ?? 0);
 
@@ -27,12 +27,11 @@ if ($id_categoria <= 0) {
 $conexao = new Conexao();
 $conn = $conexao->getCon();
 
-// processa upload se existir
 $nome_arquivo = null;
 if (!empty($_FILES['imagem_postagem']['name'])) {
     $arquivo = $_FILES['imagem_postagem'];
-    // validações básicas
-    $maxSize = 5 * 1024 * 1024; // 5MB
+  
+    $maxSize = 5 * 1024 * 1024; 
     if ($arquivo['size'] > $maxSize) {
         echo json_encode(['sucesso' => false, 'mensagem' => 'Imagem excede 5MB.']);
         exit;
@@ -65,13 +64,13 @@ if (!empty($_FILES['imagem_postagem']['name'])) {
     }
 }
 
-// insere no banco
+
 $stmt = $conn->prepare("INSERT INTO postagens (texto_postagem, imagem_postagem, id_categoria, id_usuario) VALUES (?, ?, ?, ?)");
 $stmt->bind_param("ssii", $texto, $nome_arquivo, $id_categoria, $id_usuario);
 if ($stmt->execute()) {
     echo json_encode(['sucesso' => true, 'mensagem' => 'Post criado.']);
 } else {
-    // se falha, remove arquivo subido
+  
     if ($nome_arquivo && file_exists(__DIR__ . '/../uploads/' . $nome_arquivo)) {
         unlink(__DIR__ . '/../uploads/' . $nome_arquivo);
     }

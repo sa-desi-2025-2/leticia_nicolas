@@ -17,7 +17,6 @@ class Pesquisa {
         return $this->itensPorPagina;
     }
 
-    // === BUSCA DE USUÁRIOS ===
     public function buscarUsuarios($termo, $pagina = 1) {
         $termo_esc = $this->conn->real_escape_string($termo);
         $offset = ($pagina - 1) * $this->itensPorPagina;
@@ -27,7 +26,7 @@ class Pesquisa {
         WHERE nome_usuario LIKE '%$termo_esc%'";
 
 
-        // Se não for admin, exibe apenas usuários ativos (se existir a coluna)
+     
         if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] !== 'admin') {
             $sql .= " AND (ativo = 1 OR ativo IS NULL)";
         }
@@ -59,7 +58,7 @@ class Pesquisa {
         return intval($data['total']);
     }
 
-    // === BUSCA DE COMUNIDADES ===
+
     public function buscarComunidades($termo, $pagina = 1) {
         $termo_esc = $this->conn->real_escape_string($termo);
         $offset = ($pagina - 1) * $this->itensPorPagina;

@@ -1,4 +1,4 @@
-// ===== MENU DO PERFIL ===== 
+
 const userButton = document.getElementById('userButton');
 const dropdownMenu = document.getElementById('dropdownMenu');
 
@@ -15,7 +15,6 @@ if (userButton && dropdownMenu) {
 }
 
 
-// ===== BOTÕES "VER MAIS" =====
 document.addEventListener("DOMContentLoaded", () => {
     const botoesVerMais = document.querySelectorAll(".load-more-btn");
 

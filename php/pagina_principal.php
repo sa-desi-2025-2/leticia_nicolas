@@ -6,7 +6,7 @@ require_once __DIR__ . '/conexao.php';
 require_once __DIR__ . '/pesquisa_funcao.php';
 require_once __DIR__ . '/Seguidor.php';
 
-// Redireciona se for admin
+
 if ($_SESSION['tipo_usuario'] === 'admin') {
     header("Location: pagina_principal_adm.php");
     exit();
